@@ -427,7 +427,7 @@
     </div>
 
     <div class="card">
-      <span class="tag">Compartilhar</span><h3>Seu card de conquista</h3>
+      <span class="tag">Compartilhar</span><h3>Seu card · Hall da Fama ⭐</h3>
       <p class="lead" style="margin-bottom:14px">Preview do seu reconhecimento. Baixe e poste nas redes ou use como foto de perfil.</p>
       <canvas id="certCanvas" width="1080" height="1080"></canvas>
       <div class="btnrow" style="justify-content:center;margin-top:16px">
@@ -1131,35 +1131,60 @@ function drawLogo(c,cx,topY,targetW){ if(!(logoImg.complete && logoImg.naturalWi
   const lw=targetW, lh=lw*logoImg.naturalHeight/logoImg.naturalWidth;
   c.save(); roundRect(c,cx-lw/2-20,topY,lw+40,lh+24,16); c.fillStyle='rgba(255,255,255,.93)'; c.fill();
   c.drawImage(logoImg,cx-lw/2,topY+12,lw,lh); c.restore(); }
+function starPath(c,cx,cy,outer,inner,points,rot){ c.beginPath();
+  for(var i=0;i<points*2;i++){ var r=(i%2===0)?outer:inner; var a=(Math.PI/points)*i-Math.PI/2+(rot||0);
+    var x=cx+Math.cos(a)*r, y=cy+Math.sin(a)*r; i===0?c.moveTo(x,y):c.lineTo(x,y); } c.closePath(); }
+function spark(c,x,y,r){ c.beginPath(); c.moveTo(x,y-r); c.quadraticCurveTo(x,y,x+r,y); c.quadraticCurveTo(x,y,x,y+r); c.quadraticCurveTo(x,y,x-r,y); c.quadraticCurveTo(x,y,x,y-r); c.closePath(); }
+function drawSparkles(c,W,H){ var s=987654; var rnd=function(){ s=(s*1103515245+12345)&0x7fffffff; return s/0x7fffffff; };
+  for(var i=0;i<80;i++){ var x=rnd()*W, y=rnd()*H, r=rnd()*2.6+0.6; c.globalAlpha=rnd()*0.5+0.15; c.fillStyle=rnd()>0.5?'#FCD34D':'#FFFFFF'; c.beginPath(); c.arc(x,y,r,0,Math.PI*2); c.fill(); }
+  for(var j=0;j<10;j++){ var sx=rnd()*W, sy=rnd()*H; c.globalAlpha=0.55; c.fillStyle='#FDE68A'; spark(c,sx,sy,rnd()*9+5); c.fill(); }
+  c.globalAlpha=1; }
+function drawLogoStar(c,cx,cy,outer){
+  c.save(); c.shadowColor='rgba(252,211,77,.75)'; c.shadowBlur=outer*0.32;
+  var gg=c.createLinearGradient(cx,cy-outer,cx,cy+outer); gg.addColorStop(0,'#FDE68A'); gg.addColorStop(.5,'#F59E0B'); gg.addColorStop(1,'#B45309');
+  starPath(c,cx,cy,outer,outer*0.45,5,0); c.fillStyle=gg; c.fill(); c.restore();
+  starPath(c,cx,cy,outer,outer*0.45,5,0); c.lineWidth=outer*0.05; c.strokeStyle='#92400E'; c.stroke();
+  var rr=outer*0.52; c.beginPath(); c.arc(cx,cy,rr,0,Math.PI*2); c.fillStyle='#FFFDF7'; c.fill();
+  c.lineWidth=outer*0.035; c.strokeStyle='#F59E0B'; c.stroke();
+  if(logoImg.complete && logoImg.naturalWidth){ var lw=rr*1.5, lh=lw*logoImg.naturalHeight/logoImg.naturalWidth;
+    if(lh>rr*1.25){ lh=rr*1.25; lw=lh*logoImg.naturalWidth/logoImg.naturalHeight; }
+    c.drawImage(logoImg,cx-lw/2,cy-lh/2,lw,lh); }
+}
 function drawCert(){ const cv=document.getElementById('certCanvas'); if(!cv) return; const c=cv.getContext('2d'); const W=1080,H=1080;
-  const g=c.createLinearGradient(0,0,W,H); g.addColorStop(0,'#4C1D95'); g.addColorStop(.55,'#6B46C1'); g.addColorStop(1,'#D97706');
+  c.clearRect(0,0,W,H);
+  var g=c.createLinearGradient(0,0,W,H); g.addColorStop(0,'#15123A'); g.addColorStop(.5,'#3B1D6E'); g.addColorStop(1,'#4C1D95');
   c.fillStyle=g; c.fillRect(0,0,W,H);
-  c.strokeStyle='rgba(255,255,255,.12)'; c.lineWidth=46; c.beginPath(); c.arc(W/2,470,330,0,Math.PI*2); c.stroke();
-  drawLogo(c,W/2,52,300);
-  const cy=470; c.fillStyle='#fff'; c.beginPath(); c.arc(W/2,cy,198,0,Math.PI*2); c.fill();
-  c.fillStyle='#F59E0B'; c.beginPath(); c.arc(W/2,cy,190,0,Math.PI*2); c.fill();
-  drawCircleImg(c,cur.photoImg,W/2,cy,180);
-  if(selMedal){ c.fillStyle='#fff'; c.beginPath(); c.arc(W/2+148,cy+150,66,0,Math.PI*2); c.fill();
-    c.font='96px sans-serif'; c.textAlign='center'; c.textBaseline='middle'; c.fillText(selMedal.emoji,W/2+148,cy+156); }
+  drawSparkles(c,W,H);
+  c.strokeStyle='rgba(252,211,77,.65)'; c.lineWidth=4; roundRect(c,34,34,W-68,H-68,28); c.stroke();
+  c.strokeStyle='rgba(252,211,77,.30)'; c.lineWidth=2; roundRect(c,48,48,W-96,H-96,22); c.stroke();
   c.textAlign='center'; c.textBaseline='alphabetic';
-  c.fillStyle='#fff'; c.font='800 66px sans-serif'; c.fillText(who.value.trim()||'Seu Nome',W/2,766);
-  c.fillStyle='#FDE68A'; c.font='600 34px sans-serif'; c.fillText(ROLES[role()].label+' · Estante Mágica',W/2,814);
-  if(selMedal){ c.fillStyle='#fff'; c.font='800 48px sans-serif'; c.fillText('“'+selMedal.title+'”',W/2,894);
-    c.fillStyle='rgba(255,255,255,.92)'; c.font='500 30px sans-serif'; c.fillText('Conquista: '+selMedal.nome,W/2,940); }
-  else { c.fillStyle='rgba(255,255,255,.9)'; c.font='500 32px sans-serif'; c.fillText('Conclua a trilha para desbloquear sua medalha',W/2,900); }
-  c.fillStyle='#fff'; c.font='700 32px sans-serif'; c.fillText('#TimeEstanteMágica',W/2,1012);
-  c.fillStyle='rgba(255,255,255,.8)'; c.font='400 24px sans-serif'; c.fillText('Hub de Crescimento Comercial · '+new Date().toLocaleDateString('pt-BR'),W/2,1052);
+  c.fillStyle='#FCD34D'; c.font='800 30px sans-serif'; c.fillText('★   H A L L   D A   F A M A   ★', W/2, 112);
+  drawLogoStar(c, W/2, 285, 132);
+  var cy=575; c.save(); c.shadowColor='rgba(0,0,0,.4)'; c.shadowBlur=30; c.fillStyle='#FCD34D'; c.beginPath(); c.arc(W/2,cy,160,0,Math.PI*2); c.fill(); c.restore();
+  c.fillStyle='#fff'; c.beginPath(); c.arc(W/2,cy,150,0,Math.PI*2); c.fill();
+  drawCircleImg(c,cur.photoImg,W/2,cy,142);
+  if(selMedal){ c.save(); c.shadowColor='rgba(0,0,0,.3)'; c.shadowBlur=12; c.fillStyle='#fff'; c.beginPath(); c.arc(W/2+118,cy+118,54,0,Math.PI*2); c.fill(); c.restore();
+    c.font='78px sans-serif'; c.textAlign='center'; c.textBaseline='middle'; c.fillText(selMedal.emoji,W/2+118,cy+124); }
+  c.textAlign='center'; c.textBaseline='alphabetic';
+  c.fillStyle='#fff'; c.font='800 60px sans-serif'; c.fillText(who.value.trim()||'Seu Nome',W/2,820);
+  c.fillStyle='#FDE68A'; c.font='600 32px sans-serif'; c.fillText(ROLES[role()].label+' · Estante Mágica',W/2,862);
+  if(selMedal){ c.fillStyle='#fff'; c.font='800 42px sans-serif'; c.fillText('“'+selMedal.title+'”',W/2,918);
+    c.fillStyle='rgba(255,255,255,.9)'; c.font='500 27px sans-serif'; c.fillText('Conquista: '+selMedal.nome,W/2,954); }
+  else { c.fillStyle='rgba(255,255,255,.9)'; c.font='500 30px sans-serif'; c.fillText('Conclua a trilha para entrar no Hall da Fama',W/2,930); }
+  c.fillStyle='#FCD34D'; c.font='700 30px sans-serif'; c.fillText('#TimeEstanteMágica',W/2,1002);
+  c.fillStyle='rgba(255,255,255,.75)'; c.font='400 22px sans-serif'; c.fillText('Hub de Crescimento Comercial · '+new Date().toLocaleDateString('pt-BR'),W/2,1032);
 }
 const dlCertBtn=document.getElementById('dlCert');
 if(dlCertBtn) dlCertBtn.onclick=()=>{ const cv=document.getElementById('certCanvas'); const a=document.createElement('a'); a.download='conquista-estante-magica.png'; a.href=cv.toDataURL('image/png'); a.click(); };
 const dlProfBtn=document.getElementById('dlProfile');
 if(dlProfBtn) dlProfBtn.onclick=()=>{ const W=800; const cv=document.createElement('canvas'); cv.width=cv.height=W; const c=cv.getContext('2d');
-  const g=c.createLinearGradient(0,0,W,W); g.addColorStop(0,'#6B46C1'); g.addColorStop(1,'#D97706');
+  const g=c.createLinearGradient(0,0,W,W); g.addColorStop(0,'#3B1D6E'); g.addColorStop(1,'#4C1D95');
   c.fillStyle=g; c.beginPath(); c.arc(W/2,W/2,W/2,0,Math.PI*2); c.fill();
-  drawCircleImg(c,cur.photoImg,W/2,W/2,W/2-46);
-  if(selMedal){ c.fillStyle='#fff'; c.beginPath(); c.arc(W-150,W-150,92,0,Math.PI*2); c.fill();
-    c.font='130px sans-serif'; c.textAlign='center'; c.textBaseline='middle'; c.fillText(selMedal.emoji,W-150,W-142); }
-  drawLogo(c,W/2,26,150);
+  c.fillStyle='#FCD34D'; c.beginPath(); c.arc(W/2,W/2,W/2-30,0,Math.PI*2); c.fill();
+  drawCircleImg(c,cur.photoImg,W/2,W/2,W/2-44);
+  if(selMedal){ c.fillStyle='#fff'; c.beginPath(); c.arc(W-148,W-148,90,0,Math.PI*2); c.fill();
+    c.font='124px sans-serif'; c.textAlign='center'; c.textBaseline='middle'; c.fillText(selMedal.emoji,W-148,W-140); }
+  drawLogoStar(c,W/2,108,86);
   const a=document.createElement('a'); a.download='foto-perfil-estante-magica.png'; a.href=cv.toDataURL('image/png'); a.click(); };
 
 /* ===================== INIT ===================== */
