@@ -443,19 +443,31 @@
     <p class="lead">Acompanhe a evolução de cada pessoa: nível no Raio-X, tempo dedicado, progresso e consistência. Centralize tudo no Google Sheets.</p>
     <div class="card">
       <span class="tag">Conexão</span><h3>Google Sheets (Apps Script)</h3>
-      <p>Cole a URL do Web App. Sem URL, o painel mostra os dados deste dispositivo (demo).</p>
+      <p>Cole a URL do Web App publicado. Sem URL, o painel mostra os dados deste dispositivo (demo).</p>
       <div class="btnrow" style="margin:8px 0">
         <input id="endpoint" placeholder="https://script.google.com/macros/s/.../exec" style="flex:1; min-width:260px; padding:10px 12px; border:1px solid var(--border); border-radius:9px; font-size:13px">
         <button class="btn" id="saveEndpoint">Salvar</button>
+        <button class="btn ghost" id="testConn">Testar conexão</button>
         <button class="btn ghost" id="loadTeam">Atualizar painel</button>
       </div>
-      <details class="acc"><summary>📄 Ver código do Apps Script</summary><div class="body"><p>Planilha → Extensões → Apps Script, cole e publique como Web App ("qualquer pessoa").</p><pre id="gasCode"></pre></div></details>
+      <div id="connStatus" style="font-size:13px;font-weight:600;color:var(--soft);margin-bottom:6px">⚪ Verificando…</div>
+      <details class="acc"><summary>🛠️ Passo a passo (5 min, faça uma vez)</summary><div class="body">
+        <ol>
+          <li>Crie uma planilha no Google Sheets (ex.: "Hub Comercial — Dados").</li>
+          <li>Menu <strong>Extensões → Apps Script</strong>.</li>
+          <li>Apague o conteúdo, cole o código abaixo e <strong>Salvar</strong>.</li>
+          <li>Clique em <strong>Implantar → Nova implantação → Tipo: App da Web</strong>.</li>
+          <li>Em "Quem pode acessar", escolha <strong>Qualquer pessoa</strong>. Implantar e autorizar.</li>
+          <li>Copie a <strong>URL do app da Web</strong> (termina em <code class="inl">/exec</code>), cole acima, clique em <strong>Salvar</strong> e depois em <strong>Testar conexão</strong>.</li>
+        </ol>
+      </div></details>
+      <details class="acc"><summary>📄 Código do Apps Script (copiar)</summary><div class="body"><pre id="gasCode"></pre></div></details>
     </div>
     <div class="card">
       <span class="tag">Time</span><h3>Histórico consolidado</h3>
       <div style="overflow-x:auto">
-        <table id="teamTable"><thead><tr><th>Pessoa</th><th>Cargo</th><th>Semana</th><th>Raio-X</th><th>Fund.</th><th>Métodos</th><th>Argum.</th><th>Simul.</th><th>Dicção</th><th>Tempo</th></tr></thead>
-        <tbody><tr><td colspan="10" class="empty">Sem registros ainda.</td></tr></tbody></table>
+        <table id="teamTable"><thead><tr><th>Pessoa</th><th>Cargo</th><th>Semana</th><th>Raio-X</th><th>Fund.</th><th>Métodos</th><th>Argum.</th><th>Simul.</th><th>Dicção</th><th>Tempo</th><th>Medalhas</th></tr></thead>
+        <tbody><tr><td colspan="11" class="empty">Sem registros ainda.</td></tr></tbody></table>
       </div>
     </div>
   </section>
@@ -990,8 +1002,9 @@ document.getElementById('genReport').onclick=genReport;
 document.getElementById('saveWeek').onclick=async ()=>{
   if(!who.value.trim()){ alert('Coloque seu nome antes de fechar a semana.'); return; }
   const m=metrics();
+  const medals=MEDALS.filter(x=>x.cond()).map(x=>x.nome).join(', ');
   const rec={ who:who.value.trim(), role:ROLES[role()].label, week:weekVal(),
-    raio:m.raio, fund:m.fund, met:m.met, arg:m.arg, dojo:m.dojo, dic:m.dic, time:m.time, done:m.done, ts:new Date().toISOString() };
+    raio:m.raio, fund:m.fund, met:m.met, arg:m.arg, dojo:m.dojo, dic:m.dic, time:m.time, done:m.done, medals:medals, ts:new Date().toISOString() };
   const data=load(); data.streak=(data.streak||0)+1; data.history.push(rec); save(data);
   if(ENDPOINT){ try{ await fetch(ENDPOINT,{method:'POST',mode:'no-cors',body:JSON.stringify(rec)}); }catch(e){} }
   refreshKpis(); renderHist(); renderTeam(); genReport(); alert('Semana fechada! 🔥 Streak: '+data.streak);
@@ -1000,8 +1013,8 @@ document.getElementById('emailReport').onclick=()=>{ const m=metrics(); const da
   const body=`Relatório semanal — Hub de Crescimento Comercial%0A%0APessoa: ${who.value.trim()||'(sem nome)'}%0ACargo: ${ROLES[role()].label}%0ASemana: ${weekVal()}%0AStreak: ${data.streak||0}%0A%0ANível (Raio-X): ${m.raio!=null?m.raio+'%25':'pendente'}%0ATempo treinado: ${m.time} min%0AFundamentos: ${m.fund}%25%0AMétodos: ${m.met}%0AArgumentação: ${m.arg}%25%0ASimulação: ${m.dojo}%0ADicção: ${m.dic}★%0APráticas: ${m.done}/6`;
   window.location.href=`mailto:${LEADER_EMAIL}?subject=${encodeURIComponent('Relatório Hub — '+(who.value.trim()||'')+' ('+ROLES[role()].label+')')}&body=${body}`; };
 document.getElementById('exportCsv').onclick=()=>{ const data=load();
-  const rows=[['Pessoa','Cargo','Semana','RaioX%','Fund%','Metodos','Argum%','Simulacao','Diccao','TempoMin','Praticas','Quando'],
-    ...data.history.map(h=>[h.who,h.role,h.week,h.raio,h.fund,h.met,h.arg,h.dojo,h.dic,h.time,h.done,h.ts])];
+  const rows=[['Pessoa','Cargo','Semana','RaioX%','Fund%','Metodos','Argum%','Simulacao','Diccao','TempoMin','Praticas','Medalhas','Quando'],
+    ...data.history.map(h=>[h.who,h.role,h.week,h.raio,h.fund,h.met,h.arg,h.dojo,h.dic,h.time,h.done,h.medals||'',h.ts])];
   const csv=rows.map(r=>r.map(c=>'"'+String(c==null?'':c).replace(/"/g,'""')+'"').join(',')).join('\n');
   const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download='hub_historico.csv'; a.click(); };
 
@@ -1014,23 +1027,70 @@ function renderHist(){ const data=load(); const tb=document.querySelector('#hist
 document.getElementById('endpoint').value=ENDPOINT;
 document.getElementById('saveEndpoint').onclick=()=>{ ENDPOINT=document.getElementById('endpoint').value.trim(); localStorage.setItem('hub_endpoint',ENDPOINT); alert('Endpoint salvo.'); };
 document.getElementById('loadTeam').onclick=renderTeam;
+function setConn(kind,msg){ const el=document.getElementById('connStatus'); if(!el) return;
+  el.style.color = kind==='ok'?'var(--success)': kind==='erro'?'var(--danger)':'var(--soft)';
+  el.textContent = (kind==='ok'?'🟢 ':kind==='erro'?'🔴 ':'⚪ ')+msg; }
+function jsonp(url,timeout){ return new Promise((res,rej)=>{
+  const cb='__hubcb'+Math.random().toString(36).slice(2);
+  const s=document.createElement('script');
+  const clean=()=>{ try{ delete window[cb]; }catch(e){ window[cb]=undefined; } if(s.parentNode) s.remove(); };
+  window[cb]=data=>{ clean(); res(data); };
+  s.onerror=()=>{ clean(); rej(new Error('falha de rede')); };
+  s.src=url+(url.indexOf('?')>=0?'&':'?')+'callback='+cb+'&t='+Date.now();
+  document.body.appendChild(s);
+  setTimeout(()=>{ if(window[cb]){ clean(); rej(new Error('tempo esgotado')); } }, timeout||12000);
+}); }
 async function renderTeam(){ const tb=document.querySelector('#teamTable tbody'); let rows=[];
-  if(ENDPOINT){ try{ const r=await fetch(ENDPOINT); rows=await r.json(); }catch(e){ rows=load().history; } } else { rows=load().history; }
-  if(!rows||!rows.length){ tb.innerHTML='<tr><td colspan="10" class="empty">Sem registros ainda.</td></tr>'; return; }
-  tb.innerHTML=rows.slice().reverse().map(h=>'<tr><td>'+(h.who||'')+'</td><td>'+(h.role||'')+'</td><td>'+(h.week||'')+'</td><td>'+(h.raio!=null?h.raio+'%':'—')+'</td><td>'+(h.fund||0)+'%</td><td>'+(h.met||0)+'</td><td>'+(h.arg||0)+'%</td><td>'+(h.dojo||'—')+'</td><td>'+(h.dic||0)+'★</td><td>'+(h.time||0)+'min</td></tr>').join(''); }
+  if(ENDPOINT){ try{ rows=await jsonp(ENDPOINT); setConn('ok','Conectado ao Google Sheets · '+(rows?rows.length:0)+' registros.'); }
+    catch(e){ rows=load().history; setConn('erro','Não consegui ler a planilha ('+e.message+'). Mostrando dados locais. Verifique se publicou como "Qualquer pessoa".'); } }
+  else { rows=load().history; setConn('local','Modo local (este dispositivo). Configure a planilha para consolidar todo o time.'); }
+  if(!rows||!rows.length){ tb.innerHTML='<tr><td colspan="11" class="empty">Sem registros ainda.</td></tr>'; return; }
+  tb.innerHTML=rows.slice().reverse().map(h=>'<tr><td>'+(h.who||'')+'</td><td>'+(h.role||'')+'</td><td>'+(h.week||'')+'</td><td>'+(h.raio!=null&&h.raio!==''?h.raio+'%':'—')+'</td><td>'+(h.fund||0)+'%</td><td>'+(h.met||0)+'</td><td>'+(h.arg||0)+'%</td><td>'+(h.dojo||'—')+'</td><td>'+(h.dic||0)+'★</td><td>'+(h.time||0)+'min</td><td style="font-size:11px">'+(h.medals||'')+'</td></tr>').join(''); }
+document.getElementById('testConn').onclick=async ()=>{ ENDPOINT=document.getElementById('endpoint').value.trim();
+  if(!ENDPOINT){ setConn('erro','Cole a URL do app da Web e clique em Salvar primeiro.'); return; }
+  setConn('local','Testando conexão…');
+  try{ const r=await jsonp(ENDPOINT); setConn('ok','Conexão OK! '+(r?r.length:0)+' registros na planilha.'); }
+  catch(e){ setConn('erro','Falhou: '+e.message+'. Confira a publicação ("Qualquer pessoa") e se a URL termina em /exec.'); } };
 document.getElementById('gasCode').textContent =
-`function doPost(e){
-  const sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('dados')
-        || SpreadsheetApp.getActiveSpreadsheet().insertSheet('dados');
-  const d = JSON.parse(e.postData.contents);
-  sh.appendRow([new Date(), d.who, d.role, d.week, d.raio, d.fund, d.met, d.arg, d.dojo, d.dic, d.time, d.done]);
-  return ContentService.createTextOutput('ok');
+`// ===== Hub de Crescimento Comercial - Estante Magica =====
+var SHEET = 'dados';
+
+function sheet_() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sh = ss.getSheetByName(SHEET);
+  if (!sh) {
+    sh = ss.insertSheet(SHEET);
+    sh.appendRow(['quando','quem','cargo','semana','raiox','fund',
+      'metodos','argum','simulacao','diccao','tempo_min','praticas','medalhas']);
+  }
+  return sh;
 }
-function doGet(){
-  const sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('dados');
-  const v = sh.getDataRange().getValues(); v.shift();
-  const out = v.map(r => ({who:r[1],role:r[2],week:r[3],raio:r[4],fund:r[5],met:r[6],arg:r[7],dojo:r[8],dic:r[9],time:r[10]}));
-  return ContentService.createTextOutput(JSON.stringify(out)).setMimeType(ContentService.MimeType.JSON);
+
+// Recebe os dados quando a pessoa fecha a semana (POST)
+function doPost(e) {
+  var d = JSON.parse(e.postData.contents);
+  sheet_().appendRow([new Date(), d.who, d.role, d.week, d.raio, d.fund,
+    d.met, d.arg, d.dojo, d.dic, d.time, d.done, d.medals || '']);
+  return ContentService.createTextOutput(JSON.stringify({ok:true}))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+// Devolve o historico para o Painel do Lider (GET via JSONP)
+function doGet(e) {
+  var v = sheet_().getDataRange().getValues();
+  v.shift(); // remove cabecalho
+  var out = v.map(function(r){ return {
+    when:r[0], who:r[1], role:r[2], week:r[3], raio:r[4], fund:r[5],
+    met:r[6], arg:r[7], dojo:r[8], dic:r[9], time:r[10], done:r[11], medals:r[12]
+  };});
+  var json = JSON.stringify(out);
+  var cb = e && e.parameter && e.parameter.callback;
+  if (cb) {
+    return ContentService.createTextOutput(cb + '(' + json + ')')
+      .setMimeType(ContentService.MimeType.JAVASCRIPT);
+  }
+  return ContentService.createTextOutput(json)
+    .setMimeType(ContentService.MimeType.JSON);
 }`;
 
 /* ===================== CONQUISTAS ===================== */
