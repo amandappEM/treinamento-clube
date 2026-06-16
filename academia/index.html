@@ -553,8 +553,8 @@
       <div id="teamChart"></div>
       <h3 style="font-size:16px">Histórico consolidado</h3>
       <div style="overflow-x:auto">
-        <table id="teamTable"><thead><tr><th>Pessoa</th><th>Cargo</th><th>Semana</th><th>Raio-X</th><th>Fund.</th><th>Métodos</th><th>Argum.</th><th>Simul.</th><th>Dicção</th><th>Prova</th><th>Tempo</th><th>Medalhas</th></tr></thead>
-        <tbody><tr><td colspan="12" class="empty">Sem registros ainda.</td></tr></tbody></table>
+        <table id="teamTable"><thead><tr><th>Pessoa</th><th>Cargo</th><th>Semana</th><th>Raio-X</th><th>Fund.</th><th>Métodos</th><th>Argum.</th><th>Simul.</th><th>Dicção</th><th>Prova</th><th>XP / Nível</th><th>Tempo</th><th>Medalhas</th></tr></thead>
+        <tbody><tr><td colspan="13" class="empty">Sem registros ainda.</td></tr></tbody></table>
       </div>
     </div>
   </section>
@@ -1092,6 +1092,7 @@ function genReport(){
   html+='<div class="stat"><span>Simulação</span><strong>'+m.dojo+'</strong></div>';
   html+='<div class="stat"><span>Dicção</span><strong>'+(m.dic?m.dic+'★':'—')+'</strong></div>';
   html+='<div class="stat"><span>Discurso Intencional</span><strong>'+(cur.discursoScore!=null?'Prova '+cur.discursoScore+'/7':(cur.discursoDone?'concluído':'pendente'))+'</strong></div>';
+  html+='<div class="stat"><span>Arena (XP / nível)</span><strong>'+(cur.discursoXP||0)+' XP · '+levelInfo(cur.discursoXP||0).name+'</strong></div>';
   html+='<div class="stat"><span>Práticas concluídas</span><strong>'+m.done+'/7</strong></div>';
   if(cur.diag){ const sorted=[...DIMS].sort((a,b)=>cur.diag.scores[a.id]-cur.diag.scores[b.id]);
     html+='<h4>🎯 Foco recomendado</h4><p>'+sorted.slice(0,2).map(d=>d.n).join(' e ')+' — são suas maiores oportunidades agora.</p>'; }
@@ -1106,17 +1107,17 @@ document.getElementById('saveWeek').onclick=async ()=>{
   const m=metrics();
   const medals=MEDALS.filter(x=>x.cond()).map(x=>x.nome).join(', ');
   const rec={ who:who.value.trim(), role:ROLES[role()].label, week:weekVal(),
-    raio:m.raio, fund:m.fund, met:m.met, arg:m.arg, dojo:m.dojo, dic:m.dic, prova:(cur.discursoScore!=null?cur.discursoScore:''), time:m.time, done:m.done, medals:medals, ts:new Date().toISOString() };
+    raio:m.raio, fund:m.fund, met:m.met, arg:m.arg, dojo:m.dojo, dic:m.dic, prova:(cur.discursoScore!=null?cur.discursoScore:''), time:m.time, done:m.done, medals:medals, xp:(cur.discursoXP||0), level:levelInfo(cur.discursoXP||0).name, ts:new Date().toISOString() };
   const data=load(); data.streak=(data.streak||0)+1; data.history.push(rec); save(data);
   if(ENDPOINT){ try{ await fetch(ENDPOINT,{method:'POST',mode:'no-cors',body:JSON.stringify(rec)}); }catch(e){} }
   refreshKpis(); renderHist(); renderTeam(); genReport(); alert('Semana fechada! 🔥 Streak: '+data.streak);
 };
 document.getElementById('emailReport').onclick=()=>{ const m=metrics(); const data=load();
-  const body=`Relatório semanal — Hub de Crescimento%0A%0APessoa: ${who.value.trim()||'(sem nome)'}%0ACargo: ${ROLES[role()].label}%0ASemana: ${weekVal()}%0AStreak: ${data.streak||0}%0A%0ANível (Raio-X): ${m.raio!=null?m.raio+'%25':'pendente'}%0ATempo treinado: ${m.time} min%0AFundamentos: ${m.fund}%25%0AMétodos: ${m.met}%0AArgumentação: ${m.arg}%25%0ASimulação: ${m.dojo}%0ADicção: ${m.dic}★%0ADiscurso Intencional: ${cur.discursoScore!=null?'prova '+cur.discursoScore+'/7':(cur.discursoDone?'concluído':'pendente')}%0APráticas: ${m.done}/7`;
+  const body=`Relatório semanal — Hub de Crescimento%0A%0APessoa: ${who.value.trim()||'(sem nome)'}%0ACargo: ${ROLES[role()].label}%0ASemana: ${weekVal()}%0AStreak: ${data.streak||0}%0A%0ANível (Raio-X): ${m.raio!=null?m.raio+'%25':'pendente'}%0ATempo treinado: ${m.time} min%0AFundamentos: ${m.fund}%25%0AMétodos: ${m.met}%0AArgumentação: ${m.arg}%25%0ASimulação: ${m.dojo}%0ADicção: ${m.dic}★%0ADiscurso Intencional: ${cur.discursoScore!=null?'prova '+cur.discursoScore+'/7':(cur.discursoDone?'concluído':'pendente')}%0AArena: ${cur.discursoXP||0} XP (${levelInfo(cur.discursoXP||0).name})%0APráticas: ${m.done}/7`;
   window.location.href=`mailto:${LEADER_EMAIL}?subject=${encodeURIComponent('Relatório Hub — '+(who.value.trim()||'')+' ('+ROLES[role()].label+')')}&body=${body}`; };
 document.getElementById('exportCsv').onclick=()=>{ const data=load();
-  const rows=[['Pessoa','Cargo','Semana','RaioX%','Fund%','Metodos','Argum%','Simulacao','Diccao','Prova','TempoMin','Praticas','Medalhas','Quando'],
-    ...data.history.map(h=>[h.who,h.role,h.week,h.raio,h.fund,h.met,h.arg,h.dojo,h.dic,(h.prova!=null?h.prova:''),h.time,h.done,h.medals||'',h.ts])];
+  const rows=[['Pessoa','Cargo','Semana','RaioX%','Fund%','Metodos','Argum%','Simulacao','Diccao','Prova','XP','Nivel','TempoMin','Praticas','Medalhas','Quando'],
+    ...data.history.map(h=>[h.who,h.role,h.week,h.raio,h.fund,h.met,h.arg,h.dojo,h.dic,(h.prova!=null?h.prova:''),(h.xp||0),(h.level||''),h.time,h.done,h.medals||'',h.ts])];
   const csv=rows.map(r=>r.map(c=>'"'+String(c==null?'':c).replace(/"/g,'""')+'"').join(',')).join('\n');
   const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download='hub_historico.csv'; a.click(); };
 
@@ -1136,12 +1137,17 @@ function renderTeamChart(rows){ const el=document.getElementById('teamChart'); i
   var totalTime=rows.map(r=>parseInt(r.time)||0).reduce((a,b)=>a+b,0);
   var pv=rows.map(r=>parseFloat(r.prova)).filter(x=>!isNaN(x)); var provaAvg=pv.length?(Math.round(pv.reduce((a,b)=>a+b,0)/pv.length*10)/10):null;
   var bars=[['Raio-X médio',avg('raio')],['Fundamentos médio',avg('fund')],['Argumentação média',avg('arg')]];
+  var best={}; rows.forEach(function(r){ var w=r.who||'—'; var xp=parseInt(r.xp)||0; if(!(w in best)||xp>best[w].xp) best[w]={xp:xp,level:r.level||'',role:r.role||''}; });
+  var rank=Object.keys(best).map(function(w){ return {who:w,xp:best[w].xp,level:best[w].level,role:best[w].role}; }).sort(function(a,b){ return b.xp-a.xp; }).slice(0,5);
+  var medalIco=['🥇','🥈','🥉','🏅','🏅'];
+  var rankHtml=rank.length?('<h3 style="font-size:16px;margin-top:6px">🏆 Ranking da Arena</h3>'+rank.map(function(p,idx){ return '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border-bottom:1px solid var(--border)"><span><strong>'+medalIco[idx]+' '+p.who+'</strong> <span style="font-size:12px;color:var(--soft)">'+(p.role||'')+(p.level?' · '+p.level:'')+'</span></span><span style="font-weight:800;color:var(--primary-dark)">'+p.xp+' XP</span></div>'; }).join('')):'';
   el.innerHTML='<div class="grid" style="margin-bottom:10px">'+
     '<div class="kpi"><div class="lab">Pessoas ativas</div><div class="val">'+people+'</div></div>'+
     '<div class="kpi"><div class="lab">Registros</div><div class="val">'+rows.length+'</div></div>'+
     '<div class="kpi time"><div class="lab">Tempo total</div><div class="val">'+totalTime+'min</div></div>'+
     '<div class="kpi"><div class="lab">Prova média</div><div class="val">'+(provaAvg!=null?provaAvg+'/7':'—')+'</div></div></div>'+
-    bars.map(b=>'<div class="mbar"><div class="l"><span>'+b[0]+'</span><span>'+b[1]+'%</span></div><div class="t"><div class="f" style="width:'+b[1]+'%"></div></div></div>').join(''); }
+    bars.map(b=>'<div class="mbar"><div class="l"><span>'+b[0]+'</span><span>'+b[1]+'%</span></div><div class="t"><div class="f" style="width:'+b[1]+'%"></div></div></div>').join('')+
+    rankHtml; }
 function setConn(kind,msg){ const el=document.getElementById('connStatus'); if(!el) return;
   el.style.color = kind==='ok'?'var(--success)': kind==='erro'?'var(--danger)':'var(--soft)';
   el.textContent = (kind==='ok'?'🟢 ':kind==='erro'?'🔴 ':'⚪ ')+msg; }
@@ -1160,8 +1166,8 @@ async function renderTeam(){ const tb=document.querySelector('#teamTable tbody')
     catch(e){ rows=load().history; setConn('erro','Não consegui ler a planilha ('+e.message+'). Mostrando dados locais. Verifique se publicou como "Qualquer pessoa".'); } }
   else { rows=load().history; setConn('local','Modo local (este dispositivo). Configure a planilha para consolidar todo o time.'); }
   renderTeamChart(rows);
-  if(!rows||!rows.length){ tb.innerHTML='<tr><td colspan="12" class="empty">Sem registros ainda.</td></tr>'; return; }
-  tb.innerHTML=rows.slice().reverse().map(h=>'<tr><td>'+(h.who||'')+'</td><td>'+(h.role||'')+'</td><td>'+(h.week||'')+'</td><td>'+(h.raio!=null&&h.raio!==''?h.raio+'%':'—')+'</td><td>'+(h.fund||0)+'%</td><td>'+(h.met||0)+'</td><td>'+(h.arg||0)+'%</td><td>'+(h.dojo||'—')+'</td><td>'+(h.dic||0)+'★</td><td>'+(h.prova!=null&&h.prova!==''?h.prova+'/7':'—')+'</td><td>'+(h.time||0)+'min</td><td style="font-size:11px">'+(h.medals||'')+'</td></tr>').join(''); }
+  if(!rows||!rows.length){ tb.innerHTML='<tr><td colspan="13" class="empty">Sem registros ainda.</td></tr>'; return; }
+  tb.innerHTML=rows.slice().reverse().map(h=>'<tr><td>'+(h.who||'')+'</td><td>'+(h.role||'')+'</td><td>'+(h.week||'')+'</td><td>'+(h.raio!=null&&h.raio!==''?h.raio+'%':'—')+'</td><td>'+(h.fund||0)+'%</td><td>'+(h.met||0)+'</td><td>'+(h.arg||0)+'%</td><td>'+(h.dojo||'—')+'</td><td>'+(h.dic||0)+'★</td><td>'+(h.prova!=null&&h.prova!==''?h.prova+'/7':'—')+'</td><td>'+(h.xp||0)+' XP'+(h.level?'<br><span style="font-size:11px;color:var(--soft)">'+h.level+'</span>':'')+'</td><td>'+(h.time||0)+'min</td><td style="font-size:11px">'+(h.medals||'')+'</td></tr>').join(''); }
 document.getElementById('testConn').onclick=async ()=>{ ENDPOINT=document.getElementById('endpoint').value.trim();
   if(!ENDPOINT){ setConn('erro','Cole a URL do app da Web e clique em Salvar primeiro.'); return; }
   setConn('local','Testando conexão…');
@@ -1177,7 +1183,7 @@ function sheet_() {
   if (!sh) {
     sh = ss.insertSheet(SHEET);
     sh.appendRow(['quando','quem','cargo','semana','raiox','fund',
-      'metodos','argum','simulacao','diccao','prova','tempo_min','praticas','medalhas']);
+      'metodos','argum','simulacao','diccao','prova','xp','nivel','tempo_min','praticas','medalhas']);
   }
   return sh;
 }
@@ -1186,7 +1192,7 @@ function sheet_() {
 function doPost(e) {
   var d = JSON.parse(e.postData.contents);
   sheet_().appendRow([new Date(), d.who, d.role, d.week, d.raio, d.fund,
-    d.met, d.arg, d.dojo, d.dic, d.prova, d.time, d.done, d.medals || '']);
+    d.met, d.arg, d.dojo, d.dic, d.prova, d.xp, d.level, d.time, d.done, d.medals || '']);
   return ContentService.createTextOutput(JSON.stringify({ok:true}))
     .setMimeType(ContentService.MimeType.JSON);
 }
@@ -1197,7 +1203,7 @@ function doGet(e) {
   v.shift(); // remove cabecalho
   var out = v.map(function(r){ return {
     when:r[0], who:r[1], role:r[2], week:r[3], raio:r[4], fund:r[5],
-    met:r[6], arg:r[7], dojo:r[8], dic:r[9], prova:r[10], time:r[11], done:r[12], medals:r[13]
+    met:r[6], arg:r[7], dojo:r[8], dic:r[9], prova:r[10], xp:r[11], level:r[12], time:r[13], done:r[14], medals:r[15]
   };});
   var json = JSON.stringify(out);
   var cb = e && e.parameter && e.parameter.callback;
