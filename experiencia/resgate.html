@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A flecha está na sua mão · Estante Mágica</title>
+<title>Não deixe essa história pela metade · Estante Mágica</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   :root {
@@ -20,7 +20,6 @@
   .logoimg { height:clamp(140px, 24vw, 210px); width:auto; filter:drop-shadow(0 10px 26px rgba(0,0,0,.35)) drop-shadow(0 0 30px rgba(252,211,153,.25)); animation:logoIn 1s ease-out both; }
   @keyframes logoIn { 0%{ opacity:0; transform:scale(.86); } 100%{ opacity:1; transform:scale(1); } }
   .brand .seal { font-size:11px; font-weight:700; letter-spacing:3px; opacity:.85; color:#fff; }
-  /* fallback (caso o arquivo da logo ainda não exista) */
   .lockup { display:flex; align-items:center; gap:11px; }
   .lockup .mark { width:52px; height:52px; border-radius:15px; background:linear-gradient(135deg,#6B46C1,#F59E0B); display:flex; align-items:center; justify-content:center; box-shadow:0 8px 22px rgba(245,158,11,.35); }
   .lockup .wm { font-size:24px; font-weight:800; letter-spacing:-.5px; line-height:1; }
@@ -30,11 +29,12 @@
   #s1 { background:radial-gradient(circle at 50% 12%, #6B46C1 0%, #4C1D95 45%, #0F0A1E 100%); color:#fff; text-align:center; flex-direction:column; }
   #s1 h1 { font-size:40px; line-height:1.12; margin:8px 0 8px; }
   #s1 .grad { background:linear-gradient(90deg,#F59E0B,#FCD34D); -webkit-background-clip:text; background-clip:text; color:transparent; }
-  #s1 .sub { font-size:17px; opacity:.92; max-width:580px; margin:0 auto; }
+  #s1 .sub { font-size:17px; opacity:.92; max-width:600px; margin:0 auto; }
   .duo { display:flex; gap:20px; align-items:stretch; justify-content:center; flex-wrap:wrap; margin:28px auto 0; max-width:880px; text-align:left; }
   .counter { flex:1 1 320px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18); border-radius:18px; padding:24px 28px; position:relative; overflow:hidden; display:flex; flex-direction:column; justify-content:center; }
   .counter .lab { font-size:13px; opacity:.9; line-height:1.4; }
-  .counter .big { font-size:50px; font-weight:800; color:#FCD34D; letter-spacing:-1.5px; margin:6px 0; font-variant-numeric:tabular-nums; }
+  .counter .big { font-size:50px; font-weight:800; color:#FCD34D; letter-spacing:-1.5px; margin:6px 0; font-variant-numeric:tabular-nums; animation:breathe 4.5s ease-in-out infinite; }
+  @keyframes breathe { 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.035); } }
   .counter .live { display:inline-flex; align-items:center; gap:6px; font-size:12px; opacity:.85; text-transform:uppercase; letter-spacing:1px; }
   .dot { width:8px; height:8px; border-radius:50%; background:#34D399; box-shadow:0 0 0 0 rgba(52,211,153,.7); animation:pulse 1.8s infinite; }
   @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(52,211,153,.6)} 70%{box-shadow:0 0 0 9px rgba(52,211,153,0)} 100%{box-shadow:0 0 0 0 rgba(52,211,153,0)} }
@@ -48,8 +48,6 @@
     70%  { transform:translate(10px,-44px) scale(1.05); }
     100% { opacity:0; transform:translate(-5px,-66px) scale(1.1); }
   }
-  .counter .big { animation:breathe 4.5s ease-in-out infinite; }
-  @keyframes breathe { 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.035); } }
   .videoBox { flex:1 1 360px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18); border-radius:18px; padding:16px; display:flex; flex-direction:column; }
   .videoBox .vlab { font-size:13px; opacity:.85; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:10px; }
   .vframe { position:relative; width:100%; padding-top:56.25%; border-radius:12px; overflow:hidden; background:#000; }
@@ -60,18 +58,18 @@
 
   /* CENA 2 */
   #s2 { background:linear-gradient(160deg,#1a1230,#0F0A1E); color:#fff; }
-  #s2 .q { font-size:30px; font-weight:300; font-style:italic; line-height:1.4; }
+  #s2 .q { font-size:29px; font-weight:300; font-style:italic; line-height:1.45; }
   #s2 .q b { font-weight:700; color:#FCD34D; font-style:normal; }
   #s2 .src { margin-top:18px; font-size:14px; opacity:.7; }
 
-  /* CENA 2.5 — provocação: a sua própria história */
+  /* CENA 2.5 */
   #s2b { background:linear-gradient(160deg,#241646,#0F0A1E); color:#fff; text-align:center; flex-direction:column; }
   #s2b h2 { font-size:30px; color:#FCD34D; max-width:680px; margin:0 auto 20px; line-height:1.25; }
-  #s2b p { font-size:18px; opacity:.93; max-width:620px; margin:0 auto 14px; }
+  #s2b p { font-size:18px; opacity:.93; max-width:640px; margin:0 auto 14px; }
   #s2b p b { color:#fff; }
   #s2b .punch { font-size:21px; opacity:1; margin-top:6px; }
 
-  /* CENA 3 — construtor lúdico */
+  /* CENA 3 */
   #s3 { background:#FAF7FF; color:var(--ink); flex-direction:column; }
   .greet { text-align:center; margin-bottom:8px; }
   .greet h2 { font-size:30px; color:var(--primary-dark); }
@@ -86,7 +84,7 @@
   .opts { display:grid; gap:13px; }
   .opts.chips { grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); }
   .opts.cards { grid-template-columns:1fr 1fr; }
-  @media(max-width:640px){ .opts.cards{ grid-template-columns:1fr; } #s1 h1{font-size:30px;} #s2 .q{font-size:23px;} }
+  @media(max-width:640px){ .opts.cards{ grid-template-columns:1fr; } #s1 h1{font-size:30px;} #s2 .q{font-size:22px;} }
   .pick { background:#fff; border:2px solid var(--border); border-radius:16px; padding:20px; cursor:pointer; transition:.18s; text-align:center; font-size:15.5px; font-weight:600; color:var(--ink); }
   .pick:hover { transform:translateY(-4px); border-color:var(--accent); box-shadow:0 12px 26px rgba(245,158,11,.18); }
   .pick.sel { border-color:var(--primary); background:linear-gradient(180deg,#fff,var(--plight)); box-shadow:0 10px 22px rgba(107,70,193,.16); }
@@ -94,11 +92,11 @@
   .pick small { display:block; font-weight:400; color:var(--soft); font-size:13px; margin-top:5px; }
   .payoff { text-align:center; font-size:15px; color:var(--gold); font-weight:700; margin-top:14px; min-height:22px; }
 
-  /* CENA 4 — visão + CTA */
+  /* CENA 4 */
   #s4 { background:linear-gradient(160deg,#4C1D95,#6B46C1); color:#fff; flex-direction:column; text-align:center; }
   #s4 .arrow { font-size:42px; }
   #s4 h2 { font-size:32px; margin:6px 0; }
-  .vision { background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); border-radius:18px; padding:26px 28px; margin:22px auto; max-width:640px; font-size:19px; line-height:1.55; }
+  .vision { background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); border-radius:18px; padding:26px 28px; margin:22px auto; max-width:660px; font-size:19px; line-height:1.55; }
   .vision b { color:#FCD34D; }
   .btn { background:var(--accent); color:#fff; border:none; border-radius:14px; padding:16px 30px; font-size:17px; font-weight:800; cursor:pointer; transition:.15s; box-shadow:0 10px 26px rgba(245,158,11,.4); }
   .btn:hover { background:var(--gold); transform:translateY(-2px); }
@@ -140,16 +138,16 @@
       <div class="seal">⭐ 1 BILHÃO DE AUTORES ATÉ 2030</div>
     </div>
 
-    <h1>E se a sua escola fosse a escola que <span class="grad">forma autores</span>?</h1>
-    <p class="sub">Toda criança tem uma história para contar. E a decisão de dar esse palco a elas começa com você.</p>
+    <h1>A sua escola já provou que <span class="grad">toda criança tem uma história</span>. Não pare agora.</h1>
+    <p class="sub">Vocês já viveram a emoção de ver um aluno segurar o próprio livro. Seria uma pena deixar essa história pela metade.</p>
 
     <div class="duo">
       <div class="counter" id="counter">
-        <div class="lab">Mais de <strong>2.500.000</strong> crianças já transformadas em autores</div>
+        <div class="lab">Mais de <strong>2.500.000</strong> crianças já viraram autoras. A sua escola faz parte desse número.</div>
         <div class="big" id="count">0</div>
         <div class="live"><span class="dot"></span> e crescendo agora, neste instante</div>
         <div class="bar"><i id="barFill"></i></div>
-        <div class="lab" style="opacity:.7; margin-top:4px;">Meta: 1 bilhão de autores até 2030. Cada dia conta.</div>
+        <div class="lab" style="opacity:.7; margin-top:4px;">Meta: 1 bilhão de autores até 2030. A pergunta é se vocês seguem juntos.</div>
       </div>
       <div class="videoBox">
         <div class="vlab">🎬 Uma palavra de quem começou</div>
@@ -164,20 +162,20 @@
 <!-- CENA 2 -->
 <section id="s2">
   <div class="inner">
-    <div class="q">Quando uma criança escreve o próprio livro, ela não aprende só a escrever.<br><b>Ela descobre que tem algo valioso a dizer, e muda a forma como percebe e é percebida pelo mundo.</b></div>
-    <div class="src">Repetição + emoção = aprendizado que não se perde. É neurociência aplicada à educação.</div>
+    <div class="q">Lembra do dia do primeiro autógrafo? O silêncio antes, o orgulho depois, a fila de famílias com o celular na mão.<br><b>Aquilo não foi sorte. Foi a sua escola fazendo história.</b></div>
+    <div class="src">O que se repete vira tradição. O que para no meio do caminho vira só uma lembrança.</div>
   </div>
 </section>
 
 <!-- CENA 2.5 -->
 <section id="s2b">
   <div class="inner">
-    <h2>Antes de gestor, você também foi uma criança cheia de histórias.</h2>
-    <p>Em algum momento, alguém acreditou em você. Ou talvez tenha sido você quem deu coragem para tanta gente seguir em frente.</p>
-    <p>Hoje, milhares de histórias atravessam os corredores da sua escola todos os anos. Sem saída, muitas delas vão dormir caladas. Com a chance certa, viram livro, viram voz, viram futuro.</p>
-    <p class="punch"><b>Cada história contada melhora o mundo de algum jeito. Imagine o tamanho do impacto se nenhuma delas ficasse sem ser ouvida.</b></p>
-    <p>A pergunta é só uma: vai ser na sua escola que essas histórias vão começar?</p>
-    <div class="scrollcue">↓ descubra como</div>
+    <h2>As crianças menores estão esperando a vez delas.</h2>
+    <p>Os alunos que viraram autores contaram para os irmãos, para os colegas mais novos, para os pais. Todos eles já sabem o que é possível dentro da sua escola.</p>
+    <p>Quando o projeto some do calendário, não é só um projeto que acaba. É uma promessa silenciosa que fica sem resposta.</p>
+    <p class="punch"><b>Interromper agora é deixar uma geração inteira sem viver o que a anterior viveu.</b></p>
+    <p>Ainda dá tempo de não deixar essa história pela metade. Vamos retomar juntos?</p>
+    <div class="scrollcue">↓ vamos conversar</div>
   </div>
 </section>
 
@@ -185,33 +183,33 @@
 <section id="s3">
   <div class="inner">
     <div class="greet">
-      <h2 id="greetTitle">Que história a sua escola vai contar este ano?</h2>
-      <p>Responda em 3 toques, como num passe de mágica. ✨</p>
+      <h2 id="greetTitle">O que fez a sua escola pensar em parar?</h2>
+      <p>Responda em 3 toques. Sem julgamento, só pra gente te ajudar do jeito certo. ✨</p>
     </div>
     <div class="progress3"><div class="pdot on" id="pd1"></div><div class="pdot" id="pd2"></div><div class="pdot" id="pd3"></div></div>
 
     <!-- passo 1 -->
     <div class="step show" id="step1">
-      <div class="q">Quantas vidas a sua escola pode transformar este ano?</div>
-      <div class="qs">Cada aluno é um autor em potencial.</div>
-      <div class="opts chips" id="optSize"></div>
+      <div class="q">O que mais pesou na hora de hesitar?</div>
+      <div class="qs">Pode ser sincero. Já ajudamos muitas escolas com cada um desses pontos.</div>
+      <div class="opts chips" id="optMotivo"></div>
       <div class="payoff" id="payoff1"></div>
     </div>
 
     <!-- passo 2 -->
     <div class="step" id="step2">
-      <div class="q">O que você mais sonha em ver nos seus alunos?</div>
-      <div class="qs">Escolha o que mais toca o seu coração de educador(a).</div>
-      <div class="opts cards" id="optDream"></div>
+      <div class="q">O que você não quer ver a sua escola perdendo?</div>
+      <div class="qs">Escolha o que seria mais difícil deixar para trás.</div>
+      <div class="opts cards" id="optKeep"></div>
     </div>
 
     <!-- passo 3 -->
     <div class="step" id="step3">
-      <div class="q">No fim deste ano, que escola a sua terá sido?</div>
-      <div class="qs">A diferença cabe em uma decisão.</div>
+      <div class="q">Então, qual vai ser a decisão?</div>
+      <div class="qs">Você tem esse poder nas mãos.</div>
       <div class="opts cards">
-        <div class="pick" data-school="a"><span class="pico">🏫</span>Mais uma escola<small>projetos soltos que se perdem no calendário</small></div>
-        <div class="pick" data-school="b"><span class="pico">✍️</span>A escola que forma autores<small>uma tradição esperada por toda a comunidade</small></div>
+        <div class="pick" data-school="a"><span class="pico">📕</span>Deixar a história pela metade<small>e ver a tradição virar só uma lembrança</small></div>
+        <div class="pick" data-school="b"><span class="pico">📗</span>Resgatar o projeto este ano<small>e continuar o que já é de vocês</small></div>
       </div>
     </div>
   </div>
@@ -220,12 +218,12 @@
 <!-- CENA 4 -->
 <section id="s4">
   <div class="inner">
-    <div class="arrow">🏹</div>
-    <h2>A flecha está na sua mão.</h2>
-    <div class="vision" id="vision">Toque nas opções acima e veja a história da sua escola se formar aqui. ✨</div>
+    <div class="arrow">🤝</div>
+    <h2>Não deixe essa história pela metade.</h2>
+    <div class="vision" id="vision">Toque nas opções acima e veja como a sua escola pode retomar essa história. ✨</div>
 
     <div class="lead" id="lead">
-      <h3>Falta um passo para essa história começar ✨</h3>
+      <h3>Vamos retomar juntos? ✨</h3>
       <p class="hint">Deixe seu contato e nosso time fala com você, no seu tempo e do seu jeito.</p>
       <div class="field"><label>Nome da escola</label><input id="f_escola" placeholder="Nome da sua escola"></div>
       <div class="field"><label>Seu nome</label><input id="f_gestor" placeholder="Como podemos te chamar?"></div>
@@ -233,12 +231,12 @@
       <div class="err" id="leadErr"></div>
     </div>
 
-    <button class="btn" id="cta" style="margin-top:18px;">Quero ver isso na minha escola →</button>
+    <button class="btn" id="cta" style="margin-top:18px;">Quero resgatar o projeto →</button>
     <div class="linkout" id="linkout">
-      <strong>✅ Pronto para a conversa.</strong> Seu time já vai chegar conhecendo o sonho da sua escola. Este link leva a reunião personalizada:
+      <strong>✅ Recebemos.</strong> Nosso time já vai chegar sabendo o que pesou e o que vocês não querem perder, pra cuidar disso com você. Este link leva a conversa de retomada:
       <code id="genlink"></code>
-      <button class="copy" id="copyBtn">Copiar link da reunião</button>
-      <p class="note" style="opacity:.7;color:var(--soft)">No app final, este toque agenda a reunião e entrega o link pronto ao closer (Momento 2).</p>
+      <button class="copy" id="copyBtn">Copiar link da conversa</button>
+      <p class="note" style="opacity:.7;color:var(--soft)">No app final, este toque agenda a conversa e entrega o contexto pronto ao time (Momento 2).</p>
     </div>
     <p class="note">Você não está numa jornada solitária: do início do projeto ao evento de autógrafos, nosso time segura na mão da sua escola. 💜</p>
   </div>
@@ -249,7 +247,7 @@
 const BASE_AUTORES = 2500000;    // base "Mais de 2.500.000"
 const META = 1000000000;         // 1 bilhão até 2030
 const NEXT_STAGE = "call.html";  // Momento 2
-const CANAL = "prospeccao";      // canal de origem deste lead
+const CANAL = "resgate";         // canal de origem deste lead
 
 /* Vídeo do cofundador (YouTube) */
 const YT_VIDEO_ID = "tKlRk03Hn6E";
@@ -263,7 +261,7 @@ const ESCOLA = (Q.get('escola') || '').trim();
 const GESTOR = (Q.get('gestor') || '').trim();
 const escolaNome = ESCOLA || 'a sua escola';
 if (ESCOLA) {
-  document.getElementById('greetTitle').textContent = ESCOLA + ', que história vocês vão contar este ano?';
+  document.getElementById('greetTitle').textContent = ESCOLA + ', o que fez vocês pensarem em parar?';
 }
 
 /* ===== VÍDEO ===== */
@@ -293,7 +291,6 @@ function countUp(){
   setTimeout(()=>{ elBar.style.width = Math.max(BASE_AUTORES/META*100, 1.5)+'%'; }, 200);
 }
 function liveTick(){
-  // ritmo calmo: a cada 7–14s nasce mais um autor (urgência leve e lúdica)
   const wait = 7000 + Math.random()*7000;
   setTimeout(()=>{
     current += 1; elCount.textContent = fmt(current);
@@ -306,50 +303,53 @@ function liveTick(){
 new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting) countUp(); }),{threshold:.3}).observe(document.getElementById('s1'));
 window.addEventListener('load', countUp);
 
-/* ===== CONSTRUTOR LÚDICO ===== */
-const sel = { alunos:'', alunosN:0, sonho:'', sonhoEmoji:'', school:'' };
+/* ===== CONSTRUTOR LÚDICO (resgate) ===== */
+const sel = { motivo:'', naoPerder:'', npEmoji:'', decisao:'' };
 
-const sizes = [
-  {label:'Até 200 alunos', n:200}, {label:'200 a 500', n:500},
-  {label:'500 a 1.000', n:1000}, {label:'Mais de 1.000', n:1500}
-];
-const dreams = [
-  {key:'confiança para se expressar sem medo', emoji:'🦋', t:'Confiança', s:'crianças que não têm medo de se expressar'},
-  {key:'amor verdadeiro pela leitura e pela escrita', emoji:'📖', t:'Leitura & escrita', s:'amor verdadeiro pelos livros'},
-  {key:'protagonismo e autoestima', emoji:'🌟', t:'Protagonismo', s:'cada aluno se sentindo capaz e visto'},
-  {key:'uma escola inesquecível e indicada pelas famílias', emoji:'🏫', t:'Escola inesquecível', s:'famílias orgulhosas que indicam'}
+const reasons = [
+  {key:'o calendário apertado', label:'Calendário apertado', pay:'A maioria das escolas integra o projeto ao que já existe, sem virar aula extra. Dá pra encaixar.'},
+  {key:'a mudança na equipe', label:'Mudança na equipe', pay:'Equipe nova não recomeça do zero. A gente entrega tudo pronto e treina o time.'},
+  {key:'a queda de engajamento', label:'Engajamento caiu', pay:'O engajamento volta quando a criança vira protagonista de novo. É o que o projeto faz.'},
+  {key:'a questão de orçamento', label:'Questão de orçamento', pay:'Existem formatos para realidades diferentes. Vale conversar antes de desistir.'}
 ];
 
-const optSize = document.getElementById('optSize');
-sizes.forEach(s=>{
-  const d = document.createElement('div'); d.className='pick'; d.innerHTML = s.label;
+const keeps = [
+  {key:'a tradição que vocês construíram', emoji:'🏆', t:'A tradição construída', s:'algo que já virou marca da escola'},
+  {key:'o brilho nos olhos das crianças', emoji:'✨', t:'O brilho das crianças', s:'o orgulho de virar autor'},
+  {key:'a confiança das famílias', emoji:'🤝', t:'A confiança das famílias', s:'famílias que já esperam por isso'},
+  {key:'o diferencial diante de outras escolas', emoji:'🎯', t:'O diferencial da escola', s:'o que distingue vocês'}
+];
+
+const optMotivo = document.getElementById('optMotivo');
+reasons.forEach(r=>{
+  const d = document.createElement('div'); d.className='pick'; d.innerHTML = r.label;
   d.onclick = ()=>{
-    optSize.querySelectorAll('.pick').forEach(x=>x.classList.remove('sel')); d.classList.add('sel');
-    sel.alunos = s.label; sel.alunosN = s.n;
-    document.getElementById('payoff1').textContent = 'Isso pode ser até ' + fmt(s.n) + ' livros nascendo na sua escola este ano. 📚';
+    optMotivo.querySelectorAll('.pick').forEach(x=>x.classList.remove('sel')); d.classList.add('sel');
+    sel.motivo = r.key;
+    document.getElementById('payoff1').textContent = r.pay;
     reveal('step2','pd2');
   };
-  optSize.appendChild(d);
+  optMotivo.appendChild(d);
 });
 
-const optDream = document.getElementById('optDream');
-dreams.forEach(dr=>{
+const optKeep = document.getElementById('optKeep');
+keeps.forEach(k=>{
   const d = document.createElement('div'); d.className='pick';
-  d.innerHTML = '<span class="pico">'+dr.emoji+'</span>'+dr.t+'<small>'+dr.s+'</small>';
+  d.innerHTML = '<span class="pico">'+k.emoji+'</span>'+k.t+'<small>'+k.s+'</small>';
   d.onclick = ()=>{
-    optDream.querySelectorAll('.pick').forEach(x=>x.classList.remove('sel')); d.classList.add('sel');
-    sel.sonho = dr.key; sel.sonhoEmoji = dr.emoji;
+    optKeep.querySelectorAll('.pick').forEach(x=>x.classList.remove('sel')); d.classList.add('sel');
+    sel.naoPerder = k.key; sel.npEmoji = k.emoji;
     reveal('step3','pd3');
   };
-  optDream.appendChild(d);
+  optKeep.appendChild(d);
 });
 
 document.querySelectorAll('[data-school]').forEach(d=>{
   d.onclick = ()=>{
     document.querySelectorAll('[data-school]').forEach(x=>x.classList.remove('sel')); d.classList.add('sel');
-    sel.school = d.dataset.school;
+    sel.decisao = d.dataset.school;
     buildVision();
-    if (sel.school === 'b') burst();
+    if (sel.decisao === 'b') burst();
     document.getElementById('s4').scrollIntoView({behavior:'smooth'});
   };
 });
@@ -361,14 +361,13 @@ function reveal(stepId, dotId){
 }
 
 function buildVision(){
-  const n = sel.alunosN ? fmt(sel.alunosN) : 'centenas de';
-  const sonho = sel.sonho || 'crianças mais confiantes';
-  const v = 'Imagine <b>'+escolaNome+'</b>: até <b>'+n+'</b> crianças descobrindo que têm uma história para contar. '+
-    sel.sonhoEmoji+' <b>'+sonho+'</b>, e a sua escola lembrada para sempre como <b>a escola que forma autores</b>.';
+  const motivo = sel.motivo || 'o que pesou';
+  const np = sel.naoPerder || 'tudo o que já construíram';
+  const v = 'A <b>'+escolaNome+'</b> não vai recomeçar do zero, vai continuar uma história que já é de vocês. A gente resolve junto <b>'+motivo+'</b> e protege '+sel.npEmoji+' <b>'+np+'</b>, com mais uma turma vivendo o orgulho de ser autor.';
   document.getElementById('vision').innerHTML = v;
 }
 
-/* prefill com o que o SDR já trouxe + máscara de telefone */
+/* prefill + máscara de telefone */
 const fEscola = document.getElementById('f_escola'), fGestor = document.getElementById('f_gestor'), fFone = document.getElementById('f_fone');
 if (ESCOLA) fEscola.value = ESCOLA;
 if (GESTOR) fGestor.value = GESTOR;
@@ -392,10 +391,9 @@ document.getElementById('cta').addEventListener('click', ()=>{
   }
   err.style.display = 'none';
   const params = new URLSearchParams({
-    escola, gestor, fone, canal: CANAL, alunos: sel.alunos, alunosN: sel.alunosN,
-    sonho: sel.sonho, t: Date.now().toString(36)
+    escola, gestor, fone, canal: CANAL, motivo: sel.motivo, naoPerder: sel.naoPerder, t: Date.now().toString(36)
   });
-  const url = location.origin + location.pathname.replace('prospeccao.html', NEXT_STAGE) + '?' + params.toString();
+  const url = location.origin + location.pathname.replace('resgate.html', NEXT_STAGE) + '?' + params.toString();
   document.getElementById('genlink').textContent = url;
   document.getElementById('linkout').style.display = 'block';
   burst();
