@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Academia do Closer · Dojo de Neurovendas · Estante Mágica</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --primary: #6B46C1; --primary-dark: #4C1D95; --primary-light: #EDE5FA;
+    --accent: #F59E0B; --accent-light: #FEF3C7; --gold: #D97706;
+    --success: #10B981; --success-light: #D1FAE5;
+    --danger: #EF4444; --danger-light: #FEE2E2;
+    --info: #3B82F6; --info-light: #DBEAFE;
+    --pink: #EC4899; --pink-light: #FCE7F3;
+    --text: #1F2937; --text-soft: #6B7280;
+    --bg: #FAF7FF; --card: #FFFFFF; --border: #E5E7EB;
+  }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.6; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 28px 20px 80px; }
+
+  /* HERO / MANIFESTO */
+  .hero { background: linear-gradient(135deg, #4C1D95 0%, #6B46C1 55%, #D97706 130%);
+    color: #fff; padding: 38px 34px; border-radius: 18px; box-shadow: 0 10px 30px rgba(76,29,149,.28); }
+  .hero .kicker { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; opacity: .85; font-weight: 700; }
+  .hero h1 { font-size: 34px; margin: 8px 0 10px; line-height: 1.15; }
+  .hero p { font-size: 16px; opacity: .95; max-width: 720px; }
+  .hero .quote { font-style: italic; font-weight: 300; font-size: 18px; margin-top: 16px;
+    border-left: 3px solid rgba(255,255,255,.5); padding-left: 14px; }
+
+  .idbar { display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+    background: var(--card); border:1px solid var(--border); border-radius:14px; padding:14px 18px; margin:18px 0; }
+  .idbar label { font-size: 13px; color: var(--text-soft); font-weight:600; }
+  .idbar input, .idbar select { padding:9px 12px; border:1px solid var(--border); border-radius:9px; font-size:14px; }
+  .idbar input { min-width: 220px; }
+
+  .grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(210px,1fr)); gap:14px; margin: 6px 0 22px; }
+  .kpi { background: var(--card); border:1px solid var(--border); border-radius:14px; padding:18px; position:relative; overflow:hidden; }
+  .kpi::after { content:''; position:absolute; left:0; top:0; bottom:0; width:5px; background: var(--primary); }
+  .kpi .lab { font-size:12px; color:var(--text-soft); text-transform:uppercase; letter-spacing:.5px; font-weight:700; }
+  .kpi .val { font-size:34px; font-weight:800; color:var(--primary-dark); margin:4px 0 2px; }
+  .kpi .delta { font-size:13px; font-weight:700; }
+  .delta.up { color: var(--success); } .delta.down { color: var(--danger); } .delta.flat { color: var(--text-soft); }
+  .kpi.streak::after { background: var(--accent); } .kpi.streak .val { color: var(--gold); }
+
+  .section { background: var(--card); border:1px solid var(--border); border-radius:16px; padding:24px; margin-bottom:20px; }
+  .section h2 { font-size:22px; color:var(--primary-dark); display:flex; align-items:center; gap:10px; }
+  .section h2 .tag { font-size:11px; background:var(--primary-light); color:var(--primary); padding:3px 9px; border-radius:6px; letter-spacing:.5px; text-transform:uppercase; font-weight:700; }
+  .section .sub { color:var(--text-soft); font-size:14px; margin:4px 0 16px; }
+
+  /* RITUAL CHECKLIST */
+  .ritual { display:grid; grid-template-columns: repeat(auto-fit,minmax(230px,1fr)); gap:12px; }
+  .task { border:1px solid var(--border); border-radius:12px; padding:16px; cursor:pointer; transition:.18s; background:#fff; }
+  .task:hover { border-color:var(--primary); transform: translateY(-2px); box-shadow:0 6px 16px rgba(107,70,193,.12); }
+  .task.done { background: var(--success-light); border-color: var(--success); }
+  .task .ico { font-size:24px; } .task h4 { font-size:15px; margin:8px 0 4px; color:var(--primary-dark); }
+  .task p { font-size:13px; color:var(--text-soft); }
+  .task .state { font-size:12px; font-weight:700; margin-top:8px; color:var(--text-soft); }
+  .task.done .state { color: var(--success); }
+
+  /* DRILL */
+  .drill { background: var(--primary-light); border-radius:12px; padding:18px; }
+  .drill .obj { font-size:16px; font-weight:600; color:var(--primary-dark); margin-bottom:12px; }
+  .choice { display:block; width:100%; text-align:left; background:#fff; border:1px solid var(--border); border-radius:10px;
+    padding:12px 14px; margin-bottom:10px; font-size:14px; cursor:pointer; transition:.15s; }
+  .choice:hover { border-color:var(--primary); }
+  .fb { margin-top:6px; padding:14px; border-radius:10px; font-size:14px; display:none; }
+  .fb.good { background:var(--success-light); border:1px solid var(--success); }
+  .fb.bad { background:var(--danger-light); border:1px solid var(--danger); }
+
+  /* DICTION RECORDER */
+  .rec { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  .stars { font-size:24px; cursor:pointer; color:#D1D5DB; }
+  .stars .on { color: var(--accent); }
+
+  .btn { background: var(--primary); color:#fff; border:none; border-radius:10px; padding:12px 22px;
+    font-size:15px; font-weight:700; cursor:pointer; transition:.15s; }
+  .btn:hover { background: var(--primary-dark); }
+  .btn.ghost { background:#fff; color:var(--primary); border:1.5px solid var(--primary); }
+  .btn.gold { background: var(--accent); } .btn.gold:hover{ background:var(--gold); }
+  .btnrow { display:flex; gap:10px; flex-wrap:wrap; margin-top:6px; }
+
+  table { width:100%; border-collapse:collapse; font-size:13.5px; }
+  th,td { text-align:left; padding:9px 10px; border-bottom:1px solid var(--border); }
+  th { color:var(--text-soft); text-transform:uppercase; font-size:11px; letter-spacing:.5px; }
+  .empty { color:var(--text-soft); font-size:14px; font-style:italic; }
+
+  .note { font-size:12.5px; color:var(--text-soft); background:var(--accent-light); border:1px solid var(--accent);
+    border-radius:10px; padding:10px 14px; margin-top:14px; }
+  .footer { text-align:center; color:var(--text-soft); font-size:12px; margin-top:30px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="kicker">Frente Interna · Protótipo de validação de tom</div>
+    <h1>Academia do Closer · Dojo de Neurovendas</h1>
+    <p>Vender não é improviso — é profissão, técnica e consciência emocional construída diariamente. Aqui você treina vocabulário, narrativa, dicção e argumentação em ambiente simulado, e acompanha sua evolução semana a semana.</p>
+    <div class="quote">"Não é sobre ser melhor que o outro. É ser melhor do que ontem. O próximo nível começa com a escolha de não voltar para a média."</div>
+  </div>
+
+  <div class="idbar">
+    <label for="who">Closer:</label>
+    <input id="who" placeholder="Seu nome" />
+    <label for="team">Time:</label>
+    <select id="team"><option>Habilitação</option><option>SDR</option><option>Closer</option><option>CS</option></select>
+    <label for="week">Semana:</label>
+    <input id="week" type="week" />
+    <span id="streakBadge" style="margin-left:auto; font-weight:700; color:var(--gold);"></span>
+  </div>
+
+  <!-- INDICADORES DA SEMANA -->
+  <div class="grid" id="kpis">
+    <div class="kpi"><div class="lab">Vocabulário</div><div class="val" id="kVocab">—</div><div class="delta flat" id="dVocab">vs. semana anterior</div></div>
+    <div class="kpi"><div class="lab">Conversão (simulação)</div><div class="val" id="kConv">—</div><div class="delta flat" id="dConv">vs. semana anterior</div></div>
+    <div class="kpi"><div class="lab">Objeções</div><div class="val" id="kObj">—</div><div class="delta flat" id="dObj">vs. semana anterior</div></div>
+    <div class="kpi"><div class="lab">Dicção / Narrativa</div><div class="val" id="kDic">—</div><div class="delta flat" id="dDic">vs. semana anterior</div></div>
+    <div class="kpi streak"><div class="lab">Consistência</div><div class="val" id="kStreak">0</div><div class="delta flat">semanas seguidas</div></div>
+  </div>
+
+  <!-- RITUAL DA SEMANA -->
+  <div class="section">
+    <h2><span class="tag">Ritual</span> Sua semana de treino</h2>
+    <p class="sub">Quatro práticas. Marque conforme conclui — cada uma alimenta um indicador. Continuidade cria transformação.</p>
+    <div class="ritual" id="ritual">
+      <div class="task" data-task="fund"><div class="ico">📚</div><h4>Fundamento da semana</h4><p>Venda é emoção, não discurso técnico. Releia e resuma em 1 frase.</p><div class="state">○ Pendente</div></div>
+      <div class="task" data-task="dojo"><div class="ico">🥋</div><h4>Dojo de simulação</h4><p>1 roleplay com a coordenação pedagógica + 1 objeção.</p><div class="state">○ Pendente</div></div>
+      <div class="task" data-task="voz"><div class="ico">🎙️</div><h4>Estúdio de dicção</h4><p>Grave seu pitch de 60s e se autoavalie por rubrica.</p><div class="state">○ Pendente</div></div>
+      <div class="task" data-task="vocab"><div class="ico">🗂️</div><h4>Vocabulário</h4><p>Reescreva uma fala técnica em fala emocional/intencional.</p><div class="state">○ Pendente</div></div>
+    </div>
+  </div>
+
+  <!-- DRILL DE OBJEÇÃO -->
+  <div class="section">
+    <h2><span class="tag">Dojo</span> Drill de objeção · "O calendário já está cheio"</h2>
+    <p class="sub">A coordenadora está sobrecarregada e com medo de não dar conta. Qual resposta conecta antes de convencer?</p>
+    <div class="drill">
+      <div class="obj">👩‍🏫 "Olha, eu adorei a ideia... mas nosso calendário deste ano já está lotado. Não sei se conseguimos encaixar mais um projeto."</div>
+      <button class="choice" data-good="0">"Mas é rapidinho, encaixa fácil — são só algumas aulas e a gente te manda tudo pronto."</button>
+      <button class="choice" data-good="0">"Entendo, mas pensa no diferencial competitivo que dá pra sua escola na comunidade."</button>
+      <button class="choice" data-good="1">"Faz total sentido — calendário cheio é sinal de escola séria. Justamente por isso ele não entra como 'mais um projeto': ele se integra ao que vocês já fazem em escrita e leitura, com um único cronograma e materiais padronizados. Posso te mostrar como ele tira peso da sua equipe, em vez de adicionar?"</button>
+      <div class="fb good" id="fbGood">✅ <strong>É isso.</strong> Você validou a dor (reconhecimento + autoridade da coordenadora), reposicionou a objeção como força, e usou o gatilho de <em>alívio operacional</em> (padronização = menos retrabalho). Conecta antes de convencer. <span style="display:block;margin-top:6px;">+1 ponto de objeção registrado.</span></div>
+      <div class="fb bad" id="fbBad">⚠️ <strong>Cuidado.</strong> Minimizar a dor ("é rapidinho") ou ir direto pro racional ("diferencial competitivo") fragiliza a coordenadora em vez de fortalecê-la. Lembre: a venda começa quando ela se sente <em>vista e segura</em>. Tente de novo.</div>
+    </div>
+  </div>
+
+  <!-- ESTÚDIO DE DICÇÃO -->
+  <div class="section">
+    <h2><span class="tag">Voz</span> Estúdio de dicção & narrativa</h2>
+    <p class="sub">Grave seu pitch de 60s ("conte a Estante Mágica para uma diretora cética"). Ouça e se avalie: clareza, ritmo, energia e conexão emocional.</p>
+    <div class="rec">
+      <button class="btn gold" id="recBtn">● Gravar 60s</button>
+      <audio id="player" controls style="display:none;"></audio>
+      <span style="margin-left:auto;">Autoavaliação:
+        <span class="stars" id="stars"><span data-v="1">★</span><span data-v="2">★</span><span data-v="3">★</span><span data-v="4">★</span><span data-v="5">★</span></span>
+      </span>
+    </div>
+    <div class="note">🎧 A gravação fica só no seu navegador (não sai do dispositivo). No app final, a nota entra no histórico e o líder pode adicionar avaliação de par.</div>
+  </div>
+
+  <!-- SALVAR SEMANA + HISTÓRICO -->
+  <div class="section">
+    <h2><span class="tag">Histórico</span> Fechar a semana &amp; relatórios</h2>
+    <p class="sub">Ao fechar, calculamos seus indicadores, atualizamos seu streak e gravamos no histórico.</p>
+    <div class="btnrow">
+      <button class="btn" id="saveWeek">✓ Fechar semana</button>
+      <button class="btn ghost" id="exportCsv">⬇ Exportar CSV</button>
+      <button class="btn ghost" id="emailReport">✉ Enviar relatório ao líder</button>
+    </div>
+    <div style="overflow-x:auto; margin-top:18px;">
+      <table id="histTable">
+        <thead><tr><th>Semana</th><th>Vocab</th><th>Conversão</th><th>Objeções</th><th>Dicção</th><th>Práticas</th></tr></thead>
+        <tbody><tr><td colspan="6" class="empty">Nenhuma semana fechada ainda. Complete o ritual e clique em "Fechar semana".</td></tr></tbody>
+      </table>
+    </div>
+    <div class="note">🔗 <strong>Camada de dados:</strong> este protótipo grava no navegador (localStorage). No app final, os mesmos dados vão para uma planilha Google via Apps Script — basta colar a URL do endpoint em <code>SHEETS_ENDPOINT</code> no código. Aí o líder vê o histórico de todo o time num só lugar.</div>
+  </div>
+
+  <div class="footer">Academia do Closer · Estante Mágica · Protótipo de tom — Frente Interna<br>Transformar 1 bilhão de crianças em autores até 2030 começa por um time que evolui toda semana.</div>
+</div>
+
+<script>
+/* ===== CONFIG ===== */
+const SHEETS_ENDPOINT = ""; // cole aqui a URL do Web App do Google Apps Script para centralizar o histórico
+const LEADER_EMAIL = "amanda.pimentel@estantemagica.com.br";
+const KEY = "academia_closer_v1";
+
+/* ===== STATE ===== */
+let tasks = { fund:false, dojo:false, voz:false, vocab:false };
+let objScore = 0;        // pontos do drill de objeção
+let dictionStars = 0;    // autoavaliação de dicção
+
+function load(){ try { return JSON.parse(localStorage.getItem(KEY)) || {history:[]}; } catch(e){ return {history:[]}; } }
+function save(d){ localStorage.setItem(KEY, JSON.stringify(d)); }
+
+/* default week = current ISO week */
+(function(){
+  const d = new Date(); const day=(d.getDay()+6)%7; d.setDate(d.getDate()-day+3);
+  const firstThu = new Date(d.getFullYear(),0,4); const wk = 1+Math.round(((d-firstThu)/86400000-3+((firstThu.getDay()+6)%7))/7);
+  document.getElementById('week').value = d.getFullYear()+"-W"+String(wk).padStart(2,'0');
+})();
+
+/* ===== RITUAL ===== */
+document.querySelectorAll('.task').forEach(t=>{
+  t.addEventListener('click',()=>{
+    const k=t.dataset.task; tasks[k]=!tasks[k];
+    t.classList.toggle('done',tasks[k]);
+    t.querySelector('.state').textContent = tasks[k] ? '✓ Concluído' : '○ Pendente';
+  });
+});
+
+/* ===== DRILL ===== */
+document.querySelectorAll('.choice').forEach(c=>{
+  c.addEventListener('click',()=>{
+    const good = c.dataset.good==='1';
+    document.getElementById('fbGood').style.display = good?'block':'none';
+    document.getElementById('fbBad').style.display = good?'none':'block';
+    if(good){ objScore = 1; const dojo=document.querySelector('[data-task="dojo"]'); tasks.dojo=true; dojo.classList.add('done'); dojo.querySelector('.state').textContent='✓ Concluído'; }
+  });
+});
+
+/* ===== STARS ===== */
+const starsEl = document.getElementById('stars');
+starsEl.querySelectorAll('span').forEach(s=>{
+  s.addEventListener('click',()=>{
+    dictionStars = +s.dataset.v;
+    starsEl.querySelectorAll('span').forEach(x=> x.classList.toggle('on', +x.dataset.v<=dictionStars));
+    const voz=document.querySelector('[data-task="voz"]'); tasks.voz=true; voz.classList.add('done'); voz.querySelector('.state').textContent='✓ Concluído';
+  });
+});
+
+/* ===== RECORDER ===== */
+let mediaRec, chunks=[], recording=false;
+document.getElementById('recBtn').addEventListener('click', async ()=>{
+  const btn=document.getElementById('recBtn');
+  if(!recording){
+    try{
+      const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+      mediaRec = new MediaRecorder(stream); chunks=[];
+      mediaRec.ondataavailable = e=> chunks.push(e.data);
+      mediaRec.onstop = ()=>{ const blob=new Blob(chunks,{type:'audio/webm'}); const url=URL.createObjectURL(blob);
+        const p=document.getElementById('player'); p.src=url; p.style.display='inline-block'; stream.getTracks().forEach(t=>t.stop()); };
+      mediaRec.start(); recording=true; btn.textContent='■ Parar';
+      setTimeout(()=>{ if(recording){ mediaRec.stop(); recording=false; btn.textContent='● Regravar'; } }, 60000);
+    }catch(e){ alert('Não consegui acessar o microfone. Verifique a permissão do navegador.'); }
+  } else { mediaRec.stop(); recording=false; btn.textContent='● Regravar'; }
+});
+
+/* ===== METRICS ===== */
+function computeWeek(){
+  const doneCount = Object.values(tasks).filter(Boolean).length;
+  const vocab = tasks.vocab ? 100 : (doneCount>=2?60:30);
+  const conv = tasks.dojo ? (objScore? '🟢':'🟡') : '🔴';
+  const dic = dictionStars || 0;
+  return { vocab, conv, obj: objScore, dic, done: doneCount };
+}
+
+function deltaTag(el, cur, prev, suffix=''){
+  if(prev==null){ el.className='delta flat'; el.textContent='primeira semana'; return; }
+  const d = cur-prev;
+  el.className = 'delta ' + (d>0?'up':d<0?'down':'flat');
+  el.textContent = (d>0?'▲ +':d<0?'▼ ':'■ ') + d + suffix + ' vs. anterior';
+}
+
+function refreshKpis(){
+  const m = computeWeek();
+  const data = load(); const last = data.history[data.history.length-1];
+  document.getElementById('kVocab').textContent = m.vocab+'%';
+  document.getElementById('kConv').textContent = m.conv;
+  document.getElementById('kObj').textContent = m.obj+'/1';
+  document.getElementById('kDic').textContent = m.dic? m.dic+'★' : '—';
+  document.getElementById('kStreak').textContent = data.streak||0;
+  document.getElementById('streakBadge').textContent = (data.streak||0)>0 ? '🔥 '+data.streak+' semanas de consistência' : '';
+  deltaTag(document.getElementById('dVocab'), m.vocab, last? last.vocab:null, '%');
+  deltaTag(document.getElementById('dObj'), m.obj, last? last.obj:null);
+  deltaTag(document.getElementById('dDic'), m.dic, last? last.dic:null, '★');
+  document.getElementById('dConv').textContent='este ciclo';
+}
+
+function renderHist(){
+  const data = load(); const tb = document.querySelector('#histTable tbody');
+  if(!data.history.length){ tb.innerHTML='<tr><td colspan="6" class="empty">Nenhuma semana fechada ainda.</td></tr>'; return; }
+  tb.innerHTML = data.history.slice().reverse().map(h=>
+    `<tr><td>${h.week}</td><td>${h.vocab}%</td><td>${h.conv}</td><td>${h.obj}/1</td><td>${h.dic}★</td><td>${h.done}/4</td></tr>`).join('');
+}
+
+document.getElementById('saveWeek').addEventListener('click', async ()=>{
+  const who = document.getElementById('who').value.trim();
+  if(!who){ alert('Coloque seu nome antes de fechar a semana.'); return; }
+  const m = computeWeek();
+  const rec = { who, team: document.getElementById('team').value, week: document.getElementById('week').value,
+    vocab:m.vocab, conv:m.conv, obj:m.obj, dic:m.dic, done:m.done, ts: new Date().toISOString() };
+  const data = load();
+  data.streak = (data.streak||0) + 1;
+  data.history.push(rec);
+  save(data);
+  if(SHEETS_ENDPOINT){ try{ await fetch(SHEETS_ENDPOINT,{method:'POST',mode:'no-cors',body:JSON.stringify(rec)}); }catch(e){} }
+  refreshKpis(); renderHist();
+  alert('Semana fechada! 🔥 Streak: '+data.streak+' semana(s).');
+});
+
+document.getElementById('exportCsv').addEventListener('click', ()=>{
+  const data = load();
+  const rows = [['Closer','Time','Semana','Vocab%','Conversao','Objecoes','Diccao','Praticas','Quando'],
+    ...data.history.map(h=>[h.who,h.team,h.week,h.vocab,h.conv,h.obj,h.dic,h.done,h.ts])];
+  const csv = rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(',')).join('\n');
+  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download='academia_closer_historico.csv'; a.click();
+});
+
+document.getElementById('emailReport').addEventListener('click', ()=>{
+  const who=document.getElementById('who').value.trim()||'(sem nome)';
+  const data=load(); const last=data.history[data.history.length-1];
+  const body = `Relatório semanal — Academia do Closer%0A%0ACloser: ${who}%0ATime: ${document.getElementById('team').value}%0AStreak: ${data.streak||0} semana(s)%0A%0A`+
+    (last? `Última semana (${last.week}):%0A- Vocabulário: ${last.vocab}%25%0A- Conversão: ${last.conv}%0A- Objeções: ${last.obj}/1%0A- Dicção: ${last.dic}★%0A- Práticas: ${last.done}/4` : 'Nenhuma semana fechada ainda.');
+  window.location.href = `mailto:${LEADER_EMAIL}?subject=${encodeURIComponent('Relatório semanal Academia do Closer — '+who)}&body=${body}`;
+});
+
+refreshKpis(); renderHist();
+</script>
+</body>
+</html>
