@@ -239,6 +239,7 @@
       <span class="tag">Ritual da semana</span>
       <h3>Suas práticas</h3>
       <div class="ritual" id="ritual">
+        <div class="task" data-task="dis"><div class="ico">⭐</div><h4>Discurso Intencional</h4><p>Conclua o treinamento + prova.</p><div class="state">○ Pendente</div></div>
         <div class="task" data-task="raio"><div class="ico">🩺</div><h4>Raio-X</h4><p>Faça/atualize o diagnóstico.</p><div class="state">○ Pendente</div></div>
         <div class="task" data-task="fund"><div class="ico">📚</div><h4>Fundamentos</h4><p>Conclua os checkpoints.</p><div class="state">○ Pendente</div></div>
         <div class="task" data-task="met"><div class="ico">🧰</div><h4>Métodos</h4><p>Estude e teste 1 método.</p><div class="state">○ Pendente</div></div>
@@ -313,6 +314,11 @@
         <button class="btn" id="chNext">Próximo →</button>
       </div>
       <div class="dots" id="chDots"></div>
+    </div>
+    <div class="card" id="provaCard" style="display:none">
+      <span class="tag">Prova final</span><h3>⭐ Teste seu Discurso Intencional</h3>
+      <p class="lead" style="margin-bottom:14px">7 perguntas para consolidar o aprendizado. A nota entra no seu relatório e libera a medalha.</p>
+      <div id="provaBox"></div>
     </div>
   </section>
 
@@ -505,8 +511,8 @@
     <div class="card">
       <span class="tag">Time</span><h3>Histórico consolidado</h3>
       <div style="overflow-x:auto">
-        <table id="teamTable"><thead><tr><th>Pessoa</th><th>Cargo</th><th>Semana</th><th>Raio-X</th><th>Fund.</th><th>Métodos</th><th>Argum.</th><th>Simul.</th><th>Dicção</th><th>Tempo</th><th>Medalhas</th></tr></thead>
-        <tbody><tr><td colspan="11" class="empty">Sem registros ainda.</td></tr></tbody></table>
+        <table id="teamTable"><thead><tr><th>Pessoa</th><th>Cargo</th><th>Semana</th><th>Raio-X</th><th>Fund.</th><th>Métodos</th><th>Argum.</th><th>Simul.</th><th>Dicção</th><th>Prova</th><th>Tempo</th><th>Medalhas</th></tr></thead>
+        <tbody><tr><td colspan="12" class="empty">Sem registros ainda.</td></tr></tbody></table>
       </div>
     </div>
   </section>
@@ -538,7 +544,7 @@ const ROLES = {
 };
 
 const cur = { fundCorrect:0, vocabRight:0, argRight:0, relRight:0, metDone:0, dojoResult:"", objDone:false, dicStars:0,
-  diag:null, discursoDone:false, tasks:{raio:false,fund:false,met:false,arg:false,dojo:false,dic:false} };
+  diag:null, discursoDone:false, discursoScore:null, tasks:{dis:false,raio:false,fund:false,met:false,arg:false,dojo:false,dic:false} };
 
 function load(){ try{ return JSON.parse(localStorage.getItem(KEY)) || {history:[],streak:0,time:{}}; }catch(e){ return {history:[],streak:0,time:{}}; } }
 function save(d){ localStorage.setItem(KEY, JSON.stringify(d)); }
@@ -899,7 +905,21 @@ const personas=[
       { fala:'"E se a equipe não engajar?"',
         op:[ {t:'"Vou acompanhar de perto e a gente celebra a primeira conquista com a equipe e as famílias. Engajamento vem do primeiro sucesso visível."', r:'bom', f:'Usa vitória rápida e reconhecimento para engajar.'},
              {t:'"Aí depende de vocês."', r:'ruim', f:'Abandonou o cliente na hora crítica.'},
-             {t:'"Tenta motivar eles."', r:'parcial', f:'Vago; não oferece caminho.'} ] } ] }
+             {t:'"Tenta motivar eles."', r:'parcial', f:'Vago; não oferece caminho.'} ] } ] },
+  { id:'neuro', ico:'🧠', nome:'Coordenação · Discurso Intencional', roles:['closer','sdr'], desc:'(Discurso Intencional) Aplique neurovendas numa conversa real.',
+    turns:[
+      { fala:'"Me explica rápido: por que eu deveria trazer mais esse projeto pra cá?"',
+        op:[ {t:'"Tenho um material completo com todas as especificações pra te mostrar."', r:'ruim', f:'Começou pela técnica. A decisão nasce na emoção — conecte antes de informar.'},
+             {t:'"Antes de te explicar, me conta: o que mais te incomoda hoje no engajamento dos alunos com a escrita?"', r:'bom', f:'Escuta ativa e diagnóstico. Personalizar aumenta a conversão.'},
+             {t:'"É o melhor projeto do mercado, todo mundo aprova."', r:'parcial', f:'Prova social solta, sem conexão com a dor dela.'} ] },
+      { fala:'"Já fizemos coisas pontuais de leitura, mas não se sustentam."',
+        op:[ {t:'"O cérebro da criança aprende com repetição + emoção. Aplicar todo ano, com o aluno virando autor, transforma de verdade: projeto isolado é evento, contínuo é formação."', r:'bom', f:'Neuroplasticidade + continuidade — o argumento que também sustenta a retenção.'},
+             {t:'"Então faz só uma vez pra testar."', r:'parcial', f:'Contradiz o próprio valor da continuidade.'},
+             {t:'"Pontual não funciona, tem que comprar tudo."', r:'ruim', f:'Pressão sem construir valor afasta.'} ] },
+      { fala:'"E o que a escola ganha com isso, no fim das contas?"',
+        op:[ {t:'"Vira referência: uma escola que forma autores. Fortalece a marca, fideliza famílias e dá orgulho à equipe — a culminância vira o momento mais emocional do ano."', r:'bom', f:'Gatilhos de transformação, pertencimento e prova social.'},
+             {t:'"Vocês economizam em material."', r:'ruim', f:'Reduz um projeto de identidade a custo.'},
+             {t:'"As crianças ficam felizes."', r:'parcial', f:'Verdadeiro, mas raso para uma decisão institucional.'} ] } ] }
 ];
 let curPersona=null, curTurn=0, dojoScore=0;
 function renderPersonas(){ const g=document.getElementById('personaGrid'); const rec=role();
@@ -977,7 +997,7 @@ function updateDic(){ const vals=Object.values(rubricScores); const filled=vals.
   if(filled.length===rubricItems.length) setTask('dic',true); refreshKpis(); }
 
 /* ===================== TASKS / KPIs ===================== */
-const taskNav={ raio:'raiox', fund:'fundamentos', met:'metodos', arg:'arg', dojo:'dojo', dic:'diccao' };
+const taskNav={ dis:'discurso', raio:'raiox', fund:'fundamentos', met:'metodos', arg:'arg', dojo:'dojo', dic:'diccao' };
 function setTask(k,v){ cur.tasks[k]=v; const t=document.querySelector('.task[data-task="'+k+'"]');
   if(t){ t.classList.toggle('done',v); t.querySelector('.state').textContent=v?'✓ Concluído':'○ Pendente'; }
   navDone(taskNav[k],v); renderMedals(); }
@@ -1029,7 +1049,8 @@ function genReport(){
   html+='<div class="stat"><span>Argumentação</span><strong>'+m.arg+'%</strong></div>';
   html+='<div class="stat"><span>Simulação</span><strong>'+m.dojo+'</strong></div>';
   html+='<div class="stat"><span>Dicção</span><strong>'+(m.dic?m.dic+'★':'—')+'</strong></div>';
-  html+='<div class="stat"><span>Práticas concluídas</span><strong>'+m.done+'/6</strong></div>';
+  html+='<div class="stat"><span>Discurso Intencional</span><strong>'+(cur.discursoScore!=null?'Prova '+cur.discursoScore+'/7':(cur.discursoDone?'concluído':'pendente'))+'</strong></div>';
+  html+='<div class="stat"><span>Práticas concluídas</span><strong>'+m.done+'/7</strong></div>';
   if(cur.diag){ const sorted=[...DIMS].sort((a,b)=>cur.diag.scores[a.id]-cur.diag.scores[b.id]);
     html+='<h4>🎯 Foco recomendado</h4><p>'+sorted.slice(0,2).map(d=>d.n).join(' e ')+' — são suas maiores oportunidades agora.</p>'; }
   if(prev && prev.raio!=null && m.raio!=null){ const d=m.raio-prev.raio;
@@ -1043,17 +1064,17 @@ document.getElementById('saveWeek').onclick=async ()=>{
   const m=metrics();
   const medals=MEDALS.filter(x=>x.cond()).map(x=>x.nome).join(', ');
   const rec={ who:who.value.trim(), role:ROLES[role()].label, week:weekVal(),
-    raio:m.raio, fund:m.fund, met:m.met, arg:m.arg, dojo:m.dojo, dic:m.dic, time:m.time, done:m.done, medals:medals, ts:new Date().toISOString() };
+    raio:m.raio, fund:m.fund, met:m.met, arg:m.arg, dojo:m.dojo, dic:m.dic, prova:(cur.discursoScore!=null?cur.discursoScore:''), time:m.time, done:m.done, medals:medals, ts:new Date().toISOString() };
   const data=load(); data.streak=(data.streak||0)+1; data.history.push(rec); save(data);
   if(ENDPOINT){ try{ await fetch(ENDPOINT,{method:'POST',mode:'no-cors',body:JSON.stringify(rec)}); }catch(e){} }
   refreshKpis(); renderHist(); renderTeam(); genReport(); alert('Semana fechada! 🔥 Streak: '+data.streak);
 };
 document.getElementById('emailReport').onclick=()=>{ const m=metrics(); const data=load();
-  const body=`Relatório semanal — Hub de Crescimento%0A%0APessoa: ${who.value.trim()||'(sem nome)'}%0ACargo: ${ROLES[role()].label}%0ASemana: ${weekVal()}%0AStreak: ${data.streak||0}%0A%0ANível (Raio-X): ${m.raio!=null?m.raio+'%25':'pendente'}%0ATempo treinado: ${m.time} min%0AFundamentos: ${m.fund}%25%0AMétodos: ${m.met}%0AArgumentação: ${m.arg}%25%0ASimulação: ${m.dojo}%0ADicção: ${m.dic}★%0APráticas: ${m.done}/6`;
+  const body=`Relatório semanal — Hub de Crescimento%0A%0APessoa: ${who.value.trim()||'(sem nome)'}%0ACargo: ${ROLES[role()].label}%0ASemana: ${weekVal()}%0AStreak: ${data.streak||0}%0A%0ANível (Raio-X): ${m.raio!=null?m.raio+'%25':'pendente'}%0ATempo treinado: ${m.time} min%0AFundamentos: ${m.fund}%25%0AMétodos: ${m.met}%0AArgumentação: ${m.arg}%25%0ASimulação: ${m.dojo}%0ADicção: ${m.dic}★%0ADiscurso Intencional: ${cur.discursoScore!=null?'prova '+cur.discursoScore+'/7':(cur.discursoDone?'concluído':'pendente')}%0APráticas: ${m.done}/7`;
   window.location.href=`mailto:${LEADER_EMAIL}?subject=${encodeURIComponent('Relatório Hub — '+(who.value.trim()||'')+' ('+ROLES[role()].label+')')}&body=${body}`; };
 document.getElementById('exportCsv').onclick=()=>{ const data=load();
-  const rows=[['Pessoa','Cargo','Semana','RaioX%','Fund%','Metodos','Argum%','Simulacao','Diccao','TempoMin','Praticas','Medalhas','Quando'],
-    ...data.history.map(h=>[h.who,h.role,h.week,h.raio,h.fund,h.met,h.arg,h.dojo,h.dic,h.time,h.done,h.medals||'',h.ts])];
+  const rows=[['Pessoa','Cargo','Semana','RaioX%','Fund%','Metodos','Argum%','Simulacao','Diccao','Prova','TempoMin','Praticas','Medalhas','Quando'],
+    ...data.history.map(h=>[h.who,h.role,h.week,h.raio,h.fund,h.met,h.arg,h.dojo,h.dic,(h.prova!=null?h.prova:''),h.time,h.done,h.medals||'',h.ts])];
   const csv=rows.map(r=>r.map(c=>'"'+String(c==null?'':c).replace(/"/g,'""')+'"').join(',')).join('\n');
   const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download='hub_historico.csv'; a.click(); };
 
@@ -1083,8 +1104,8 @@ async function renderTeam(){ const tb=document.querySelector('#teamTable tbody')
   if(ENDPOINT){ try{ rows=await jsonp(ENDPOINT); setConn('ok','Conectado ao Google Sheets · '+(rows?rows.length:0)+' registros.'); }
     catch(e){ rows=load().history; setConn('erro','Não consegui ler a planilha ('+e.message+'). Mostrando dados locais. Verifique se publicou como "Qualquer pessoa".'); } }
   else { rows=load().history; setConn('local','Modo local (este dispositivo). Configure a planilha para consolidar todo o time.'); }
-  if(!rows||!rows.length){ tb.innerHTML='<tr><td colspan="11" class="empty">Sem registros ainda.</td></tr>'; return; }
-  tb.innerHTML=rows.slice().reverse().map(h=>'<tr><td>'+(h.who||'')+'</td><td>'+(h.role||'')+'</td><td>'+(h.week||'')+'</td><td>'+(h.raio!=null&&h.raio!==''?h.raio+'%':'—')+'</td><td>'+(h.fund||0)+'%</td><td>'+(h.met||0)+'</td><td>'+(h.arg||0)+'%</td><td>'+(h.dojo||'—')+'</td><td>'+(h.dic||0)+'★</td><td>'+(h.time||0)+'min</td><td style="font-size:11px">'+(h.medals||'')+'</td></tr>').join(''); }
+  if(!rows||!rows.length){ tb.innerHTML='<tr><td colspan="12" class="empty">Sem registros ainda.</td></tr>'; return; }
+  tb.innerHTML=rows.slice().reverse().map(h=>'<tr><td>'+(h.who||'')+'</td><td>'+(h.role||'')+'</td><td>'+(h.week||'')+'</td><td>'+(h.raio!=null&&h.raio!==''?h.raio+'%':'—')+'</td><td>'+(h.fund||0)+'%</td><td>'+(h.met||0)+'</td><td>'+(h.arg||0)+'%</td><td>'+(h.dojo||'—')+'</td><td>'+(h.dic||0)+'★</td><td>'+(h.prova!=null&&h.prova!==''?h.prova+'/7':'—')+'</td><td>'+(h.time||0)+'min</td><td style="font-size:11px">'+(h.medals||'')+'</td></tr>').join(''); }
 document.getElementById('testConn').onclick=async ()=>{ ENDPOINT=document.getElementById('endpoint').value.trim();
   if(!ENDPOINT){ setConn('erro','Cole a URL do app da Web e clique em Salvar primeiro.'); return; }
   setConn('local','Testando conexão…');
@@ -1100,7 +1121,7 @@ function sheet_() {
   if (!sh) {
     sh = ss.insertSheet(SHEET);
     sh.appendRow(['quando','quem','cargo','semana','raiox','fund',
-      'metodos','argum','simulacao','diccao','tempo_min','praticas','medalhas']);
+      'metodos','argum','simulacao','diccao','prova','tempo_min','praticas','medalhas']);
   }
   return sh;
 }
@@ -1109,7 +1130,7 @@ function sheet_() {
 function doPost(e) {
   var d = JSON.parse(e.postData.contents);
   sheet_().appendRow([new Date(), d.who, d.role, d.week, d.raio, d.fund,
-    d.met, d.arg, d.dojo, d.dic, d.time, d.done, d.medals || '']);
+    d.met, d.arg, d.dojo, d.dic, d.prova, d.time, d.done, d.medals || '']);
   return ContentService.createTextOutput(JSON.stringify({ok:true}))
     .setMimeType(ContentService.MimeType.JSON);
 }
@@ -1120,7 +1141,7 @@ function doGet(e) {
   v.shift(); // remove cabecalho
   var out = v.map(function(r){ return {
     when:r[0], who:r[1], role:r[2], week:r[3], raio:r[4], fund:r[5],
-    met:r[6], arg:r[7], dojo:r[8], dic:r[9], time:r[10], done:r[11], medals:r[12]
+    met:r[6], arg:r[7], dojo:r[8], dic:r[9], prova:r[10], time:r[11], done:r[12], medals:r[13]
   };});
   var json = JSON.stringify(out);
   var cb = e && e.parameter && e.parameter.callback;
@@ -1141,7 +1162,7 @@ const MEDALS=[
   {id:'arg',    emoji:'🧠', nome:'Persuasão',        title:'Voz que Convence',      cond:()=>cur.tasks.arg},
   {id:'dojo',   emoji:'🥋', nome:'Dojo',             title:'Faixa-Preta de Vendas', cond:()=>cur.tasks.dojo},
   {id:'dic',    emoji:'🎙️', nome:'Dicção',           title:'Presença de Palco',     cond:()=>cur.tasks.dic},
-  {id:'full',   emoji:'🏆', nome:'Trilha Completa',  title:'Mestre da Trilha',      cond:()=>['raio','fund','met','arg','dojo','dic'].every(k=>cur.tasks[k])},
+  {id:'full',   emoji:'🏆', nome:'Trilha Completa',  title:'Mestre da Trilha',      cond:()=>['dis','raio','fund','met','arg','dojo','dic'].every(k=>cur.tasks[k])},
   {id:'streak', emoji:'🔥', nome:'Consistência',     title:'Imparável',             cond:()=>(load().streak||0)>=4}
 ];
 let selMedal=null;
@@ -1361,11 +1382,39 @@ function renderChapter(i,noScroll){ dcur=i; dvisited.add(i); dmax=Math.max(dmax,
 function renderDots(){ const d=document.getElementById('chDots');
   d.innerHTML=DISCURSO.map((_,i)=>'<span class="dot '+(i===dcur?'cur':(dvisited.has(i)?'seen':''))+'" data-i="'+i+'"></span>').join('');
   d.querySelectorAll('.dot').forEach(el=>el.onclick=()=>renderChapter(+el.dataset.i)); }
-function completeDiscurso(){ cur.discursoDone=true; renderMedals();
-  document.getElementById('discursoSuccess').innerHTML='<div class="impacto" style="background:linear-gradient(135deg,#10B981,#059669)">🎉 Treinamento concluído! Você desbloqueou a medalha <strong>⭐ Voz Intencional</strong>. Vá em 🏅 Conquistas para gerar seu card.</div>';
-  const next=document.getElementById('chNext'); next.textContent='Concluído ✓'; next.disabled=true; next.style.opacity='.6'; }
+const PROVA=[
+  { q:'Qual é o princípio central da neurovendas?', o:['As pessoas compram pela razão e justificam pela emoção','As pessoas compram pela emoção e justificam pela razão','A decisão é puramente racional'], a:1 },
+  { q:'Na escola, quem é o principal cliente do discurso de venda?', o:['O porteiro','A coordenação pedagógica','O fornecedor de material'], a:1 },
+  { q:'O que faz a aprendizagem durar, segundo a neuroplasticidade?', o:['Repetição associada à emoção','Provas frequentes','Aulas mais longas'], a:0 },
+  { q:'Qual a diferença entre evento e formação?', o:['Não há diferença','Projetos isolados são eventos; contínuos (todo ano) são formação','Evento é melhor que formação'], a:1 },
+  { q:'O que a consistência anual gera nas famílias?', o:['Desconfiança','Percepção de seriedade e prova social','Indiferença'], a:1 },
+  { q:'Para alunos neurodivergentes, o projeto oferece principalmente:', o:['Menos conteúdo','Estrutura, propósito e sensação de progresso','Substituição do acompanhamento especializado'], a:1 },
+  { q:'O que o closer realmente "vende"?', o:['O produto e suas especificações','A transformação da decisão, ajudando a enxergar valor','O menor preço'], a:1 }
+];
+let pi=0, pscore=0;
+function openProva(){ const card=document.getElementById('provaCard'); card.style.display='block';
+  if(!cur.discursoDone){ pi=0; pscore=0; renderProva(); }
+  card.scrollIntoView({behavior:'smooth'}); }
+function renderProva(){ const box=document.getElementById('provaBox'); const q=PROVA[pi];
+  box.dataset.a='';
+  box.innerHTML='<p style="font-size:13px;color:var(--soft);font-weight:600">Pergunta '+(pi+1)+' / '+PROVA.length+'</p>'+
+    '<p style="font-weight:700;color:var(--primary-dark);font-size:16px">'+q.q+'</p><div class="pch"></div><div class="fb"></div>';
+  const ch=box.querySelector('.pch'), fb=box.querySelector('.fb');
+  q.o.forEach((opt,oi)=>{ const b=document.createElement('button'); b.className='choice'; b.textContent=opt;
+    b.onclick=()=>{ if(box.dataset.a) return; box.dataset.a='1'; const ok=oi===q.a; if(ok) pscore++;
+      b.classList.add(ok?'right':'wrong'); if(!ok) ch.children[q.a].classList.add('right');
+      fb.className='fb show '+(ok?'good':'bad'); fb.innerHTML=(ok?'✅ Correto!':'⚠️ A melhor resposta está destacada.')+'<br><button class="btn sm" style="margin-top:10px" id="pnext">'+(pi<PROVA.length-1?'Próxima →':'Ver resultado ⭐')+'</button>';
+      document.getElementById('pnext').onclick=()=>{ if(pi<PROVA.length-1){ pi++; renderProva(); } else finishProva(); };
+    }; ch.appendChild(b); }); }
+function finishProva(){ cur.discursoScore=pscore; cur.discursoDone=true; setTask('dis',true); renderMedals(); genReport();
+  const pass=pscore>=5; const box=document.getElementById('provaBox');
+  box.innerHTML='<div class="impacto" style="background:linear-gradient(135deg,'+(pass?'#10B981,#059669':'#F59E0B,#D97706')+')">'+(pass?'🎉':'💪')+' Você fez '+pscore+'/'+PROVA.length+'. '+(pass?'Aprovado! Medalha ⭐ Voz Intencional desbloqueada — gere seu card em 🏅 Conquistas.':'Quase lá! Revise os capítulos e refaça para fixar.')+'</div>'+
+    '<div class="btnrow" style="margin-top:12px"><button class="btn ghost" id="pretry">Refazer prova</button></div>';
+  document.getElementById('pretry').onclick=()=>{ pi=0; pscore=0; renderProva(); };
+  const next=document.getElementById('chNext'); next.textContent='Concluído ✓'; next.disabled=true; next.style.opacity='.6';
+  document.getElementById('discursoSuccess').innerHTML='<div class="impacto" style="background:linear-gradient(135deg,#10B981,#059669)">✓ Prova concluída: '+pscore+'/'+PROVA.length+'. Treinamento registrado no seu relatório.</div>'; }
 document.getElementById('chPrev').onclick=()=>{ if(dcur>0) renderChapter(dcur-1); };
-document.getElementById('chNext').onclick=()=>{ if(dcur>=DISCURSO.length-1){ completeDiscurso(); } else { renderChapter(dcur+1); } };
+document.getElementById('chNext').onclick=()=>{ if(dcur>=DISCURSO.length-1){ openProva(); } else { renderChapter(dcur+1); } };
 
 /* ===================== INIT ===================== */
 (function(){ const d=load(); if(d.profile&&d.profile.photo) cur.photo=d.profile.photo; })();
