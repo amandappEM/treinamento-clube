@@ -1159,17 +1159,30 @@ function drawLogoPanel(c,cx,topY,w){ if(!(logoImg.complete&&logoImg.naturalWidth
   c.save(); c.shadowColor='rgba(0,0,0,.35)'; c.shadowBlur=22;
   roundRect(c,cx-lw/2-28,topY,lw+56,lh+40,24); c.fillStyle='#FFFDF7'; c.fill(); c.restore();
   c.drawImage(logoImg,cx-lw/2,topY+20,lw,lh); return topY+lh+40; }
-function drawStarMedalPhoto(c,cx,cy,outer){ var ir=0.58;
-  c.save(); c.shadowColor='rgba(252,211,77,.85)'; c.shadowBlur=outer*0.3;
+function ribbon(c,x1,y1,x2,y2,w){
+  var dx=x2-x1,dy=y2-y1,len=Math.hypot(dx,dy),ux=dx/len,uy=dy/len,nx=-uy,ny=ux,hw=w/2,nd=w*0.55;
+  var g=c.createLinearGradient(x1,y1,x2,y2); g.addColorStop(0,'#8B5CF6'); g.addColorStop(1,'#4C1D95');
+  c.beginPath();
+  c.moveTo(x1+nx*hw,y1+ny*hw);
+  c.lineTo(x1+ux*nd,y1+uy*nd);
+  c.lineTo(x1-nx*hw,y1-ny*hw);
+  c.lineTo(x2-nx*hw,y2-ny*hw);
+  c.lineTo(x2+nx*hw,y2+ny*hw);
+  c.closePath();
+  c.fillStyle=g; c.fill(); c.lineWidth=4; c.strokeStyle='#FCD34D'; c.stroke();
+}
+function drawStarMedal(c,cx,cy,outer){ var ir=0.46;
+  c.save(); c.shadowColor='rgba(252,211,77,.85)'; c.shadowBlur=outer*0.32;
   var rim=c.createLinearGradient(cx,cy-outer,cx,cy+outer); rim.addColorStop(0,'#FDE68A'); rim.addColorStop(.5,'#F59E0B'); rim.addColorStop(1,'#B45309');
   starPath(c,cx,cy,outer,outer*ir,5,0); c.fillStyle=rim; c.fill(); c.restore();
-  starPath(c,cx,cy,outer,outer*ir,5,0); c.lineWidth=outer*0.045; c.strokeStyle='#92400E'; c.stroke();
-  var inn=outer*0.86; starPath(c,cx,cy,inn,inn*ir,5,0); c.lineWidth=outer*0.022; c.strokeStyle='#FFF7E0'; c.stroke();
-  c.save(); starPath(c,cx,cy,inn*0.97,inn*0.97*ir,5,0); c.clip();
-  c.fillStyle='#2D1B4E'; c.fillRect(cx-inn,cy-inn,inn*2,inn*2);
-  drawCoverRect(c,cur.photoImg,cx-inn,cy-inn,inn*2,inn*2); c.restore();
-  for(var k=0;k<5;k++){ var a=(Math.PI*2/5)*k-Math.PI/2; var sx=cx+Math.cos(a)*outer*0.9, sy=cy+Math.sin(a)*outer*0.9;
-    c.beginPath(); c.arc(sx,sy,outer*0.05,0,Math.PI*2); c.fillStyle='#FFFDF7'; c.fill(); c.lineWidth=2; c.strokeStyle='#B45309'; c.stroke(); }
+  starPath(c,cx,cy,outer,outer*ir,5,0); c.lineWidth=outer*0.04; c.strokeStyle='#92400E'; c.stroke();
+  for(var k=0;k<5;k++){ var a=(Math.PI*2/5)*k-Math.PI/2; var sx=cx+Math.cos(a)*outer*0.88, sy=cy+Math.sin(a)*outer*0.88;
+    c.beginPath(); c.arc(sx,sy,outer*0.045,0,Math.PI*2); c.fillStyle='#FFFDF7'; c.fill(); }
+  var R=outer*0.6;
+  c.beginPath(); c.arc(cx,cy,R+9,0,Math.PI*2); c.fillStyle='#92400E'; c.fill();
+  c.beginPath(); c.arc(cx,cy,R+5,0,Math.PI*2); c.fillStyle='#FDE68A'; c.fill();
+  c.beginPath(); c.arc(cx,cy,R,0,Math.PI*2); c.fillStyle='#fff'; c.fill();
+  drawCircleImg(c,cur.photoImg,cx,cy,R-4);
 }
 function drawCert(){ const cv=document.getElementById('certCanvas'); if(!cv) return; const c=cv.getContext('2d'); const W=1080,H=1080;
   c.clearRect(0,0,W,H);
@@ -1179,19 +1192,21 @@ function drawCert(){ const cv=document.getElementById('certCanvas'); if(!cv) ret
   c.strokeStyle='rgba(252,211,77,.65)'; c.lineWidth=4; roundRect(c,34,34,W-68,H-68,28); c.stroke();
   c.strokeStyle='rgba(252,211,77,.30)'; c.lineWidth=2; roundRect(c,48,48,W-96,H-96,22); c.stroke();
   c.textAlign='center'; c.textBaseline='alphabetic';
-  c.fillStyle='#FCD34D'; c.font='800 30px sans-serif'; c.fillText('★   H A L L   D A   F A M A   ★', W/2, 96);
-  drawLogoPanel(c, W/2, 120, 320);
-  var cy=618; drawStarMedalPhoto(c, W/2, cy, 172);
-  if(selMedal){ c.save(); c.shadowColor='rgba(0,0,0,.35)'; c.shadowBlur=12; c.fillStyle='#fff'; c.beginPath(); c.arc(W/2+126,cy+118,54,0,Math.PI*2); c.fill(); c.restore();
-    c.font='78px sans-serif'; c.textAlign='center'; c.textBaseline='middle'; c.fillText(selMedal.emoji,W/2+126,cy+124); }
+  c.fillStyle='#FCD34D'; c.font='800 28px sans-serif'; c.fillText('★   H A L L   D A   F A M A   ★', W/2, 84);
+  drawLogoPanel(c, W/2, 100, 240);
+  ribbon(c, W/2-82,350, W/2-6,478, 58);
+  ribbon(c, W/2+82,350, W/2+6,478, 58);
+  var cy=602; drawStarMedal(c, W/2, cy, 156);
+  if(selMedal){ c.save(); c.shadowColor='rgba(0,0,0,.35)'; c.shadowBlur=12; c.fillStyle='#fff'; c.beginPath(); c.arc(W/2+108,cy+108,50,0,Math.PI*2); c.fill(); c.restore();
+    c.font='72px sans-serif'; c.textAlign='center'; c.textBaseline='middle'; c.fillText(selMedal.emoji,W/2+108,cy+114); }
   c.textAlign='center'; c.textBaseline='alphabetic';
-  c.fillStyle='#fff'; c.font='800 60px sans-serif'; c.fillText(who.value.trim()||'Seu Nome',W/2,852);
-  c.fillStyle='#FDE68A'; c.font='600 32px sans-serif'; c.fillText(ROLES[role()].label+' · Estante Mágica',W/2,894);
-  if(selMedal){ c.fillStyle='#fff'; c.font='800 40px sans-serif'; c.fillText('“'+selMedal.title+'”',W/2,946);
-    c.fillStyle='rgba(255,255,255,.9)'; c.font='500 26px sans-serif'; c.fillText('Conquista: '+selMedal.nome,W/2,980); }
-  else { c.fillStyle='rgba(255,255,255,.9)'; c.font='500 30px sans-serif'; c.fillText('Conclua a trilha para entrar no Hall da Fama',W/2,958); }
-  c.fillStyle='#FCD34D'; c.font='700 30px sans-serif'; c.fillText('#TimeEstanteMágica',W/2,1006);
-  c.fillStyle='rgba(255,255,255,.75)'; c.font='400 23px sans-serif'; c.fillText('Hub de Crescimento · '+new Date().toLocaleDateString('pt-BR'),W/2,1036);
+  c.fillStyle='#fff'; c.font='800 56px sans-serif'; c.fillText(who.value.trim()||'Seu Nome',W/2,826);
+  c.fillStyle='#FDE68A'; c.font='600 30px sans-serif'; c.fillText(ROLES[role()].label+' · Estante Mágica',W/2,866);
+  if(selMedal){ c.fillStyle='#fff'; c.font='800 38px sans-serif'; c.fillText('“'+selMedal.title+'”',W/2,918);
+    c.fillStyle='rgba(255,255,255,.9)'; c.font='500 25px sans-serif'; c.fillText('Conquista: '+selMedal.nome,W/2,950); }
+  else { c.fillStyle='rgba(255,255,255,.9)'; c.font='500 29px sans-serif'; c.fillText('Conclua a trilha para entrar no Hall da Fama',W/2,930); }
+  c.fillStyle='#FCD34D'; c.font='700 28px sans-serif'; c.fillText('#TimeEstanteMágica',W/2,994);
+  c.fillStyle='rgba(255,255,255,.75)'; c.font='400 22px sans-serif'; c.fillText('Hub de Crescimento · '+new Date().toLocaleDateString('pt-BR'),W/2,1026);
 }
 const dlCertBtn=document.getElementById('dlCert');
 if(dlCertBtn) dlCertBtn.onclick=()=>{ const cv=document.getElementById('certCanvas'); const a=document.createElement('a'); a.download='conquista-estante-magica.png'; a.href=cv.toDataURL('image/png'); a.click(); };
