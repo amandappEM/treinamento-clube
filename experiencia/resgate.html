@@ -139,7 +139,7 @@
     </div>
 
     <h1>A sua escola já provou que <span class="grad">toda criança tem uma história</span>. Não pare agora.</h1>
-    <p class="sub">Vocês já viveram a emoção de ver um aluno segurar o próprio livro. Seria uma pena deixar essa história pela metade.</p>
+    <p class="sub">Vocês já viram a empolgação de uma criança ao descobrir que vai virar autora. Seria uma pena essa história não chegar ao fim.</p>
 
     <div class="duo">
       <div class="counter" id="counter">
@@ -162,19 +162,19 @@
 <!-- CENA 2 -->
 <section id="s2">
   <div class="inner">
-    <div class="q">Lembra do dia do primeiro autógrafo? O silêncio antes, o orgulho depois, a fila de famílias com o celular na mão.<br><b>Aquilo não foi sorte. Foi a sua escola fazendo história.</b></div>
-    <div class="src">O que se repete vira tradição. O que para no meio do caminho vira só uma lembrança.</div>
+    <div class="q">Você já viu o momento em que uma criança entende que vai virar autora? Os olhos mudam, a postura muda, ela passa a se sentar diferente.<br><b>Esse instante já começou a acontecer na sua escola. Seria uma pena ele não chegar até o fim.</b></div>
+    <div class="src">O que se conclui vira orgulho. O que para no meio do caminho vira uma história sem final.</div>
   </div>
 </section>
 
 <!-- CENA 2.5 -->
 <section id="s2b">
   <div class="inner">
-    <h2>As crianças menores estão esperando a vez delas.</h2>
-    <p>Os alunos que viraram autores contaram para os irmãos, para os colegas mais novos, para os pais. Todos eles já sabem o que é possível dentro da sua escola.</p>
-    <p>Quando o projeto some do calendário, não é só um projeto que acaba. É uma promessa silenciosa que fica sem resposta.</p>
-    <p class="punch"><b>Interromper agora é deixar uma geração inteira sem viver o que a anterior viveu.</b></p>
-    <p>Ainda dá tempo de não deixar essa história pela metade. Vamos retomar juntos?</p>
+    <h2>Toda história que começa pede para ser terminada.</h2>
+    <p>Algumas escolas chegaram até o autógrafo e viram o orgulho no rosto das famílias. Outras começaram, sentiram a empolgação das crianças e, no meio do caminho, a rotina falou mais alto.</p>
+    <p>Nos dois casos ficou algo no ar: uma criança que provou da ideia de ser autora e segue esperando para viver isso por inteiro.</p>
+    <p class="punch"><b>Um livro que começa e não termina não desaparece. Ele fica como uma pergunta sem resposta dentro de cada aluno.</b></p>
+    <p>Ainda dá tempo de chegar ao fim dessa história. Vamos terminar juntos?</p>
     <div class="scrollcue">↓ vamos conversar</div>
   </div>
 </section>
@@ -183,33 +183,43 @@
 <section id="s3">
   <div class="inner">
     <div class="greet">
-      <h2 id="greetTitle">O que fez a sua escola pensar em parar?</h2>
-      <p>Responda em 3 toques. Sem julgamento, só pra gente te ajudar do jeito certo. ✨</p>
+      <h2 id="greetTitle">Vamos entender o momento da sua escola.</h2>
+      <p>Responda em poucos toques, como num passe de mágica. ✨</p>
     </div>
-    <div class="progress3"><div class="pdot on" id="pd1"></div><div class="pdot" id="pd2"></div><div class="pdot" id="pd3"></div></div>
+    <div class="progress3"><div class="pdot on" id="pd1"></div><div class="pdot" id="pd2"></div><div class="pdot" id="pd3"></div><div class="pdot" id="pd4"></div></div>
 
-    <!-- passo 1 -->
-    <div class="step show" id="step1">
-      <div class="q">O que mais pesou na hora de hesitar?</div>
+    <!-- passo 0: perfil -->
+    <div class="step show" id="stepP">
+      <div class="q">Em que ponto a sua escola está?</div>
+      <div class="qs">Pra gente falar a sua língua desde o começo.</div>
+      <div class="opts cards">
+        <div class="pick" data-perfil="meio"><span class="pico">📖</span>Começamos e paramos no meio<small>as crianças escreveram, mas não chegamos ao livro e ao autógrafo</small></div>
+        <div class="pick" data-perfil="aplicou"><span class="pico">🏆</span>Já aplicamos antes e estamos em dúvida<small>fizemos em anos anteriores e este ano hesitamos em repetir</small></div>
+      </div>
+    </div>
+
+    <!-- passo 1: motivo -->
+    <div class="step" id="step1">
+      <div class="q" id="q1">O que pesou nessa hora?</div>
       <div class="qs">Pode ser sincero. Já ajudamos muitas escolas com cada um desses pontos.</div>
       <div class="opts chips" id="optMotivo"></div>
       <div class="payoff" id="payoff1"></div>
     </div>
 
-    <!-- passo 2 -->
+    <!-- passo 2: não perder -->
     <div class="step" id="step2">
       <div class="q">O que você não quer ver a sua escola perdendo?</div>
       <div class="qs">Escolha o que seria mais difícil deixar para trás.</div>
       <div class="opts cards" id="optKeep"></div>
     </div>
 
-    <!-- passo 3 -->
+    <!-- passo 3: decisão -->
     <div class="step" id="step3">
       <div class="q">Então, qual vai ser a decisão?</div>
       <div class="qs">Você tem esse poder nas mãos.</div>
       <div class="opts cards">
-        <div class="pick" data-school="a"><span class="pico">📕</span>Deixar a história pela metade<small>e ver a tradição virar só uma lembrança</small></div>
-        <div class="pick" data-school="b"><span class="pico">📗</span>Resgatar o projeto este ano<small>e continuar o que já é de vocês</small></div>
+        <div class="pick" data-school="a" id="pickA"><span class="pico">📕</span><span class="dec-t">Deixar a história pela metade</span><small class="dec-s">e ver a tradição virar só uma lembrança</small></div>
+        <div class="pick" data-school="b" id="pickB"><span class="pico">📗</span><span class="dec-t">Resgatar o projeto este ano</span><small class="dec-s">e continuar o que já é de vocês</small></div>
       </div>
     </div>
   </div>
@@ -261,7 +271,7 @@ const ESCOLA = (Q.get('escola') || '').trim();
 const GESTOR = (Q.get('gestor') || '').trim();
 const escolaNome = ESCOLA || 'a sua escola';
 if (ESCOLA) {
-  document.getElementById('greetTitle').textContent = ESCOLA + ', o que fez vocês pensarem em parar?';
+  document.getElementById('greetTitle').textContent = ESCOLA + ', vamos entender o momento de vocês.';
 }
 
 /* ===== VÍDEO ===== */
@@ -303,22 +313,51 @@ function liveTick(){
 new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting) countUp(); }),{threshold:.3}).observe(document.getElementById('s1'));
 window.addEventListener('load', countUp);
 
-/* ===== CONSTRUTOR LÚDICO (resgate) ===== */
-const sel = { motivo:'', naoPerder:'', npEmoji:'', decisao:'' };
+/* ===== CONSTRUTOR LÚDICO (resgate · 2 perfis) ===== */
+const sel = { perfil:'', motivo:'', naoPerder:'', npEmoji:'', decisao:'' };
+
+/* perfis de escola */
+const profiles = {
+  meio: {
+    q1: 'O que fez o projeto parar no meio do caminho?',
+    decA: ['Deixar o livro pela metade', 'e as crianças sem ver a própria história pronta'],
+    decB: ['Terminar o que começamos', 'e levar cada aluno até o autógrafo'],
+    visionLead: 'A <b>'+escolaNome+'</b> não vai deixar esse livro pela metade. Vamos terminar juntos a história que as crianças já começaram a escrever'
+  },
+  aplicou: {
+    q1: 'O que mais pesou para hesitar este ano?',
+    decA: ['Deixar a tradição virar lembrança', 'e ver a história parar de se repetir'],
+    decB: ['Resgatar o projeto este ano', 'e continuar o que já é de vocês'],
+    visionLead: 'A <b>'+escolaNome+'</b> não vai recomeçar do zero, vai continuar uma história que já é de vocês'
+  }
+};
 
 const reasons = [
   {key:'o calendário apertado', label:'Calendário apertado', pay:'A maioria das escolas integra o projeto ao que já existe, sem virar aula extra. Dá pra encaixar.'},
   {key:'a mudança na equipe', label:'Mudança na equipe', pay:'Equipe nova não recomeça do zero. A gente entrega tudo pronto e treina o time.'},
-  {key:'a queda de engajamento', label:'Engajamento caiu', pay:'O engajamento volta quando a criança vira protagonista de novo. É o que o projeto faz.'},
+  {key:'a perda de fôlego no meio do caminho', label:'Perdeu o fôlego', pay:'É comum perder o ritmo sem apoio. Com a gente do lado, o projeto chega ao fim.'},
   {key:'a questão de orçamento', label:'Questão de orçamento', pay:'Existem formatos para realidades diferentes. Vale conversar antes de desistir.'}
 ];
 
 const keeps = [
-  {key:'a tradição que vocês construíram', emoji:'🏆', t:'A tradição construída', s:'algo que já virou marca da escola'},
   {key:'o brilho nos olhos das crianças', emoji:'✨', t:'O brilho das crianças', s:'o orgulho de virar autor'},
-  {key:'a confiança das famílias', emoji:'🤝', t:'A confiança das famílias', s:'famílias que já esperam por isso'},
-  {key:'o diferencial diante de outras escolas', emoji:'🎯', t:'O diferencial da escola', s:'o que distingue vocês'}
+  {key:'a confiança das famílias', emoji:'🤝', t:'A confiança das famílias', s:'famílias que acompanham de perto'},
+  {key:'o diferencial da escola', emoji:'🎯', t:'O diferencial da escola', s:'o que distingue vocês'},
+  {key:'as histórias que já começaram nos alunos', emoji:'📖', t:'As histórias já começadas', s:'o que já foi semeado nas crianças'}
 ];
+
+/* passo 0: perfil */
+document.querySelectorAll('[data-perfil]').forEach(d=>{
+  d.onclick = ()=>{
+    document.querySelectorAll('[data-perfil]').forEach(x=>x.classList.remove('sel')); d.classList.add('sel');
+    sel.perfil = d.dataset.perfil;
+    const p = profiles[sel.perfil];
+    document.getElementById('q1').textContent = p.q1;
+    const pa = document.getElementById('pickA'); pa.querySelector('.dec-t').textContent = p.decA[0]; pa.querySelector('.dec-s').textContent = p.decA[1];
+    const pb = document.getElementById('pickB'); pb.querySelector('.dec-t').textContent = p.decB[0]; pb.querySelector('.dec-s').textContent = p.decB[1];
+    reveal('step1','pd2');
+  };
+});
 
 const optMotivo = document.getElementById('optMotivo');
 reasons.forEach(r=>{
@@ -327,7 +366,7 @@ reasons.forEach(r=>{
     optMotivo.querySelectorAll('.pick').forEach(x=>x.classList.remove('sel')); d.classList.add('sel');
     sel.motivo = r.key;
     document.getElementById('payoff1').textContent = r.pay;
-    reveal('step2','pd2');
+    reveal('step2','pd3');
   };
   optMotivo.appendChild(d);
 });
@@ -339,7 +378,7 @@ keeps.forEach(k=>{
   d.onclick = ()=>{
     optKeep.querySelectorAll('.pick').forEach(x=>x.classList.remove('sel')); d.classList.add('sel');
     sel.naoPerder = k.key; sel.npEmoji = k.emoji;
-    reveal('step3','pd3');
+    reveal('step3','pd4');
   };
   optKeep.appendChild(d);
 });
@@ -361,9 +400,10 @@ function reveal(stepId, dotId){
 }
 
 function buildVision(){
+  const p = profiles[sel.perfil] || profiles.aplicou;
   const motivo = sel.motivo || 'o que pesou';
-  const np = sel.naoPerder || 'tudo o que já construíram';
-  const v = 'A <b>'+escolaNome+'</b> não vai recomeçar do zero, vai continuar uma história que já é de vocês. A gente resolve junto <b>'+motivo+'</b> e protege '+sel.npEmoji+' <b>'+np+'</b>, com mais uma turma vivendo o orgulho de ser autor.';
+  const np = sel.naoPerder || 'o que já foi começado';
+  const v = p.visionLead + '. A gente resolve junto <b>'+motivo+'</b> e protege '+sel.npEmoji+' <b>'+np+'</b>, com cada criança vivendo o orgulho de ser autor até o fim.';
   document.getElementById('vision').innerHTML = v;
 }
 
@@ -391,7 +431,7 @@ document.getElementById('cta').addEventListener('click', ()=>{
   }
   err.style.display = 'none';
   const params = new URLSearchParams({
-    escola, gestor, fone, canal: CANAL, motivo: sel.motivo, naoPerder: sel.naoPerder, t: Date.now().toString(36)
+    escola, gestor, fone, canal: CANAL, perfil: sel.perfil, motivo: sel.motivo, naoPerder: sel.naoPerder, t: Date.now().toString(36)
   });
   const url = location.origin + location.pathname.replace('resgate.html', NEXT_STAGE) + '?' + params.toString();
   document.getElementById('genlink').textContent = url;
