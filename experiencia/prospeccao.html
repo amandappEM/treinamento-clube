@@ -148,7 +148,7 @@
         <div class="big" id="count">0</div>
         <div class="live"><span class="dot"></span> e crescendo agora, neste instante</div>
         <div class="bar"><i id="barFill"></i></div>
-        <div class="lab" style="opacity:.7; margin-top:4px;">Meta: 1 bilhão de autores até 2030 — cada dia conta.</div>
+        <div class="lab" style="opacity:.7; margin-top:4px;">Meta: 1 bilhão de autores até 2030. Cada dia conta.</div>
       </div>
       <div class="videoBox">
         <div class="vlab">🎬 Uma palavra de quem começou</div>
@@ -163,7 +163,7 @@
 <!-- CENA 2 -->
 <section id="s2">
   <div class="inner">
-    <div class="q">Quando uma criança escreve o próprio livro, ela não aprende só a escrever.<br><b>Ela descobre que tem algo valioso a dizer — e muda a forma como percebe e é percebida pelo mundo.</b></div>
+    <div class="q">Quando uma criança escreve o próprio livro, ela não aprende só a escrever.<br><b>Ela descobre que tem algo valioso a dizer, e muda a forma como percebe e é percebida pelo mundo.</b></div>
     <div class="src">Repetição + emoção = aprendizado que não se perde. É neurociência aplicada à educação.</div>
   </div>
 </section>
@@ -172,7 +172,7 @@
 <section id="s2b">
   <div class="inner">
     <h2>Antes de gestor, você também foi uma criança cheia de histórias.</h2>
-    <p>Em algum momento, alguém acreditou em você — ou talvez tenha sido você quem deu coragem para tanta gente seguir em frente.</p>
+    <p>Em algum momento, alguém acreditou em você. Ou talvez tenha sido você quem deu coragem para tanta gente seguir em frente.</p>
     <p>Hoje, milhares de histórias atravessam os corredores da sua escola todos os anos. Sem saída, muitas delas vão dormir caladas. Com a chance certa, viram livro, viram voz, viram futuro.</p>
     <p class="punch"><b>Cada história contada melhora o mundo de algum jeito. Imagine o tamanho do impacto se nenhuma delas ficasse sem ser ouvida.</b></p>
     <p>A pergunta é só uma: vai ser na sua escola que essas histórias vão começar?</p>
@@ -225,7 +225,7 @@
 
     <div class="lead" id="lead">
       <h3>Falta um passo para essa história começar ✨</h3>
-      <p class="hint">Deixe seu contato e nosso time fala com você — no seu tempo, do seu jeito.</p>
+      <p class="hint">Deixe seu contato e nosso time fala com você, no seu tempo e do seu jeito.</p>
       <div class="field"><label>Nome da escola</label><input id="f_escola" placeholder="Nome da sua escola"></div>
       <div class="field"><label>Seu nome</label><input id="f_gestor" placeholder="Como podemos te chamar?"></div>
       <div class="field"><label>Melhor número para contato (WhatsApp)</label><input id="f_fone" type="tel" inputmode="tel" placeholder="(00) 00000-0000"></div>
@@ -239,7 +239,7 @@
       <button class="copy" id="copyBtn">Copiar link da reunião</button>
       <p class="note" style="opacity:.7;color:var(--soft)">No app final, este toque agenda a reunião e entrega o link pronto ao closer (Momento 2).</p>
     </div>
-    <p class="note">Você não decide sozinho(a): do início ao evento de autógrafos, nosso time segura na mão da sua escola. 💜</p>
+    <p class="note">Você não está numa jornada solitária: do início do projeto ao evento de autógrafos, nosso time segura na mão da sua escola. 💜</p>
   </div>
 </section>
 
@@ -361,8 +361,8 @@ function reveal(stepId, dotId){
 function buildVision(){
   const n = sel.alunosN ? fmt(sel.alunosN) : 'centenas de';
   const sonho = sel.sonho || 'crianças mais confiantes';
-  const v = 'Imagine <b>'+escolaNome+'</b>: até <b>'+n+'</b> crianças descobrindo que têm uma história para contar — '+
-    sel.sonhoEmoji+' <b>'+sonho+'</b> — e a sua escola lembrada para sempre como <b>a escola que forma autores</b>.';
+  const v = 'Imagine <b>'+escolaNome+'</b>: até <b>'+n+'</b> crianças descobrindo que têm uma história para contar. '+
+    sel.sonhoEmoji+' <b>'+sonho+'</b>, e a sua escola lembrada para sempre como <b>a escola que forma autores</b>.';
   document.getElementById('vision').innerHTML = v;
 }
 
