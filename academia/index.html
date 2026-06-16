@@ -140,6 +140,20 @@
   #certCanvas{ width:100%; max-width:420px; border-radius:14px; box-shadow:0 8px 24px rgba(0,0,0,.18); display:block; margin:0 auto; background:var(--primary-dark); }
   .scopts .choice{ margin-bottom:7px; }
   input[type=file]{ font-size:13px; }
+  .lp-track{ height:10px; background:var(--plight); border-radius:6px; overflow:hidden; margin:8px 0 4px; }
+  .lp-fill{ height:100%; background:linear-gradient(90deg,var(--primary),var(--gold)); width:0; transition:width .45s; }
+  .dots{ display:flex; gap:6px; flex-wrap:wrap; margin-top:14px; justify-content:center; }
+  .dot{ width:11px; height:11px; border-radius:50%; background:var(--border); cursor:pointer; transition:.15s; }
+  .dot.seen{ background:var(--primary-light); } .dot.cur{ background:var(--gold); transform:scale(1.35); }
+  .chapter{ animation:fade .3s; }
+  .chapter h3{ margin-top:6px; }
+  .impacto{ background:linear-gradient(135deg,var(--primary-dark),var(--primary) 70%,var(--gold)); color:#fff; border-radius:12px; padding:16px 18px; font-size:18px; font-weight:700; font-style:italic; margin-top:12px; }
+  .chip-i{ display:inline-block; background:var(--primary-light); color:var(--primary-dark); border:1.5px solid transparent; border-radius:20px; padding:7px 14px; margin:0 6px 8px 0; font-size:13.5px; font-weight:600; cursor:pointer; transition:.15s; }
+  .chip-i:hover{ border-color:var(--primary); } .chip-i.open{ background:var(--primary); color:#fff; }
+  .chip-detail{ font-size:13.5px; color:var(--text); background:var(--plight); border-left:3px solid var(--primary); border-radius:10px; padding:11px 13px; margin:6px 0 4px; display:none; }
+  .chip-detail.show{ display:block; }
+  .dintro{ background:linear-gradient(135deg,#4C1D95,#6B46C1 60%,#D97706 140%); color:#fff; border-radius:14px; padding:22px; margin-bottom:18px; }
+  .dintro h3{ color:#fff; margin:0 0 6px; } .dintro p{ opacity:.95; margin:0; }
   @media(max-width:860px){ .sidebar{ display:none; } .main{ padding:24px 18px 70px; } }
 </style>
 </head>
@@ -156,6 +170,7 @@
   </ul>
   <div class="nav-sec">Meio · Aprender</div>
   <ul class="nav">
+    <li data-go="discurso">⭐ Discurso Intencional</li>
     <li data-go="fundamentos">📚 Fundamentos</li>
     <li data-go="metodos">🧰 Métodos de venda</li>
     <li data-go="vocab">🗂️ Vocabulário &amp; Reescrita</li>
@@ -275,6 +290,30 @@
     </div>
 
     <div id="methodList"></div>
+  </section>
+
+  <!-- ================= DISCURSO INTENCIONAL ================= -->
+  <section class="section" id="discurso">
+    <h2 class="title">⭐ Discurso Intencional</h2>
+    <p class="lead">Neurovendas, Educação, Emoção e Propósito. Um treinamento guiado: avance pelos capítulos, revele os insights, toque nos conceitos e teste o que aprendeu.</p>
+    <div class="dintro">
+      <h3>Vender não é improviso.</h3>
+      <p>É profissão, técnica, consciência emocional e construção diária. Um closer não nasce pronto — ele se constrói. Aqui você treina o discurso que conecta, fecha e transforma.</p>
+    </div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span class="tag" id="chTag">Capítulo 1</span>
+        <span style="font-size:13px;color:var(--soft);font-weight:600" id="chCount"></span>
+      </div>
+      <div class="lp-track"><div class="lp-fill" id="lpFill"></div></div>
+      <div id="chapterBox"></div>
+      <div id="discursoSuccess"></div>
+      <div class="btnrow" style="justify-content:space-between;margin-top:18px">
+        <button class="btn ghost" id="chPrev">← Anterior</button>
+        <button class="btn" id="chNext">Próximo →</button>
+      </div>
+      <div class="dots" id="chDots"></div>
+    </div>
   </section>
 
   <!-- ================= VOCAB ================= -->
@@ -499,7 +538,7 @@ const ROLES = {
 };
 
 const cur = { fundCorrect:0, vocabRight:0, argRight:0, relRight:0, metDone:0, dojoResult:"", objDone:false, dicStars:0,
-  diag:null, tasks:{raio:false,fund:false,met:false,arg:false,dojo:false,dic:false} };
+  diag:null, discursoDone:false, tasks:{raio:false,fund:false,met:false,arg:false,dojo:false,dic:false} };
 
 function load(){ try{ return JSON.parse(localStorage.getItem(KEY)) || {history:[],streak:0,time:{}}; }catch(e){ return {history:[],streak:0,time:{}}; } }
 function save(d){ localStorage.setItem(KEY, JSON.stringify(d)); }
@@ -1095,6 +1134,7 @@ function doGet(e) {
 
 /* ===================== CONQUISTAS ===================== */
 const MEDALS=[
+  {id:'discurso',emoji:'⭐', nome:'Discurso Intencional', title:'Voz Intencional',      cond:()=>cur.discursoDone},
   {id:'raio',   emoji:'🧭', nome:'Autoconhecimento', title:'Explorador de Talentos', cond:()=>!!cur.diag},
   {id:'fund',   emoji:'📚', nome:'Fundamentos',      title:'Base Sólida',           cond:()=>cur.tasks.fund},
   {id:'met',    emoji:'🧰', nome:'Métodos',          title:'Mente Estratégica',     cond:()=>cur.tasks.met},
@@ -1221,9 +1261,115 @@ if(dlProfBtn) dlProfBtn.onclick=()=>{ const W=800; const cv=document.createEleme
   drawLogoStar(c,W/2,108,86);
   const a=document.createElement('a'); a.download='foto-perfil-estante-magica.png'; a.href=cv.toDataURL('image/png'); a.click(); };
 
+/* ===================== DISCURSO INTENCIONAL ===================== */
+const DISCURSO=[
+  { ico:'⭐', titulo:'O que é Discurso Intencional',
+    body:'Vender com mais leveza, menos desgaste emocional e mais resultado. A neurovendas parte de um princípio: as pessoas não compram pela razão — compram pela emoção e depois justificam racionalmente. Um closer se constrói com estudo contínuo, prática intencional e entendimento profundo do comportamento humano.',
+    impacto:'As pessoas compram pela emoção e justificam pela razão.' },
+  { ico:'❤️', titulo:'Venda é emoção, não discurso técnico',
+    body:'A decisão de compra acontece no cérebro emocional. Vender não é despejar informações: é criar conexão e entender dores, desejos, inseguranças e expectativas antes mesmo que o cliente as verbalize. Venda emocional não é exagero — é escuta ativa, empatia e intenção clara.',
+    impacto:'Reuniões genéricas geram esforço; reuniões intencionais geram fechamento.',
+    check:{ q:'O que mais aumenta a conversão?', o:['Despejar todas as especificações','Personalizar para a dor real do cliente','Falar o máximo possível'], a:1, fb:'Conexão e intenção convertem mais que informação.' } },
+  { ico:'🎯', titulo:'Conhecer profundamente o cliente',
+    body:'O principal cliente é a coordenação pedagógica. A venda começa quando ela se sente vista, compreendida e segura. O discurso precisa fortalecer a autoridade dela, nunca fragilizá-la. Toque nas dores reais dela:',
+    chips:[['Sobrecarga de funções','Mostre como o projeto tira peso, não adiciona.'],['Pressão das famílias','O projeto vira prova concreta de valor para os pais.'],['Equipe desmotivada','A culminância reacende o orgulho e o propósito do time.'],['Falta de reconhecimento','A escola — e ela — viram referência na comunidade.'],['Medo de não dar conta','Cronograma e material prontos dão segurança e previsibilidade.']],
+    impacto:'A venda começa quando o cliente se sente visto e seguro.' },
+  { ico:'🧠', titulo:'Neuroplasticidade: repetição + emoção',
+    body:'Na infância o cérebro é altamente plástico. Para a aprendizagem durar, ele precisa de repetição associada à emoção — exatamente o que o projeto entrega: a repetição anual da escrita aliada à emoção de ser autor. Ciclos completos de criação, revisão e publicação consolidam o aprendizado.',
+    impacto:'Aplicações pontuais não criam hábito; continuidade cria transformação.',
+    check:{ q:'Por que defender a aplicação todo ano?', o:['Para vender mais kits','Porque repetição + emoção consolidam o aprendizado','Porque é mais fácil para a escola'], a:1, fb:'Continuidade ativa a neuroplasticidade e cria hábito pedagógico.' } },
+  { ico:'📈', titulo:'Aplicação integral gera impacto real',
+    body:'Aplicar o projeto em todas as séries transforma um evento em formação. Toque para ver o que isso constrói:',
+    chips:[['Cria hábito pedagógico','A escrita deixa de ser pontual e vira cultura da escola.'],['Fortalece a progressão da escrita','Cada série avança sobre a anterior.'],['Ativa a neuroplasticidade','Repetição com emoção, ano após ano.'],['Gera impacto sequencial','O aprendizado se acumula em vez de reiniciar.']],
+    impacto:'Projetos isolados são eventos. Projetos contínuos são formação.' },
+  { ico:'🏫', titulo:'A escola como formadora de autores',
+    body:'Institucionalizado, o projeto dá identidade: uma escola que forma autores. Isso gera força institucional, reconhecimento na comunidade e diferenciação real da concorrência. Vira tradição — a culminância se torna uma celebração institucional, o momento mais emocional do ano.',
+    impacto:'A escola deixa de ser "mais uma" e passa a ter identidade.' },
+  { ico:'🤝', titulo:'Consistência gera confiança',
+    body:'Famílias confiam em escolas consistentes. Quando o projeto acontece todos os anos, a percepção é de seriedade, planejamento e compromisso com a formação integral. Isso fortalece a marca, fideliza famílias e gera prova social espontânea.',
+    impacto:'Consistência comunica seriedade — e seriedade fideliza.',
+    check:{ q:'O que a consistência anual gera nas famílias?', o:['Desconfiança','Percepção de seriedade e prova social','Indiferença'], a:1, fb:'Seriedade percebida fortalece a marca e fideliza.' } },
+  { ico:'🗂️', titulo:'Organização e alívio da coordenação',
+    body:'Quando todas as turmas participam, tudo se unifica. Toque para ver como isso reduz a sobrecarga:',
+    chips:[['Um único calendário','Tudo num só lugar, sem datas soltas.'],['Um único cronograma','Previsibilidade para a equipe inteira.'],['Materiais padronizados','Menos improviso, menos erro.'],['Orientações unificadas','Uma só forma de fazer, fácil de acompanhar.']],
+    impacto:'Padronizar é organizar. Organizar é cuidar.' },
+  { ico:'🧩', titulo:'Educação infantil: tudo começa ali',
+    body:'O infantil não é "só brincar" — é a base da alfabetização. Antes de escrever, a criança desenvolve habilidades-chave (toque para ver), e o projeto estimula oralidade, vocabulário, consciência fonológica e narrativa, atendendo à BNCC.',
+    chips:[['Fala','A linguagem oral é o primeiro passo.'],['Narra','Conta histórias e organiza começo, meio e fim.'],['Cria hipóteses','Testa ideias sobre como o mundo e a escrita funcionam.'],['Organiza pensamentos','Estrutura o raciocínio antes do registro escrito.']],
+    impacto:'Antes de escrever, a criança fala, narra e organiza o pensamento.' },
+  { ico:'🎨', titulo:'Aprendizagem multissensorial',
+    body:'Produzir o livro envolve linguagem, arte, movimento e emoção. Ilustrar desenvolve coordenação motora fina, planejamento visual e criatividade. O processo multissensorial aumenta engajamento e fixação.',
+    impacto:'Emoção gera memória. Memória gera aprendizado duradouro.' },
+  { ico:'🌈', titulo:'Neurodivergência e inclusão real',
+    body:'O projeto é altamente eficaz para alunos neurodivergentes: estrutura e previsibilidade (TEA), estímulos variados e propósito claro (TDAH) e aprendizagem multimodal. Escrever o próprio livro cria sentido imediato, metas alcançáveis e sensação de progresso.',
+    impacto:'Sentido e progresso ativam dopamina, foco e engajamento.' },
+  { ico:'⚙️', titulo:'Desenvolvimento das funções executivas',
+    body:'Produzir um livro treina habilidades que vão muito além da escrita. Toque para conhecê-las:',
+    chips:[['Planejamento','Definir o que escrever e como.'],['Organização','Reunir ideias e materiais.'],['Sequenciação','Ordenar a narrativa com lógica.'],['Autocontrole','Sustentar o foco ao longo do processo.'],['Conclusão de tarefas','Levar o livro até a publicação.']],
+    impacto:'Habilidades para a vida, não apenas para a escrita.' },
+  { ico:'🌟', titulo:'Autoestima, pertencimento e protagonismo',
+    body:'O aluno deixa de ser "quem precisa de ajuda" e passa a ser autor, protagonista, alguém com algo valioso a dizer. Reduz ansiedade escolar, fortalece a autoestima e melhora a interação social. Para os pais — especialmente de crianças neurodivergentes — a percepção da escola muda na hora: sentem que a escola enxerga o potencial do filho.',
+    impacto:'De "quem precisa de ajuda" a autor e protagonista.' },
+  { ico:'🚀', titulo:'Altas habilidades e superdotação',
+    body:'O projeto também atende crianças com altas habilidades, permitindo aprofundamento, desafio e expansão. Reduz desigualdades, estimula desafios intrínsecos e promove equilíbrio no grupo.',
+    impacto:'Desafio intrínseco para quem precisa de mais.' },
+  { ico:'🎬', titulo:'Neurovendas na prática',
+    body:'O closer não vende um produto — ele transforma decisões e ajuda o cliente a enxergar o valor antes mesmo de colocá-lo em palavras. Toque nos quatro gatilhos aplicados:',
+    chips:[['Transformação','Mostre o "antes e depois" que o projeto provoca.'],['Pertencimento','"A escola que forma autores" cria identidade.'],['Valorização','O cliente se sente reconhecido e capaz.'],['Prova social','Outras escolas e famílias já validaram.']],
+    impacto:'Não venda o produto. Transforme a decisão.',
+    check:{ q:'"A escola vira referência na comunidade" ativa qual gatilho?', o:['Escassez','Pertencimento e prova social','Reciprocidade'], a:1, fb:'Identidade + reconhecimento da comunidade = pertencimento e prova social.' } },
+  { ico:'🏆', titulo:'Mentalidade de excelência',
+    body:'Quem para de aprender, para de vender. O mercado não premia quem sabe — premia quem domina. Closer é construção diária: estudo, treino, ajuste e evolução contínua. Crescimento profissional anda junto com autoestima, confiança e propósito.',
+    impacto:'Não é sobre ser melhor que o outro. É ser melhor do que ontem.' },
+  { ico:'🎓', titulo:'Síntese final',
+    body:'Discurso intencional é a união de emoção + técnica, neurociência + pedagogia, escuta + preparo, autoridade + empatia. Toque nos pilares:',
+    chips:[['Emoção + técnica','Sentir e estruturar ao mesmo tempo.'],['Neurociência + pedagogia','Entender o cérebro e o aprender.'],['Escuta + preparo','Ouvir de verdade, chegar pronto.'],['Autoridade + empatia','Conduzir sem fragilizar o outro.']],
+    impacto:'O próximo nível começa com a escolha de não voltar para a média.' }
+];
+let dcur=0, dmax=0; const dvisited=new Set([0]);
+function renderChapter(i,noScroll){ dcur=i; dvisited.add(i); dmax=Math.max(dmax,i); const ch=DISCURSO[i]; const N=DISCURSO.length;
+  document.getElementById('chTag').textContent='Capítulo '+(i+1);
+  document.getElementById('chCount').textContent=(i+1)+' / '+N;
+  document.getElementById('lpFill').style.width=((dmax+1)/N*100)+'%';
+  var h='<div class="chapter"><h3>'+ch.ico+' '+ch.titulo+'</h3>';
+  if(ch.body) h+='<p>'+ch.body+'</p>';
+  if(ch.chips){ h+='<div id="chipWrap">'+ch.chips.map((c,ci)=>'<span class="chip-i" data-i="'+ci+'">'+c[0]+'</span>').join('')+'</div><div class="chip-detail" id="chipDetail"></div>'; }
+  if(ch.check){ h+='<div style="margin-top:14px"><p style="font-weight:700;color:var(--primary-dark)">✅ Check rápido: '+ch.check.q+'</p><div class="ch2"></div><div class="fb"></div></div>'; }
+  h+='<div style="margin-top:14px"><button class="btn ghost sm" id="revImp">💡 Revelar o insight</button><div class="impacto" id="impBox" style="display:none">“'+ch.impacto+'”</div></div>';
+  h+='</div>';
+  document.getElementById('chapterBox').innerHTML=h;
+  document.getElementById('discursoSuccess').innerHTML='';
+  if(ch.chips){ const det=document.getElementById('chipDetail');
+    document.querySelectorAll('#chipWrap .chip-i').forEach(el=>el.onclick=()=>{
+      document.querySelectorAll('#chipWrap .chip-i').forEach(x=>x.classList.remove('open')); el.classList.add('open');
+      det.textContent=ch.chips[+el.dataset.i][1]; det.classList.add('show'); }); }
+  if(ch.check){ const box=document.querySelector('.chapter .ch2'), fb=document.querySelector('.chapter .fb');
+    ch.check.o.forEach((opt,oi)=>{ const b=document.createElement('button'); b.className='choice'; b.textContent=opt;
+      b.onclick=()=>{ if(box.dataset.a) return; box.dataset.a='1'; const ok=oi===ch.check.a;
+        b.classList.add(ok?'right':'wrong'); if(!ok) box.children[ch.check.a].classList.add('right');
+        fb.className='fb show '+(ok?'good':'bad'); fb.innerHTML=(ok?'✅ ':'⚠️ ')+ch.check.fb; };
+      box.appendChild(b); }); }
+  document.getElementById('revImp').onclick=function(){ document.getElementById('impBox').style.display='block'; this.style.display='none'; };
+  const prev=document.getElementById('chPrev'), next=document.getElementById('chNext');
+  prev.style.visibility = i===0?'hidden':'visible';
+  next.disabled=false; next.style.opacity='1';
+  next.textContent = i===N-1 ? (cur.discursoDone?'Concluído ✓':'Concluir ⭐') : 'Próximo →';
+  if(i===N-1 && cur.discursoDone){ next.disabled=true; next.style.opacity='.6'; }
+  renderDots();
+  if(!noScroll) window.scrollTo({top:0,behavior:'smooth'});
+}
+function renderDots(){ const d=document.getElementById('chDots');
+  d.innerHTML=DISCURSO.map((_,i)=>'<span class="dot '+(i===dcur?'cur':(dvisited.has(i)?'seen':''))+'" data-i="'+i+'"></span>').join('');
+  d.querySelectorAll('.dot').forEach(el=>el.onclick=()=>renderChapter(+el.dataset.i)); }
+function completeDiscurso(){ cur.discursoDone=true; renderMedals();
+  document.getElementById('discursoSuccess').innerHTML='<div class="impacto" style="background:linear-gradient(135deg,#10B981,#059669)">🎉 Treinamento concluído! Você desbloqueou a medalha <strong>⭐ Voz Intencional</strong>. Vá em 🏅 Conquistas para gerar seu card.</div>';
+  const next=document.getElementById('chNext'); next.textContent='Concluído ✓'; next.disabled=true; next.style.opacity='.6'; }
+document.getElementById('chPrev').onclick=()=>{ if(dcur>0) renderChapter(dcur-1); };
+document.getElementById('chNext').onclick=()=>{ if(dcur>=DISCURSO.length-1){ completeDiscurso(); } else { renderChapter(dcur+1); } };
+
 /* ===================== INIT ===================== */
 (function(){ const d=load(); if(d.profile&&d.profile.photo) cur.photo=d.profile.photo; })();
-syncUser(); renderRoleBanner(); renderMethods(); renderRel(); renderFundRole(); renderPersonas(); renderObj(); refreshKpis(); renderHist(); renderTeam(); renderMedals(); loadPhotoImg();
+syncUser(); renderRoleBanner(); renderMethods(); renderRel(); renderFundRole(); renderPersonas(); renderObj(); refreshKpis(); renderHist(); renderTeam(); renderMedals(); loadPhotoImg(); renderChapter(0,true);
 who.addEventListener('input',()=>{ refreshKpis(); renderHist(); drawCert(); });
 </script>
 </body>
