@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hub de Crescimento Comercial · Do SDR ao CS · Estante Mágica</title>
+<title>Hub de Crescimento · Do SDR ao CS · Estante Mágica</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   :root {
@@ -146,7 +146,7 @@
 <body>
 
 <aside class="sidebar">
-  <div class="sb-head"><h1>🚀 Hub de Crescimento Comercial</h1><p>Do SDR ao CS · Estante Mágica</p></div>
+  <div class="sb-head"><h1>🚀 Hub de Crescimento</h1><p>Do SDR ao CS · Estante Mágica</p></div>
   <div class="sb-user"><strong id="sbName">—</strong><br><span id="sbMeta" style="color:var(--soft)">defina seu perfil no Início</span></div>
 
   <div class="nav-sec">Início da trilha</div>
@@ -1010,7 +1010,7 @@ document.getElementById('saveWeek').onclick=async ()=>{
   refreshKpis(); renderHist(); renderTeam(); genReport(); alert('Semana fechada! 🔥 Streak: '+data.streak);
 };
 document.getElementById('emailReport').onclick=()=>{ const m=metrics(); const data=load();
-  const body=`Relatório semanal — Hub de Crescimento Comercial%0A%0APessoa: ${who.value.trim()||'(sem nome)'}%0ACargo: ${ROLES[role()].label}%0ASemana: ${weekVal()}%0AStreak: ${data.streak||0}%0A%0ANível (Raio-X): ${m.raio!=null?m.raio+'%25':'pendente'}%0ATempo treinado: ${m.time} min%0AFundamentos: ${m.fund}%25%0AMétodos: ${m.met}%0AArgumentação: ${m.arg}%25%0ASimulação: ${m.dojo}%0ADicção: ${m.dic}★%0APráticas: ${m.done}/6`;
+  const body=`Relatório semanal — Hub de Crescimento%0A%0APessoa: ${who.value.trim()||'(sem nome)'}%0ACargo: ${ROLES[role()].label}%0ASemana: ${weekVal()}%0AStreak: ${data.streak||0}%0A%0ANível (Raio-X): ${m.raio!=null?m.raio+'%25':'pendente'}%0ATempo treinado: ${m.time} min%0AFundamentos: ${m.fund}%25%0AMétodos: ${m.met}%0AArgumentação: ${m.arg}%25%0ASimulação: ${m.dojo}%0ADicção: ${m.dic}★%0APráticas: ${m.done}/6`;
   window.location.href=`mailto:${LEADER_EMAIL}?subject=${encodeURIComponent('Relatório Hub — '+(who.value.trim()||'')+' ('+ROLES[role()].label+')')}&body=${body}`; };
 document.getElementById('exportCsv').onclick=()=>{ const data=load();
   const rows=[['Pessoa','Cargo','Semana','RaioX%','Fund%','Metodos','Argum%','Simulacao','Diccao','TempoMin','Praticas','Medalhas','Quando'],
@@ -1052,7 +1052,7 @@ document.getElementById('testConn').onclick=async ()=>{ ENDPOINT=document.getEle
   try{ const r=await jsonp(ENDPOINT); setConn('ok','Conexão OK! '+(r?r.length:0)+' registros na planilha.'); }
   catch(e){ setConn('erro','Falhou: '+e.message+'. Confira a publicação ("Qualquer pessoa") e se a URL termina em /exec.'); } };
 document.getElementById('gasCode').textContent =
-`// ===== Hub de Crescimento Comercial - Estante Magica =====
+`// ===== Hub de Crescimento - Estante Magica =====
 var SHEET = 'dados';
 
 function sheet_() {
@@ -1150,6 +1150,27 @@ function drawLogoStar(c,cx,cy,outer){
     if(lh>rr*1.25){ lh=rr*1.25; lw=lh*logoImg.naturalWidth/logoImg.naturalHeight; }
     c.drawImage(logoImg,cx-lw/2,cy-lh/2,lw,lh); }
 }
+function drawCoverRect(ctx,img,x,y,w,h){ if(!img){ ctx.fillStyle='#EDE5FA'; ctx.fillRect(x,y,w,h); ctx.fillStyle='#6B46C1'; ctx.font='bold 170px sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(((who.value.trim()[0])||'?').toUpperCase(),x+w/2,y+h/2); return; }
+  var ir=img.width/img.height, rr=w/h, dw,dh,dx,dy;
+  if(ir>rr){ dh=h; dw=h*ir; dx=x-(dw-w)/2; dy=y; } else { dw=w; dh=w/ir; dx=x; dy=y-(dh-h)/2; }
+  ctx.drawImage(img,dx,dy,dw,dh); }
+function drawLogoPanel(c,cx,topY,w){ if(!(logoImg.complete&&logoImg.naturalWidth)) return;
+  var lw=w, lh=lw*logoImg.naturalHeight/logoImg.naturalWidth;
+  c.save(); c.shadowColor='rgba(0,0,0,.35)'; c.shadowBlur=22;
+  roundRect(c,cx-lw/2-28,topY,lw+56,lh+40,24); c.fillStyle='#FFFDF7'; c.fill(); c.restore();
+  c.drawImage(logoImg,cx-lw/2,topY+20,lw,lh); return topY+lh+40; }
+function drawStarMedalPhoto(c,cx,cy,outer){ var ir=0.58;
+  c.save(); c.shadowColor='rgba(252,211,77,.85)'; c.shadowBlur=outer*0.3;
+  var rim=c.createLinearGradient(cx,cy-outer,cx,cy+outer); rim.addColorStop(0,'#FDE68A'); rim.addColorStop(.5,'#F59E0B'); rim.addColorStop(1,'#B45309');
+  starPath(c,cx,cy,outer,outer*ir,5,0); c.fillStyle=rim; c.fill(); c.restore();
+  starPath(c,cx,cy,outer,outer*ir,5,0); c.lineWidth=outer*0.045; c.strokeStyle='#92400E'; c.stroke();
+  var inn=outer*0.86; starPath(c,cx,cy,inn,inn*ir,5,0); c.lineWidth=outer*0.022; c.strokeStyle='#FFF7E0'; c.stroke();
+  c.save(); starPath(c,cx,cy,inn*0.97,inn*0.97*ir,5,0); c.clip();
+  c.fillStyle='#2D1B4E'; c.fillRect(cx-inn,cy-inn,inn*2,inn*2);
+  drawCoverRect(c,cur.photoImg,cx-inn,cy-inn,inn*2,inn*2); c.restore();
+  for(var k=0;k<5;k++){ var a=(Math.PI*2/5)*k-Math.PI/2; var sx=cx+Math.cos(a)*outer*0.9, sy=cy+Math.sin(a)*outer*0.9;
+    c.beginPath(); c.arc(sx,sy,outer*0.05,0,Math.PI*2); c.fillStyle='#FFFDF7'; c.fill(); c.lineWidth=2; c.strokeStyle='#B45309'; c.stroke(); }
+}
 function drawCert(){ const cv=document.getElementById('certCanvas'); if(!cv) return; const c=cv.getContext('2d'); const W=1080,H=1080;
   c.clearRect(0,0,W,H);
   var g=c.createLinearGradient(0,0,W,H); g.addColorStop(0,'#15123A'); g.addColorStop(.5,'#3B1D6E'); g.addColorStop(1,'#4C1D95');
@@ -1158,21 +1179,19 @@ function drawCert(){ const cv=document.getElementById('certCanvas'); if(!cv) ret
   c.strokeStyle='rgba(252,211,77,.65)'; c.lineWidth=4; roundRect(c,34,34,W-68,H-68,28); c.stroke();
   c.strokeStyle='rgba(252,211,77,.30)'; c.lineWidth=2; roundRect(c,48,48,W-96,H-96,22); c.stroke();
   c.textAlign='center'; c.textBaseline='alphabetic';
-  c.fillStyle='#FCD34D'; c.font='800 30px sans-serif'; c.fillText('★   H A L L   D A   F A M A   ★', W/2, 112);
-  drawLogoStar(c, W/2, 285, 132);
-  var cy=575; c.save(); c.shadowColor='rgba(0,0,0,.4)'; c.shadowBlur=30; c.fillStyle='#FCD34D'; c.beginPath(); c.arc(W/2,cy,160,0,Math.PI*2); c.fill(); c.restore();
-  c.fillStyle='#fff'; c.beginPath(); c.arc(W/2,cy,150,0,Math.PI*2); c.fill();
-  drawCircleImg(c,cur.photoImg,W/2,cy,142);
-  if(selMedal){ c.save(); c.shadowColor='rgba(0,0,0,.3)'; c.shadowBlur=12; c.fillStyle='#fff'; c.beginPath(); c.arc(W/2+118,cy+118,54,0,Math.PI*2); c.fill(); c.restore();
-    c.font='78px sans-serif'; c.textAlign='center'; c.textBaseline='middle'; c.fillText(selMedal.emoji,W/2+118,cy+124); }
+  c.fillStyle='#FCD34D'; c.font='800 30px sans-serif'; c.fillText('★   H A L L   D A   F A M A   ★', W/2, 96);
+  drawLogoPanel(c, W/2, 120, 320);
+  var cy=618; drawStarMedalPhoto(c, W/2, cy, 172);
+  if(selMedal){ c.save(); c.shadowColor='rgba(0,0,0,.35)'; c.shadowBlur=12; c.fillStyle='#fff'; c.beginPath(); c.arc(W/2+126,cy+118,54,0,Math.PI*2); c.fill(); c.restore();
+    c.font='78px sans-serif'; c.textAlign='center'; c.textBaseline='middle'; c.fillText(selMedal.emoji,W/2+126,cy+124); }
   c.textAlign='center'; c.textBaseline='alphabetic';
-  c.fillStyle='#fff'; c.font='800 60px sans-serif'; c.fillText(who.value.trim()||'Seu Nome',W/2,820);
-  c.fillStyle='#FDE68A'; c.font='600 32px sans-serif'; c.fillText(ROLES[role()].label+' · Estante Mágica',W/2,862);
-  if(selMedal){ c.fillStyle='#fff'; c.font='800 42px sans-serif'; c.fillText('“'+selMedal.title+'”',W/2,918);
-    c.fillStyle='rgba(255,255,255,.9)'; c.font='500 27px sans-serif'; c.fillText('Conquista: '+selMedal.nome,W/2,954); }
-  else { c.fillStyle='rgba(255,255,255,.9)'; c.font='500 30px sans-serif'; c.fillText('Conclua a trilha para entrar no Hall da Fama',W/2,930); }
-  c.fillStyle='#FCD34D'; c.font='700 30px sans-serif'; c.fillText('#TimeEstanteMágica',W/2,1002);
-  c.fillStyle='rgba(255,255,255,.75)'; c.font='400 22px sans-serif'; c.fillText('Hub de Crescimento Comercial · '+new Date().toLocaleDateString('pt-BR'),W/2,1032);
+  c.fillStyle='#fff'; c.font='800 60px sans-serif'; c.fillText(who.value.trim()||'Seu Nome',W/2,852);
+  c.fillStyle='#FDE68A'; c.font='600 32px sans-serif'; c.fillText(ROLES[role()].label+' · Estante Mágica',W/2,894);
+  if(selMedal){ c.fillStyle='#fff'; c.font='800 40px sans-serif'; c.fillText('“'+selMedal.title+'”',W/2,946);
+    c.fillStyle='rgba(255,255,255,.9)'; c.font='500 26px sans-serif'; c.fillText('Conquista: '+selMedal.nome,W/2,980); }
+  else { c.fillStyle='rgba(255,255,255,.9)'; c.font='500 30px sans-serif'; c.fillText('Conclua a trilha para entrar no Hall da Fama',W/2,958); }
+  c.fillStyle='#FCD34D'; c.font='700 30px sans-serif'; c.fillText('#TimeEstanteMágica',W/2,1006);
+  c.fillStyle='rgba(255,255,255,.75)'; c.font='400 23px sans-serif'; c.fillText('Hub de Crescimento · '+new Date().toLocaleDateString('pt-BR'),W/2,1036);
 }
 const dlCertBtn=document.getElementById('dlCert');
 if(dlCertBtn) dlCertBtn.onclick=()=>{ const cv=document.getElementById('certCanvas'); const a=document.createElement('a'); a.download='conquista-estante-magica.png'; a.href=cv.toDataURL('image/png'); a.click(); };
