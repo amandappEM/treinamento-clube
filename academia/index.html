@@ -154,6 +154,20 @@
   .chip-detail.show{ display:block; }
   .dintro{ background:linear-gradient(135deg,#4C1D95,#6B46C1 60%,#D97706 140%); color:#fff; border-radius:14px; padding:22px; margin-bottom:18px; }
   .dintro h3{ color:#fff; margin:0 0 6px; } .dintro p{ opacity:.95; margin:0; }
+  .xptoast{ position:fixed; right:24px; bottom:24px; background:var(--primary-dark); color:#fff; padding:11px 18px; border-radius:30px; font-weight:700; font-size:14px; box-shadow:0 8px 22px rgba(0,0,0,.28); opacity:0; transform:translateY(12px); transition:.3s; z-index:60; }
+  .xptoast.show{ opacity:1; transform:none; }
+  .xpcard{ background:linear-gradient(135deg,#2D1B4E,#4C1D95); color:#fff; }
+  .xpcard .tag{ background:rgba(255,255,255,.2); color:#fff; }
+  .seqpool,.seqbuilt{ display:flex; flex-wrap:wrap; gap:8px; margin:6px 0; min-height:46px; }
+  .seqbuilt{ background:var(--plight); border-radius:10px; padding:10px; }
+  .seqitem{ background:var(--primary-light); color:var(--primary-dark); border:1.5px solid transparent; border-radius:10px; padding:9px 13px; font-size:13.5px; font-weight:600; cursor:pointer; transition:.15s; }
+  .seqitem:hover{ border-color:var(--primary); } .seqbuilt .seqitem{ background:#fff; }
+  .seqbuilt .seqitem.ok{ background:var(--success-light); border-color:var(--success); }
+  .seqbuilt .seqitem.no{ background:var(--danger-light); border-color:var(--danger); }
+  .gtimer{ font-size:30px; font-weight:800; color:var(--gold); font-variant-numeric:tabular-nums; }
+  .combo{ font-weight:800; color:var(--primary); }
+  .mbar{ margin:8px 0; } .mbar .l{ display:flex; justify-content:space-between; font-size:12.5px; font-weight:600; margin-bottom:3px; }
+  .mbar .t{ height:16px; background:var(--plight); border-radius:8px; overflow:hidden; } .mbar .f{ height:100%; background:linear-gradient(90deg,var(--primary),var(--gold)); border-radius:8px; transition:width .5s; }
   @media(max-width:860px){ .sidebar{ display:none; } .main{ padding:24px 18px 70px; } }
 </style>
 </head>
@@ -301,6 +315,15 @@
       <h3>Vender não é improviso.</h3>
       <p>É profissão, técnica, consciência emocional e construção diária. Um closer não nasce pronto — ele se constrói. Aqui você treina o discurso que conecta, fecha e transforma.</p>
     </div>
+    <div class="card xpcard">
+      <span class="tag">🎮 Arena do Discurso</span>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+        <span style="font-size:16px"><b id="xpLevel">Aprendiz</b> · <span id="xpVal">0</span> XP</span>
+        <span style="font-size:12.5px;opacity:.85" id="xpNext"></span>
+      </div>
+      <div class="lp-track" style="background:rgba(255,255,255,.2)"><div class="lp-fill" id="xpFill"></div></div>
+      <p style="font-size:12.5px;opacity:.85;margin:8px 0 0">Ganhe XP lendo capítulos, revelando insights, tocando nos conceitos, acertando os checks e nos jogos abaixo.</p>
+    </div>
     <div class="card">
       <div style="display:flex;justify-content:space-between;align-items:center">
         <span class="tag" id="chTag">Capítulo 1</span>
@@ -319,6 +342,23 @@
       <span class="tag">Prova final</span><h3>⭐ Teste seu Discurso Intencional</h3>
       <p class="lead" style="margin-bottom:14px">7 perguntas para consolidar o aprendizado. A nota entra no seu relatório e libera a medalha.</p>
       <div id="provaBox"></div>
+    </div>
+
+    <div class="card">
+      <span class="tag">🧩 Jogo</span><h3>Monte o Discurso Intencional</h3>
+      <p class="lead" style="margin-bottom:10px">Clique nos blocos na ordem certa para construir um discurso que conecta e fecha.</p>
+      <div class="seqpool" id="seqPool"></div>
+      <p style="font-size:12px;color:var(--soft);margin:8px 0 2px">Seu discurso (clique para remover):</p>
+      <div class="seqbuilt" id="seqBuilt"></div>
+      <div class="btnrow" style="margin-top:8px"><button class="btn" id="seqCheck">Validar</button><button class="btn ghost" id="seqReset">Recomeçar</button></div>
+      <div class="fb" id="seqFb"></div>
+    </div>
+
+    <div class="card">
+      <span class="tag">⚡ Modo Relâmpago</span><h3>Desafio cronometrado</h3>
+      <p class="lead" style="margin-bottom:10px">Responda o máximo de perguntas antes do tempo. Acertos seguidos aumentam seu combo e seu XP!</p>
+      <div id="lightBox"><button class="btn gold" id="lightStart">▶ Iniciar (12s por pergunta)</button></div>
+      <div id="lightBest" style="margin-top:10px;font-size:13px;color:var(--soft);font-weight:600"></div>
     </div>
   </section>
 
@@ -509,7 +549,9 @@
       <details class="acc"><summary>📄 Código do Apps Script (copiar)</summary><div class="body"><pre id="gasCode"></pre></div></details>
     </div>
     <div class="card">
-      <span class="tag">Time</span><h3>Histórico consolidado</h3>
+      <span class="tag">Time</span><h3>Visão geral do time</h3>
+      <div id="teamChart"></div>
+      <h3 style="font-size:16px">Histórico consolidado</h3>
       <div style="overflow-x:auto">
         <table id="teamTable"><thead><tr><th>Pessoa</th><th>Cargo</th><th>Semana</th><th>Raio-X</th><th>Fund.</th><th>Métodos</th><th>Argum.</th><th>Simul.</th><th>Dicção</th><th>Prova</th><th>Tempo</th><th>Medalhas</th></tr></thead>
         <tbody><tr><td colspan="12" class="empty">Sem registros ainda.</td></tr></tbody></table>
@@ -544,7 +586,7 @@ const ROLES = {
 };
 
 const cur = { fundCorrect:0, vocabRight:0, argRight:0, relRight:0, metDone:0, dojoResult:"", objDone:false, dicStars:0,
-  diag:null, discursoDone:false, discursoScore:null, tasks:{dis:false,raio:false,fund:false,met:false,arg:false,dojo:false,dic:false} };
+  diag:null, discursoDone:false, discursoScore:null, discursoXP:0, tasks:{dis:false,raio:false,fund:false,met:false,arg:false,dojo:false,dic:false} };
 
 function load(){ try{ return JSON.parse(localStorage.getItem(KEY)) || {history:[],streak:0,time:{}}; }catch(e){ return {history:[],streak:0,time:{}}; } }
 function save(d){ localStorage.setItem(KEY, JSON.stringify(d)); }
@@ -1087,6 +1129,19 @@ function renderHist(){ const data=load(); const tb=document.querySelector('#hist
 document.getElementById('endpoint').value=ENDPOINT;
 document.getElementById('saveEndpoint').onclick=()=>{ ENDPOINT=document.getElementById('endpoint').value.trim(); localStorage.setItem('hub_endpoint',ENDPOINT); alert('Endpoint salvo.'); };
 document.getElementById('loadTeam').onclick=renderTeam;
+function renderTeamChart(rows){ const el=document.getElementById('teamChart'); if(!el) return;
+  if(!rows||!rows.length){ el.innerHTML='<p class="empty">Sem dados para o gráfico ainda.</p>'; return; }
+  function avg(k){ var v=rows.map(r=>parseFloat(r[k])).filter(x=>!isNaN(x)); return v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length):0; }
+  var people=new Set(rows.map(r=>r.who)).size;
+  var totalTime=rows.map(r=>parseInt(r.time)||0).reduce((a,b)=>a+b,0);
+  var pv=rows.map(r=>parseFloat(r.prova)).filter(x=>!isNaN(x)); var provaAvg=pv.length?(Math.round(pv.reduce((a,b)=>a+b,0)/pv.length*10)/10):null;
+  var bars=[['Raio-X médio',avg('raio')],['Fundamentos médio',avg('fund')],['Argumentação média',avg('arg')]];
+  el.innerHTML='<div class="grid" style="margin-bottom:10px">'+
+    '<div class="kpi"><div class="lab">Pessoas ativas</div><div class="val">'+people+'</div></div>'+
+    '<div class="kpi"><div class="lab">Registros</div><div class="val">'+rows.length+'</div></div>'+
+    '<div class="kpi time"><div class="lab">Tempo total</div><div class="val">'+totalTime+'min</div></div>'+
+    '<div class="kpi"><div class="lab">Prova média</div><div class="val">'+(provaAvg!=null?provaAvg+'/7':'—')+'</div></div></div>'+
+    bars.map(b=>'<div class="mbar"><div class="l"><span>'+b[0]+'</span><span>'+b[1]+'%</span></div><div class="t"><div class="f" style="width:'+b[1]+'%"></div></div></div>').join(''); }
 function setConn(kind,msg){ const el=document.getElementById('connStatus'); if(!el) return;
   el.style.color = kind==='ok'?'var(--success)': kind==='erro'?'var(--danger)':'var(--soft)';
   el.textContent = (kind==='ok'?'🟢 ':kind==='erro'?'🔴 ':'⚪ ')+msg; }
@@ -1104,6 +1159,7 @@ async function renderTeam(){ const tb=document.querySelector('#teamTable tbody')
   if(ENDPOINT){ try{ rows=await jsonp(ENDPOINT); setConn('ok','Conectado ao Google Sheets · '+(rows?rows.length:0)+' registros.'); }
     catch(e){ rows=load().history; setConn('erro','Não consegui ler a planilha ('+e.message+'). Mostrando dados locais. Verifique se publicou como "Qualquer pessoa".'); } }
   else { rows=load().history; setConn('local','Modo local (este dispositivo). Configure a planilha para consolidar todo o time.'); }
+  renderTeamChart(rows);
   if(!rows||!rows.length){ tb.innerHTML='<tr><td colspan="12" class="empty">Sem registros ainda.</td></tr>'; return; }
   tb.innerHTML=rows.slice().reverse().map(h=>'<tr><td>'+(h.who||'')+'</td><td>'+(h.role||'')+'</td><td>'+(h.week||'')+'</td><td>'+(h.raio!=null&&h.raio!==''?h.raio+'%':'—')+'</td><td>'+(h.fund||0)+'%</td><td>'+(h.met||0)+'</td><td>'+(h.arg||0)+'%</td><td>'+(h.dojo||'—')+'</td><td>'+(h.dic||0)+'★</td><td>'+(h.prova!=null&&h.prova!==''?h.prova+'/7':'—')+'</td><td>'+(h.time||0)+'min</td><td style="font-size:11px">'+(h.medals||'')+'</td></tr>').join(''); }
 document.getElementById('testConn').onclick=async ()=>{ ENDPOINT=document.getElementById('endpoint').value.trim();
@@ -1349,6 +1405,7 @@ const DISCURSO=[
 ];
 let dcur=0, dmax=0; const dvisited=new Set([0]);
 function renderChapter(i,noScroll){ dcur=i; dvisited.add(i); dmax=Math.max(dmax,i); const ch=DISCURSO[i]; const N=DISCURSO.length;
+  if(!noScroll) awardXP(10,'capítulo','ch'+i);
   document.getElementById('chTag').textContent='Capítulo '+(i+1);
   document.getElementById('chCount').textContent=(i+1)+' / '+N;
   document.getElementById('lpFill').style.width=((dmax+1)/N*100)+'%';
@@ -1363,14 +1420,14 @@ function renderChapter(i,noScroll){ dcur=i; dvisited.add(i); dmax=Math.max(dmax,
   if(ch.chips){ const det=document.getElementById('chipDetail');
     document.querySelectorAll('#chipWrap .chip-i').forEach(el=>el.onclick=()=>{
       document.querySelectorAll('#chipWrap .chip-i').forEach(x=>x.classList.remove('open')); el.classList.add('open');
-      det.textContent=ch.chips[+el.dataset.i][1]; det.classList.add('show'); }); }
+      det.textContent=ch.chips[+el.dataset.i][1]; det.classList.add('show'); awardXP(2,'conceito','chip'+i+'-'+el.dataset.i); }); }
   if(ch.check){ const box=document.querySelector('.chapter .ch2'), fb=document.querySelector('.chapter .fb');
     ch.check.o.forEach((opt,oi)=>{ const b=document.createElement('button'); b.className='choice'; b.textContent=opt;
       b.onclick=()=>{ if(box.dataset.a) return; box.dataset.a='1'; const ok=oi===ch.check.a;
         b.classList.add(ok?'right':'wrong'); if(!ok) box.children[ch.check.a].classList.add('right');
-        fb.className='fb show '+(ok?'good':'bad'); fb.innerHTML=(ok?'✅ ':'⚠️ ')+ch.check.fb; };
+        fb.className='fb show '+(ok?'good':'bad'); fb.innerHTML=(ok?'✅ ':'⚠️ ')+ch.check.fb; if(ok) awardXP(15,'check certo','check'+i); };
       box.appendChild(b); }); }
-  document.getElementById('revImp').onclick=function(){ document.getElementById('impBox').style.display='block'; this.style.display='none'; };
+  document.getElementById('revImp').onclick=function(){ document.getElementById('impBox').style.display='block'; this.style.display='none'; awardXP(5,'insight','imp'+i); };
   const prev=document.getElementById('chPrev'), next=document.getElementById('chNext');
   prev.style.visibility = i===0?'hidden':'visible';
   next.disabled=false; next.style.opacity='1';
@@ -1401,7 +1458,7 @@ function renderProva(){ const box=document.getElementById('provaBox'); const q=P
     '<p style="font-weight:700;color:var(--primary-dark);font-size:16px">'+q.q+'</p><div class="pch"></div><div class="fb"></div>';
   const ch=box.querySelector('.pch'), fb=box.querySelector('.fb');
   q.o.forEach((opt,oi)=>{ const b=document.createElement('button'); b.className='choice'; b.textContent=opt;
-    b.onclick=()=>{ if(box.dataset.a) return; box.dataset.a='1'; const ok=oi===q.a; if(ok) pscore++;
+    b.onclick=()=>{ if(box.dataset.a) return; box.dataset.a='1'; const ok=oi===q.a; if(ok){ pscore++; awardXP(20,'prova','prova'+pi); }
       b.classList.add(ok?'right':'wrong'); if(!ok) ch.children[q.a].classList.add('right');
       fb.className='fb show '+(ok?'good':'bad'); fb.innerHTML=(ok?'✅ Correto!':'⚠️ A melhor resposta está destacada.')+'<br><button class="btn sm" style="margin-top:10px" id="pnext">'+(pi<PROVA.length-1?'Próxima →':'Ver resultado ⭐')+'</button>';
       document.getElementById('pnext').onclick=()=>{ if(pi<PROVA.length-1){ pi++; renderProva(); } else finishProva(); };
@@ -1416,9 +1473,62 @@ function finishProva(){ cur.discursoScore=pscore; cur.discursoDone=true; setTask
 document.getElementById('chPrev').onclick=()=>{ if(dcur>0) renderChapter(dcur-1); };
 document.getElementById('chNext').onclick=()=>{ if(dcur>=DISCURSO.length-1){ openProva(); } else { renderChapter(dcur+1); } };
 
+/* ---- Gamificação: Arena do Discurso ---- */
+const LEVELS=[[0,'Aprendiz'],[120,'Praticante'],[280,'Closer'],[500,'Mestre do Discurso']];
+function levelInfo(xp){ var lv=LEVELS[0], idx=0; for(var i=0;i<LEVELS.length;i++){ if(xp>=LEVELS[i][0]){ lv=LEVELS[i]; idx=i; } }
+  var nx=LEVELS[idx+1]||null; return {name:lv[1], base:lv[0], next:nx?nx[0]:null, nextName:nx?nx[1]:null}; }
+function updateXPBar(){ var xp=cur.discursoXP||0; var L=levelInfo(xp); var el=document.getElementById('xpLevel'); if(!el) return;
+  el.textContent=L.name; document.getElementById('xpVal').textContent=xp;
+  document.getElementById('xpFill').style.width=(L.next?Math.round((xp-L.base)/(L.next-L.base)*100):100)+'%';
+  document.getElementById('xpNext').textContent=L.next?('faltam '+(L.next-xp)+' XP para '+L.nextName):'nível máximo 🏆'; }
+let xpToastEl;
+function xpToast(msg){ if(!xpToastEl){ xpToastEl=document.createElement('div'); xpToastEl.className='xptoast'; document.body.appendChild(xpToastEl); }
+  xpToastEl.textContent='⚡ '+msg; xpToastEl.classList.add('show'); clearTimeout(xpToastEl._t); xpToastEl._t=setTimeout(function(){ xpToastEl.classList.remove('show'); },1400); }
+function awardXP(amount,label,id){ if(id){ if(!cur.xpSeen) cur.xpSeen={}; if(cur.xpSeen[id]) return; cur.xpSeen[id]=1; }
+  cur.discursoXP=(cur.discursoXP||0)+amount; updateXPBar(); xpToast('+'+amount+' XP'+(label?' · '+label:'')); }
+
+/* ---- Jogo: Monte o Discurso ---- */
+const SEQ_STEPS=['Conectar pela emoção','Diagnosticar a dor real','Mostrar a continuidade (neuroplasticidade)','Ativar o gatilho (transformação/pertencimento)','Convidar à decisão'];
+function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+let seqOrder=[], seqBuilt=[];
+function initSeq(){ seqOrder=shuffle(SEQ_STEPS.map((_,i)=>i)); seqBuilt=[]; renderSeq(); }
+function renderSeq(){ const pool=document.getElementById('seqPool'), built=document.getElementById('seqBuilt'); if(!pool) return;
+  pool.innerHTML=''; seqOrder.filter(i=>seqBuilt.indexOf(i)<0).forEach(i=>{ const el=document.createElement('span'); el.className='seqitem'; el.textContent=SEQ_STEPS[i];
+    el.onclick=()=>{ seqBuilt.push(i); renderSeq(); }; pool.appendChild(el); });
+  built.innerHTML=''; seqBuilt.forEach((i,pos)=>{ const el=document.createElement('span'); el.className='seqitem'; el.textContent=(pos+1)+'. '+SEQ_STEPS[i];
+    el.onclick=()=>{ seqBuilt.splice(pos,1); renderSeq(); }; built.appendChild(el); });
+  const fb=document.getElementById('seqFb'); if(fb) fb.className='fb'; }
+function bindSeq(){ document.getElementById('seqCheck').onclick=()=>{ const fb=document.getElementById('seqFb');
+    if(seqBuilt.length<SEQ_STEPS.length){ fb.className='fb show bad'; fb.textContent='Monte os 5 passos antes de validar.'; return; }
+    const built=document.getElementById('seqBuilt'); let allok=true;
+    seqBuilt.forEach((i,pos)=>{ const ok=i===pos; built.children[pos].classList.add(ok?'ok':'no'); if(!ok) allok=false; });
+    if(allok){ fb.className='fb show good'; fb.innerHTML='✅ Discurso perfeito! Emoção → diagnóstico → continuidade → gatilho → convite.'; awardXP(30,'Monte o Discurso','seq'); }
+    else { fb.className='fb show bad'; fb.textContent='Quase! Os blocos em vermelho estão fora de ordem. Ajuste e valide de novo.'; } };
+  document.getElementById('seqReset').onclick=initSeq; }
+
+/* ---- Jogo: Modo Relâmpago ---- */
+function lightPool(){ var arr=PROVA.map(q=>({q:q.q,o:q.o,a:q.a})); DISCURSO.forEach(ch=>{ if(ch.check) arr.push({q:ch.check.q,o:ch.check.o,a:ch.check.a}); }); return arr; }
+let lq=[], li=0, lcorrect=0, lcombo=0, ltimer=null;
+function startLight(){ lq=shuffle(lightPool()).slice(0,8); li=0; lcorrect=0; lcombo=0; renderLight(); }
+function renderLight(){ const box=document.getElementById('lightBox'); if(li>=lq.length){ endLight(); return; }
+  const q=lq[li]; let t=12;
+  box.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center"><span class="combo">🔥 Combo x'+(lcombo+1)+'</span><span class="gtimer" id="gt">'+t+'</span></div>'+
+    '<p style="font-weight:700;color:var(--primary-dark)">'+(li+1)+'/'+lq.length+' · '+q.q+'</p><div class="lch"></div>';
+  const ch=box.querySelector('.lch');
+  q.o.forEach((opt,oi)=>{ const b=document.createElement('button'); b.className='choice'; b.textContent=opt; b.onclick=()=>answerLight(oi); ch.appendChild(b); });
+  clearInterval(ltimer); ltimer=setInterval(()=>{ t--; const g=document.getElementById('gt'); if(g) g.textContent=t; if(t<=0) answerLight(-1); },1000); }
+function answerLight(oi){ clearInterval(ltimer); if(oi===lq[li].a){ lcorrect++; lcombo++; } else { lcombo=0; } li++; renderLight(); }
+function endLight(){ const box=document.getElementById('lightBox'); const xp=lcorrect*5; awardXP(xp,'Relâmpago');
+  const d=load(); if(lcorrect>(d.lightBest||0)){ d.lightBest=lcorrect; save(d); }
+  box.innerHTML='<div class="impacto" style="background:linear-gradient(135deg,#6B46C1,#D97706)">⚡ Você acertou '+lcorrect+'/'+lq.length+' e ganhou '+xp+' XP!</div>'+
+    '<div class="btnrow" style="margin-top:12px"><button class="btn gold" id="lightAgain">Jogar de novo</button></div>';
+  document.getElementById('lightAgain').onclick=startLight; updateLightBest(); }
+function updateLightBest(){ const el=document.getElementById('lightBest'); if(!el) return; const d=load(); el.textContent=d.lightBest?('🏅 Seu recorde: '+d.lightBest+' acertos'):''; }
+document.getElementById('lightStart').onclick=startLight;
+
 /* ===================== INIT ===================== */
 (function(){ const d=load(); if(d.profile&&d.profile.photo) cur.photo=d.profile.photo; })();
-syncUser(); renderRoleBanner(); renderMethods(); renderRel(); renderFundRole(); renderPersonas(); renderObj(); refreshKpis(); renderHist(); renderTeam(); renderMedals(); loadPhotoImg(); renderChapter(0,true);
+syncUser(); renderRoleBanner(); renderMethods(); renderRel(); renderFundRole(); renderPersonas(); renderObj(); refreshKpis(); renderHist(); renderTeam(); renderMedals(); loadPhotoImg(); renderChapter(0,true); updateXPBar(); initSeq(); bindSeq(); updateLightBest();
 who.addEventListener('input',()=>{ refreshKpis(); renderHist(); drawCert(); });
 </script>
 </body>
