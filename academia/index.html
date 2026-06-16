@@ -5,320 +5,675 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Academia do Closer · Dojo de Neurovendas · Estante Mágica</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  * { margin:0; padding:0; box-sizing:border-box; }
   :root {
-    --primary: #6B46C1; --primary-dark: #4C1D95; --primary-light: #EDE5FA;
-    --accent: #F59E0B; --accent-light: #FEF3C7; --gold: #D97706;
-    --success: #10B981; --success-light: #D1FAE5;
-    --danger: #EF4444; --danger-light: #FEE2E2;
-    --info: #3B82F6; --info-light: #DBEAFE;
-    --pink: #EC4899; --pink-light: #FCE7F3;
-    --text: #1F2937; --text-soft: #6B7280;
-    --bg: #FAF7FF; --card: #FFFFFF; --border: #E5E7EB;
+    --primary:#6B46C1; --primary-dark:#4C1D95; --primary-light:#EDE5FA;
+    --accent:#F59E0B; --accent-light:#FEF3C7; --gold:#D97706;
+    --success:#10B981; --success-light:#D1FAE5; --danger:#EF4444; --danger-light:#FEE2E2;
+    --info:#3B82F6; --info-light:#DBEAFE; --text:#1F2937; --soft:#6B7280;
+    --bg:#FAF7FF; --card:#FFFFFF; --border:#E5E7EB; --plight:#F4EEFC;
   }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: var(--bg); color: var(--text); line-height: 1.6; }
-  .wrap { max-width: 1040px; margin: 0 auto; padding: 28px 20px 80px; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; display:flex; min-height:100vh; }
 
-  /* HERO / MANIFESTO */
-  .hero { background: linear-gradient(135deg, #4C1D95 0%, #6B46C1 55%, #D97706 130%);
-    color: #fff; padding: 38px 34px; border-radius: 18px; box-shadow: 0 10px 30px rgba(76,29,149,.28); }
-  .hero .kicker { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; opacity: .85; font-weight: 700; }
-  .hero h1 { font-size: 34px; margin: 8px 0 10px; line-height: 1.15; }
-  .hero p { font-size: 16px; opacity: .95; max-width: 720px; }
-  .hero .quote { font-style: italic; font-weight: 300; font-size: 18px; margin-top: 16px;
-    border-left: 3px solid rgba(255,255,255,.5); padding-left: 14px; }
+  /* SIDEBAR */
+  .sidebar { width:280px; background:var(--card); border-right:1px solid var(--border); position:sticky; top:0; height:100vh; overflow-y:auto; flex-shrink:0; }
+  .sb-head { padding:22px 22px 16px; border-bottom:1px solid var(--border); }
+  .sb-head h1 { font-size:17px; color:var(--primary-dark); }
+  .sb-head p { font-size:12px; color:var(--soft); }
+  .sb-user { padding:12px 22px; background:var(--primary-light); font-size:13px; border-bottom:1px solid var(--border); }
+  .sb-user strong { color:var(--primary-dark); }
+  .nav-sec { font-size:11px; font-weight:700; color:var(--primary-dark); text-transform:uppercase; letter-spacing:1px; padding:14px 22px 4px; }
+  .nav { list-style:none; }
+  .nav li { padding:10px 22px; cursor:pointer; font-size:14px; border-left:3px solid transparent; display:flex; gap:9px; align-items:center; transition:.15s; }
+  .nav li:hover { background:var(--primary-light); }
+  .nav li.active { background:var(--primary-light); border-left-color:var(--primary); color:var(--primary); font-weight:700; }
+  .nav li.done::after { content:'✓'; color:var(--success); font-weight:800; margin-left:auto; }
 
-  .idbar { display:flex; gap:10px; align-items:center; flex-wrap:wrap;
-    background: var(--card); border:1px solid var(--border); border-radius:14px; padding:14px 18px; margin:18px 0; }
-  .idbar label { font-size: 13px; color: var(--text-soft); font-weight:600; }
+  .main { flex:1; padding:34px 46px 80px; max-width:980px; margin:0 auto; width:100%; }
+  .section { display:none; } .section.active { display:block; animation:fade .3s; }
+  @keyframes fade { from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:none} }
+
+  h2.title { font-size:30px; color:var(--primary-dark); margin-bottom:4px; }
+  .lead { color:var(--soft); font-size:16px; margin-bottom:22px; }
+  h3 { font-size:20px; color:var(--primary-dark); margin:26px 0 10px; }
+  p { margin-bottom:12px; } ul { margin:0 0 14px 22px; } li { margin-bottom:6px; }
+
+  .hero { background:linear-gradient(135deg,#4C1D95,#6B46C1 55%,#D97706 135%); color:#fff; padding:32px; border-radius:16px; margin-bottom:22px; }
+  .hero h2 { font-size:28px; margin-bottom:8px; } .hero p { opacity:.95; }
+  .hero .q { font-style:italic; font-weight:300; border-left:3px solid rgba(255,255,255,.5); padding-left:14px; margin-top:14px; }
+
+  .idbar { display:flex; gap:10px; align-items:center; flex-wrap:wrap; background:var(--card); border:1px solid var(--border); border-radius:14px; padding:14px 18px; margin-bottom:18px; }
+  .idbar label { font-size:13px; color:var(--soft); font-weight:600; }
   .idbar input, .idbar select { padding:9px 12px; border:1px solid var(--border); border-radius:9px; font-size:14px; }
-  .idbar input { min-width: 220px; }
 
-  .grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(210px,1fr)); gap:14px; margin: 6px 0 22px; }
-  .kpi { background: var(--card); border:1px solid var(--border); border-radius:14px; padding:18px; position:relative; overflow:hidden; }
-  .kpi::after { content:''; position:absolute; left:0; top:0; bottom:0; width:5px; background: var(--primary); }
-  .kpi .lab { font-size:12px; color:var(--text-soft); text-transform:uppercase; letter-spacing:.5px; font-weight:700; }
-  .kpi .val { font-size:34px; font-weight:800; color:var(--primary-dark); margin:4px 0 2px; }
-  .kpi .delta { font-size:13px; font-weight:700; }
-  .delta.up { color: var(--success); } .delta.down { color: var(--danger); } .delta.flat { color: var(--text-soft); }
-  .kpi.streak::after { background: var(--accent); } .kpi.streak .val { color: var(--gold); }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:13px; margin-bottom:22px; }
+  .kpi { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:16px; position:relative; overflow:hidden; }
+  .kpi::after { content:''; position:absolute; left:0; top:0; bottom:0; width:5px; background:var(--primary); }
+  .kpi.streak::after { background:var(--accent); }
+  .kpi .lab { font-size:11px; color:var(--soft); text-transform:uppercase; letter-spacing:.5px; font-weight:700; }
+  .kpi .val { font-size:30px; font-weight:800; color:var(--primary-dark); margin:3px 0; }
+  .kpi.streak .val { color:var(--gold); }
+  .kpi .delta { font-size:12px; font-weight:700; }
+  .delta.up{color:var(--success)} .delta.down{color:var(--danger)} .delta.flat{color:var(--soft)}
 
-  .section { background: var(--card); border:1px solid var(--border); border-radius:16px; padding:24px; margin-bottom:20px; }
-  .section h2 { font-size:22px; color:var(--primary-dark); display:flex; align-items:center; gap:10px; }
-  .section h2 .tag { font-size:11px; background:var(--primary-light); color:var(--primary); padding:3px 9px; border-radius:6px; letter-spacing:.5px; text-transform:uppercase; font-weight:700; }
-  .section .sub { color:var(--text-soft); font-size:14px; margin:4px 0 16px; }
+  .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:22px; margin-bottom:18px; }
+  .card h3 { margin-top:0; }
+  .tag { display:inline-block; font-size:11px; background:var(--primary-light); color:var(--primary); padding:3px 9px; border-radius:6px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; margin-bottom:8px; }
 
-  /* RITUAL CHECKLIST */
-  .ritual { display:grid; grid-template-columns: repeat(auto-fit,minmax(230px,1fr)); gap:12px; }
-  .task { border:1px solid var(--border); border-radius:12px; padding:16px; cursor:pointer; transition:.18s; background:#fff; }
-  .task:hover { border-color:var(--primary); transform: translateY(-2px); box-shadow:0 6px 16px rgba(107,70,193,.12); }
-  .task.done { background: var(--success-light); border-color: var(--success); }
-  .task .ico { font-size:24px; } .task h4 { font-size:15px; margin:8px 0 4px; color:var(--primary-dark); }
-  .task p { font-size:13px; color:var(--text-soft); }
-  .task .state { font-size:12px; font-weight:700; margin-top:8px; color:var(--text-soft); }
-  .task.done .state { color: var(--success); }
+  .ritual { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:12px; }
+  .task { border:1px solid var(--border); border-radius:12px; padding:15px; background:#fff; }
+  .task.done { background:var(--success-light); border-color:var(--success); }
+  .task .ico{font-size:22px} .task h4{font-size:14px; color:var(--primary-dark); margin:6px 0 3px} .task p{font-size:12.5px; color:var(--soft); margin:0}
+  .task .state{font-size:12px; font-weight:700; margin-top:6px; color:var(--soft)} .task.done .state{color:var(--success)}
 
-  /* DRILL */
-  .drill { background: var(--primary-light); border-radius:12px; padding:18px; }
-  .drill .obj { font-size:16px; font-weight:600; color:var(--primary-dark); margin-bottom:12px; }
-  .choice { display:block; width:100%; text-align:left; background:#fff; border:1px solid var(--border); border-radius:10px;
-    padding:12px 14px; margin-bottom:10px; font-size:14px; cursor:pointer; transition:.15s; }
-  .choice:hover { border-color:var(--primary); }
-  .fb { margin-top:6px; padding:14px; border-radius:10px; font-size:14px; display:none; }
-  .fb.good { background:var(--success-light); border:1px solid var(--success); }
-  .fb.bad { background:var(--danger-light); border:1px solid var(--danger); }
+  .btn { background:var(--primary); color:#fff; border:none; border-radius:10px; padding:11px 20px; font-size:14px; font-weight:700; cursor:pointer; transition:.15s; }
+  .btn:hover{ background:var(--primary-dark); } .btn.ghost{ background:#fff; color:var(--primary); border:1.5px solid var(--primary); }
+  .btn.gold{ background:var(--accent);} .btn.gold:hover{background:var(--gold);}
+  .btn.sm{ padding:8px 14px; font-size:13px; }
+  .btnrow{ display:flex; gap:10px; flex-wrap:wrap; }
 
-  /* DICTION RECORDER */
-  .rec { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
-  .stars { font-size:24px; cursor:pointer; color:#D1D5DB; }
-  .stars .on { color: var(--accent); }
+  .choice { display:block; width:100%; text-align:left; background:#fff; border:1.5px solid var(--border); border-radius:10px; padding:12px 14px; margin-bottom:9px; font-size:14px; cursor:pointer; transition:.15s; }
+  .choice:hover{ border-color:var(--primary); }
+  .choice.right{ background:var(--success-light); border-color:var(--success); }
+  .choice.wrong{ background:var(--danger-light); border-color:var(--danger); }
+  .fb { margin-top:4px; padding:13px; border-radius:10px; font-size:13.5px; display:none; }
+  .fb.good{ background:var(--success-light); border:1px solid var(--success);} .fb.bad{ background:var(--danger-light); border:1px solid var(--danger);}
+  .fb.show{ display:block; }
 
-  .btn { background: var(--primary); color:#fff; border:none; border-radius:10px; padding:12px 22px;
-    font-size:15px; font-weight:700; cursor:pointer; transition:.15s; }
-  .btn:hover { background: var(--primary-dark); }
-  .btn.ghost { background:#fff; color:var(--primary); border:1.5px solid var(--primary); }
-  .btn.gold { background: var(--accent); } .btn.gold:hover{ background:var(--gold); }
-  .btnrow { display:flex; gap:10px; flex-wrap:wrap; margin-top:6px; }
+  table{ width:100%; border-collapse:collapse; font-size:13.5px; }
+  th,td{ text-align:left; padding:9px 10px; border-bottom:1px solid var(--border); }
+  th{ color:var(--soft); text-transform:uppercase; font-size:11px; letter-spacing:.5px; }
+  .empty{ color:var(--soft); font-style:italic; font-size:14px; }
+  .note{ font-size:12.5px; color:var(--soft); background:var(--accent-light); border:1px solid var(--accent); border-radius:10px; padding:10px 14px; margin-top:12px; }
 
-  table { width:100%; border-collapse:collapse; font-size:13.5px; }
-  th,td { text-align:left; padding:9px 10px; border-bottom:1px solid var(--border); }
-  th { color:var(--text-soft); text-transform:uppercase; font-size:11px; letter-spacing:.5px; }
-  .empty { color:var(--text-soft); font-size:14px; font-style:italic; }
+  /* flashcards */
+  .fc-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; }
+  .fc{ perspective:900px; height:130px; cursor:pointer; }
+  .fc-in{ position:relative; width:100%; height:100%; transition:transform .5s; transform-style:preserve-3d; }
+  .fc.flip .fc-in{ transform:rotateY(180deg); }
+  .fc-face{ position:absolute; inset:0; backface-visibility:hidden; border-radius:12px; padding:14px; display:flex; align-items:center; justify-content:center; text-align:center; border:1px solid var(--border); }
+  .fc-front{ background:var(--primary-light); color:var(--primary-dark); font-weight:700; font-size:15px; }
+  .fc-back{ background:#fff; color:var(--text); font-size:12.5px; transform:rotateY(180deg); }
 
-  .note { font-size:12.5px; color:var(--text-soft); background:var(--accent-light); border:1px solid var(--accent);
-    border-radius:10px; padding:10px 14px; margin-top:14px; }
-  .footer { text-align:center; color:var(--text-soft); font-size:12px; margin-top:30px; }
+  /* personas */
+  .persona{ border:1.5px solid var(--border); border-radius:12px; padding:16px; cursor:pointer; transition:.15s; }
+  .persona:hover{ border-color:var(--primary); transform:translateY(-3px); box-shadow:0 8px 18px rgba(107,70,193,.12); }
+  .persona .pico{ font-size:30px; } .persona h4{ color:var(--primary-dark); margin:6px 0 3px; } .persona p{ font-size:13px; color:var(--soft); margin:0; }
+
+  .stars span{ font-size:24px; cursor:pointer; color:#D1D5DB; } .stars span.on{ color:var(--accent); }
+  .rubric{ display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px; }
+  .rubric .ri{ border:1px solid var(--border); border-radius:10px; padding:12px; }
+  .rubric .ri label{ font-size:13px; font-weight:600; display:block; margin-bottom:4px; }
+
+  .acc{ border:1px solid var(--border); border-radius:10px; margin-bottom:8px; overflow:hidden; }
+  .acc summary{ padding:12px 14px; cursor:pointer; font-weight:700; color:var(--primary-dark); font-size:14px; }
+  .acc div{ padding:0 14px 14px; font-size:14px; }
+  code.inl{ background:var(--primary-light); padding:1px 6px; border-radius:5px; font-size:13px; }
+
+  .timer{ font-size:34px; font-weight:800; color:var(--gold); font-variant-numeric:tabular-nums; }
+  .pill{ display:inline-block; background:var(--info-light); color:var(--info); border-radius:20px; padding:3px 12px; font-size:12px; font-weight:700; margin:0 6px 6px 0; }
+  pre{ background:#1e1b2e; color:#e6e1f5; border-radius:10px; padding:14px; overflow:auto; font-size:12px; line-height:1.5; }
+  @media(max-width:860px){ .sidebar{ display:none; } .main{ padding:24px 18px 70px; } }
 </style>
 </head>
 <body>
-<div class="wrap">
 
-  <div class="hero">
-    <div class="kicker">Frente Interna · Protótipo de validação de tom</div>
-    <h1>Academia do Closer · Dojo de Neurovendas</h1>
-    <p>Vender não é improviso — é profissão, técnica e consciência emocional construída diariamente. Aqui você treina vocabulário, narrativa, dicção e argumentação em ambiente simulado, e acompanha sua evolução semana a semana.</p>
-    <div class="quote">"Não é sobre ser melhor que o outro. É ser melhor do que ontem. O próximo nível começa com a escolha de não voltar para a média."</div>
-  </div>
+<aside class="sidebar">
+  <div class="sb-head"><h1>🎓 Academia do Closer</h1><p>Dojo de Neurovendas · Estante Mágica</p></div>
+  <div class="sb-user"><strong id="sbName">—</strong><br><span id="sbMeta" style="color:var(--soft)">defina seu nome no Início</span></div>
+  <div class="nav-sec">Início</div>
+  <ul class="nav">
+    <li class="active" data-go="inicio">🏠 Painel da semana</li>
+  </ul>
+  <div class="nav-sec">Aprender</div>
+  <ul class="nav">
+    <li data-go="fundamentos">📚 Fundamentos</li>
+    <li data-go="vocab">🗂️ Vocabulário &amp; Reescrita</li>
+    <li data-go="arg">🧠 Argumentação &amp; Persuasão</li>
+  </ul>
+  <div class="nav-sec">Praticar</div>
+  <ul class="nav">
+    <li data-go="dojo">🥋 Dojo de Simulação</li>
+    <li data-go="diccao">🎙️ Estúdio de Dicção</li>
+  </ul>
+  <div class="nav-sec">Gestão</div>
+  <ul class="nav">
+    <li data-go="lider">📊 Painel do Líder</li>
+  </ul>
+</aside>
 
-  <div class="idbar">
-    <label for="who">Closer:</label>
-    <input id="who" placeholder="Seu nome" />
-    <label for="team">Time:</label>
-    <select id="team"><option>Habilitação</option><option>SDR</option><option>Closer</option><option>CS</option></select>
-    <label for="week">Semana:</label>
-    <input id="week" type="week" />
-    <span id="streakBadge" style="margin-left:auto; font-weight:700; color:var(--gold);"></span>
-  </div>
+<main class="main">
 
-  <!-- INDICADORES DA SEMANA -->
-  <div class="grid" id="kpis">
-    <div class="kpi"><div class="lab">Vocabulário</div><div class="val" id="kVocab">—</div><div class="delta flat" id="dVocab">vs. semana anterior</div></div>
-    <div class="kpi"><div class="lab">Conversão (simulação)</div><div class="val" id="kConv">—</div><div class="delta flat" id="dConv">vs. semana anterior</div></div>
-    <div class="kpi"><div class="lab">Objeções</div><div class="val" id="kObj">—</div><div class="delta flat" id="dObj">vs. semana anterior</div></div>
-    <div class="kpi"><div class="lab">Dicção / Narrativa</div><div class="val" id="kDic">—</div><div class="delta flat" id="dDic">vs. semana anterior</div></div>
-    <div class="kpi streak"><div class="lab">Consistência</div><div class="val" id="kStreak">0</div><div class="delta flat">semanas seguidas</div></div>
-  </div>
-
-  <!-- RITUAL DA SEMANA -->
-  <div class="section">
-    <h2><span class="tag">Ritual</span> Sua semana de treino</h2>
-    <p class="sub">Quatro práticas. Marque conforme conclui — cada uma alimenta um indicador. Continuidade cria transformação.</p>
-    <div class="ritual" id="ritual">
-      <div class="task" data-task="fund"><div class="ico">📚</div><h4>Fundamento da semana</h4><p>Venda é emoção, não discurso técnico. Releia e resuma em 1 frase.</p><div class="state">○ Pendente</div></div>
-      <div class="task" data-task="dojo"><div class="ico">🥋</div><h4>Dojo de simulação</h4><p>1 roleplay com a coordenação pedagógica + 1 objeção.</p><div class="state">○ Pendente</div></div>
-      <div class="task" data-task="voz"><div class="ico">🎙️</div><h4>Estúdio de dicção</h4><p>Grave seu pitch de 60s e se autoavalie por rubrica.</p><div class="state">○ Pendente</div></div>
-      <div class="task" data-task="vocab"><div class="ico">🗂️</div><h4>Vocabulário</h4><p>Reescreva uma fala técnica em fala emocional/intencional.</p><div class="state">○ Pendente</div></div>
+  <!-- ================= INÍCIO ================= -->
+  <section class="section active" id="inicio">
+    <div class="hero">
+      <h2>Bem-vindo ao próximo nível</h2>
+      <p>Vender não é improviso. É profissão, técnica e consciência emocional construídas todo dia. Aqui você treina, mede e evolui.</p>
+      <div class="q">"Não é sobre ser melhor que o outro. É ser melhor do que ontem. O próximo nível começa com a escolha de não voltar para a média."</div>
     </div>
-  </div>
 
-  <!-- DRILL DE OBJEÇÃO -->
-  <div class="section">
-    <h2><span class="tag">Dojo</span> Drill de objeção · "O calendário já está cheio"</h2>
-    <p class="sub">A coordenadora está sobrecarregada e com medo de não dar conta. Qual resposta conecta antes de convencer?</p>
-    <div class="drill">
-      <div class="obj">👩‍🏫 "Olha, eu adorei a ideia... mas nosso calendário deste ano já está lotado. Não sei se conseguimos encaixar mais um projeto."</div>
-      <button class="choice" data-good="0">"Mas é rapidinho, encaixa fácil — são só algumas aulas e a gente te manda tudo pronto."</button>
-      <button class="choice" data-good="0">"Entendo, mas pensa no diferencial competitivo que dá pra sua escola na comunidade."</button>
-      <button class="choice" data-good="1">"Faz total sentido — calendário cheio é sinal de escola séria. Justamente por isso ele não entra como 'mais um projeto': ele se integra ao que vocês já fazem em escrita e leitura, com um único cronograma e materiais padronizados. Posso te mostrar como ele tira peso da sua equipe, em vez de adicionar?"</button>
-      <div class="fb good" id="fbGood">✅ <strong>É isso.</strong> Você validou a dor (reconhecimento + autoridade da coordenadora), reposicionou a objeção como força, e usou o gatilho de <em>alívio operacional</em> (padronização = menos retrabalho). Conecta antes de convencer. <span style="display:block;margin-top:6px;">+1 ponto de objeção registrado.</span></div>
-      <div class="fb bad" id="fbBad">⚠️ <strong>Cuidado.</strong> Minimizar a dor ("é rapidinho") ou ir direto pro racional ("diferencial competitivo") fragiliza a coordenadora em vez de fortalecê-la. Lembre: a venda começa quando ela se sente <em>vista e segura</em>. Tente de novo.</div>
+    <div class="idbar">
+      <label>Closer:</label><input id="who" placeholder="Seu nome">
+      <label>Time:</label><select id="team"><option>Habilitação</option><option>SDR</option><option>Closer</option><option>CS</option></select>
+      <label>Semana:</label><input id="week" type="week">
+      <span id="streakBadge" style="margin-left:auto; font-weight:700; color:var(--gold)"></span>
     </div>
-  </div>
 
-  <!-- ESTÚDIO DE DICÇÃO -->
-  <div class="section">
-    <h2><span class="tag">Voz</span> Estúdio de dicção & narrativa</h2>
-    <p class="sub">Grave seu pitch de 60s ("conte a Estante Mágica para uma diretora cética"). Ouça e se avalie: clareza, ritmo, energia e conexão emocional.</p>
-    <div class="rec">
-      <button class="btn gold" id="recBtn">● Gravar 60s</button>
-      <audio id="player" controls style="display:none;"></audio>
-      <span style="margin-left:auto;">Autoavaliação:
-        <span class="stars" id="stars"><span data-v="1">★</span><span data-v="2">★</span><span data-v="3">★</span><span data-v="4">★</span><span data-v="5">★</span></span>
-      </span>
+    <div class="grid" id="kpis">
+      <div class="kpi"><div class="lab">Fundamentos</div><div class="val" id="kFund">—</div><div class="delta flat" id="dFund">checkpoints</div></div>
+      <div class="kpi"><div class="lab">Vocabulário</div><div class="val" id="kVocab">—</div><div class="delta flat" id="dVocab">reescrita</div></div>
+      <div class="kpi"><div class="lab">Argumentação</div><div class="val" id="kArg">—</div><div class="delta flat" id="dArg">persuasão</div></div>
+      <div class="kpi"><div class="lab">Simulação</div><div class="val" id="kDojo">—</div><div class="delta flat" id="dDojo">conversão</div></div>
+      <div class="kpi"><div class="lab">Dicção</div><div class="val" id="kDic">—</div><div class="delta flat" id="dDic">narrativa</div></div>
+      <div class="kpi streak"><div class="lab">Consistência</div><div class="val" id="kStreak">0</div><div class="delta flat">semanas seguidas</div></div>
     </div>
-    <div class="note">🎧 A gravação fica só no seu navegador (não sai do dispositivo). No app final, a nota entra no histórico e o líder pode adicionar avaliação de par.</div>
-  </div>
 
-  <!-- SALVAR SEMANA + HISTÓRICO -->
-  <div class="section">
-    <h2><span class="tag">Histórico</span> Fechar a semana &amp; relatórios</h2>
-    <p class="sub">Ao fechar, calculamos seus indicadores, atualizamos seu streak e gravamos no histórico.</p>
-    <div class="btnrow">
-      <button class="btn" id="saveWeek">✓ Fechar semana</button>
-      <button class="btn ghost" id="exportCsv">⬇ Exportar CSV</button>
-      <button class="btn ghost" id="emailReport">✉ Enviar relatório ao líder</button>
+    <div class="card">
+      <span class="tag">Ritual</span>
+      <h3>Sua semana de treino</h3>
+      <p class="lead" style="margin-bottom:14px">Complete as práticas em cada área. Continuidade cria transformação.</p>
+      <div class="ritual" id="ritual">
+        <div class="task" data-task="fund"><div class="ico">📚</div><h4>Fundamentos</h4><p>Conclua os checkpoints da trilha.</p><div class="state">○ Pendente</div></div>
+        <div class="task" data-task="vocab"><div class="ico">🗂️</div><h4>Vocabulário</h4><p>Faça a reescrita do discurso.</p><div class="state">○ Pendente</div></div>
+        <div class="task" data-task="arg"><div class="ico">🧠</div><h4>Argumentação</h4><p>Resolva os drills de persuasão.</p><div class="state">○ Pendente</div></div>
+        <div class="task" data-task="dojo"><div class="ico">🥋</div><h4>Dojo</h4><p>1 simulação + 1 objeção.</p><div class="state">○ Pendente</div></div>
+        <div class="task" data-task="dic"><div class="ico">🎙️</div><h4>Dicção</h4><p>Grave e avalie seu pitch.</p><div class="state">○ Pendente</div></div>
+      </div>
     </div>
-    <div style="overflow-x:auto; margin-top:18px;">
-      <table id="histTable">
-        <thead><tr><th>Semana</th><th>Vocab</th><th>Conversão</th><th>Objeções</th><th>Dicção</th><th>Práticas</th></tr></thead>
-        <tbody><tr><td colspan="6" class="empty">Nenhuma semana fechada ainda. Complete o ritual e clique em "Fechar semana".</td></tr></tbody>
-      </table>
-    </div>
-    <div class="note">🔗 <strong>Camada de dados:</strong> este protótipo grava no navegador (localStorage). No app final, os mesmos dados vão para uma planilha Google via Apps Script — basta colar a URL do endpoint em <code>SHEETS_ENDPOINT</code> no código. Aí o líder vê o histórico de todo o time num só lugar.</div>
-  </div>
 
-  <div class="footer">Academia do Closer · Estante Mágica · Protótipo de tom — Frente Interna<br>Transformar 1 bilhão de crianças em autores até 2030 começa por um time que evolui toda semana.</div>
-</div>
+    <div class="card">
+      <span class="tag">Histórico</span>
+      <h3>Fechar a semana &amp; relatórios</h3>
+      <div class="btnrow">
+        <button class="btn" id="saveWeek">✓ Fechar semana</button>
+        <button class="btn ghost" id="exportCsv">⬇ Exportar CSV</button>
+        <button class="btn ghost" id="emailReport">✉ Enviar ao líder</button>
+      </div>
+      <div style="overflow-x:auto; margin-top:16px">
+        <table id="histTable"><thead><tr><th>Semana</th><th>Fund.</th><th>Vocab</th><th>Argum.</th><th>Simul.</th><th>Dicção</th></tr></thead>
+        <tbody><tr><td colspan="6" class="empty">Nenhuma semana fechada ainda.</td></tr></tbody></table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FUNDAMENTOS ================= -->
+  <section class="section" id="fundamentos">
+    <h2 class="title">📚 Fundamentos de Neurovendas</h2>
+    <p class="lead">As pessoas não compram pela razão. Compram pela emoção e justificam com a razão depois. Domine os pilares e responda o checkpoint de cada um.</p>
+    <div id="fundList"></div>
+    <div class="note" id="fundNote">Conclua os 5 checkpoints para marcar o ritual de Fundamentos. Progresso: <strong id="fundProg">0/5</strong></div>
+  </section>
+
+  <!-- ================= VOCAB ================= -->
+  <section class="section" id="vocab">
+    <h2 class="title">🗂️ Vocabulário &amp; Reescrita</h2>
+    <p class="lead">Repertório é o que te tira do improviso. Vire as cartas para fixar os termos e depois reescreva falas técnicas em falas que conectam.</p>
+
+    <div class="card">
+      <span class="tag">Flashcards</span><h3>Glossário ativo</h3>
+      <p class="lead" style="margin-bottom:14px">Toque na carta para ver a definição e como usar na conversa.</p>
+      <div class="fc-grid" id="fcGrid"></div>
+    </div>
+
+    <div class="card">
+      <span class="tag">Exercício</span><h3>Reescreva o discurso</h3>
+      <p class="lead" style="margin-bottom:14px">Para cada fala técnica, escolha a versão que gera conexão emocional.</p>
+      <div id="rewriteList"></div>
+      <div class="note">Acerte as 3 reescritas para concluir o ritual de Vocabulário. Progresso: <strong id="rwProg">0/3</strong></div>
+    </div>
+  </section>
+
+  <!-- ================= ARGUMENTAÇÃO ================= -->
+  <section class="section" id="arg">
+    <h2 class="title">🧠 Argumentação &amp; Persuasão</h2>
+    <p class="lead">Como influenciar sem ter autoridade formal, enriquecer o discurso e nunca travar diante de uma "saia justa". Persuasão ética: ajudar o cliente a enxergar o valor antes de colocá-lo em palavras.</p>
+
+    <div class="card">
+      <span class="tag">Influência sem autoridade</span><h3>6 alavancas de persuasão</h3>
+      <p class="lead" style="margin-bottom:14px">Você não manda na escola. Você conduz. Estas alavancas movem a decisão sem pressão.</p>
+      <div id="leverList"></div>
+    </div>
+
+    <div class="card">
+      <span class="tag">Saia justa</span><h3>Método P.A.R.R. — para nunca travar</h3>
+      <p>Quando vier a pergunta difícil, o silêncio ou a objeção afiada, não responda no susto. Rode o ciclo:</p>
+      <ul>
+        <li><strong>Pausa</strong> — respire e ganhe 2 segundos. Quem pausa parece seguro; quem atropela parece inseguro.</li>
+        <li><strong>Acolhe</strong> — valide antes de rebater. "Faz sentido você pensar nisso."</li>
+        <li><strong>Redireciona</strong> — leve para o terreno onde você é forte (emoção, impacto na criança, apoio do time).</li>
+        <li><strong>Reconquista</strong> — feche com uma pergunta que devolve o protagonismo ao gestor.</li>
+      </ul>
+      <h4 style="color:var(--primary-dark); margin-top:10px">Frases-ponte (repertório para não travar)</h4>
+      <div>
+        <span class="pill">"Ótima pergunta. Deixa eu te mostrar por outro ângulo…"</span>
+        <span class="pill">"Eu entendo. E é justamente por isso que…"</span>
+        <span class="pill">"Posso ser honesto com você sobre isso?"</span>
+        <span class="pill">"O que te faria sentir seguro nessa decisão?"</span>
+        <span class="pill">"Se isso não fosse um problema, faria sentido pra você?"</span>
+        <span class="pill">"Me ajuda a entender o que mais pesa aí?"</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="tag">Drill</span><h3>Treino de réplica</h3>
+      <p class="lead" style="margin-bottom:14px">Leia a fala do gestor e escolha a melhor jogada de persuasão.</p>
+      <div id="argDrills"></div>
+      <div class="note">Acerte os 3 drills para concluir o ritual de Argumentação. Progresso: <strong id="argProg">0/3</strong></div>
+    </div>
+  </section>
+
+  <!-- ================= DOJO ================= -->
+  <section class="section" id="dojo">
+    <h2 class="title">🥋 Dojo de Simulação</h2>
+    <p class="lead">Reuniões genéricas geram esforço; reuniões intencionais geram fechamento. Escolha uma persona e conduza a conversa.</p>
+
+    <div class="card" id="personaPick">
+      <span class="tag">Personas</span><h3>Com quem você vai treinar hoje?</h3>
+      <div class="grid" id="personaGrid" style="margin-top:12px"></div>
+    </div>
+
+    <div class="card" id="scenarioBox" style="display:none">
+      <button class="btn ghost sm" id="backPersona" style="margin-bottom:12px">← trocar persona</button>
+      <div id="scenarioRun"></div>
+    </div>
+
+    <div class="card">
+      <span class="tag">Banco de objeções</span><h3>Drill cronometrado</h3>
+      <p class="lead" style="margin-bottom:12px">15 segundos para formular sua resposta na cabeça. Depois confira o modelo e se autoavalie.</p>
+      <div id="objBox"></div>
+    </div>
+  </section>
+
+  <!-- ================= DICÇÃO ================= -->
+  <section class="section" id="diccao">
+    <h2 class="title">🎙️ Estúdio de Dicção &amp; Narrativa</h2>
+    <p class="lead">A mesma mensagem muda de poder conforme a voz que a entrega. Aqueça, pratique e grave.</p>
+
+    <div class="card">
+      <span class="tag">Aquecimento</span><h3>Exercícios guiados</h3>
+      <details class="acc"><summary>🫁 Respiração diafragmática (1 min)</summary><div>Inspire em 4 tempos, segure 4, solte em 6. Repita 5 vezes. Voz apoiada no diafragma soa mais firme e segura, sem cansar.</div></details>
+      <details class="acc"><summary>👅 Aquecimento articulatório (1 min)</summary><div>Exagere a articulação de "pa-ta-ka" acelerando aos poucos. Solte a mandíbula e os lábios. Articulação clara reduz o "comer" de sílabas na pressão.</div></details>
+      <details class="acc"><summary>🎚️ Ritmo &amp; pausa (2 min)</summary><div>Leia uma frase do pitch marcando 2 pausas intencionais. A pausa cria expectativa e dá peso ao que vem depois. Quem pausa controla a conversa.</div></details>
+      <details class="acc"><summary>📈 Ênfase &amp; intenção (2 min)</summary><div>Pegue uma frase e mude a palavra enfatizada a cada repetição. Sinta como o sentido muda. Ênfase é direção: ela diz ao cérebro do ouvinte onde olhar.</div></details>
+      <details class="acc"><summary>📖 Arco da transformação (3 min)</summary><div>Conte a Estante Mágica em 60s seguindo: dor → visão → ponte → prova → convite. História com arco gera emoção; emoção gera memória.</div></details>
+    </div>
+
+    <div class="card">
+      <span class="tag">Desafio da semana</span><h3>Grave seu pitch de 60s</h3>
+      <p class="lead" style="margin-bottom:12px">"Conte a Estante Mágica para uma diretora cética." Grave, ouça e avalie pela rubrica.</p>
+      <div class="btnrow"><button class="btn gold" id="recBtn">● Gravar 60s</button><audio id="player" controls style="display:none"></audio></div>
+      <h4 style="color:var(--primary-dark); margin:16px 0 8px">Rubrica de autoavaliação</h4>
+      <div class="rubric" id="rubric"></div>
+      <div class="note">🎧 A gravação fica só no seu navegador. A média da rubrica alimenta o indicador de Dicção.</div>
+    </div>
+  </section>
+
+  <!-- ================= LÍDER ================= -->
+  <section class="section" id="lider">
+    <h2 class="title">📊 Painel do Líder</h2>
+    <p class="lead">Acompanhe a evolução do time semana a semana. Configure a planilha Google para centralizar o histórico de todos.</p>
+
+    <div class="card">
+      <span class="tag">Conexão</span><h3>Google Sheets (Apps Script)</h3>
+      <p>Cole a URL do Web App do Apps Script. Enquanto não houver URL, o painel mostra os dados deste dispositivo (demonstração).</p>
+      <div class="btnrow" style="margin:8px 0">
+        <input id="endpoint" placeholder="https://script.google.com/macros/s/.../exec" style="flex:1; min-width:260px; padding:10px 12px; border:1px solid var(--border); border-radius:9px; font-size:13px">
+        <button class="btn" id="saveEndpoint">Salvar</button>
+        <button class="btn ghost" id="loadTeam">Atualizar painel</button>
+      </div>
+      <details class="acc"><summary>📄 Ver código do Apps Script (copie para a planilha)</summary><div>
+        <p>Na planilha: Extensões → Apps Script, cole, e publique como Web App (acesso "qualquer pessoa").</p>
+        <pre id="gasCode"></pre>
+      </div></details>
+    </div>
+
+    <div class="card">
+      <span class="tag">Time</span><h3>Histórico consolidado</h3>
+      <div style="overflow-x:auto">
+        <table id="teamTable"><thead><tr><th>Closer</th><th>Time</th><th>Semana</th><th>Fund.</th><th>Vocab</th><th>Argum.</th><th>Simul.</th><th>Dicção</th></tr></thead>
+        <tbody><tr><td colspan="8" class="empty">Sem registros ainda.</td></tr></tbody></table>
+      </div>
+    </div>
+  </section>
+
+</main>
 
 <script>
-/* ===== CONFIG ===== */
-const SHEETS_ENDPOINT = ""; // cole aqui a URL do Web App do Google Apps Script para centralizar o histórico
+/* ===================== CONFIG & STATE ===================== */
+const KEY = "academia_closer_v2";
 const LEADER_EMAIL = "amanda.pimentel@estantemagica.com.br";
-const KEY = "academia_closer_v1";
+let ENDPOINT = localStorage.getItem("academia_endpoint") || "";
 
-/* ===== STATE ===== */
-let tasks = { fund:false, dojo:false, voz:false, vocab:false };
-let objScore = 0;        // pontos do drill de objeção
-let dictionStars = 0;    // autoavaliação de dicção
+const cur = { fundCorrect:0, fundTotal:5, vocabRight:0, vocabTotal:3, argRight:0, argTotal:3,
+  dojoResult:"", objDone:false, dicStars:0, tasks:{fund:false,vocab:false,arg:false,dojo:false,dic:false} };
 
-function load(){ try { return JSON.parse(localStorage.getItem(KEY)) || {history:[]}; } catch(e){ return {history:[]}; } }
+function load(){ try{ return JSON.parse(localStorage.getItem(KEY)) || {history:[],streak:0}; }catch(e){ return {history:[],streak:0}; } }
 function save(d){ localStorage.setItem(KEY, JSON.stringify(d)); }
 
-/* default week = current ISO week */
+/* default ISO week */
+(function(){ const d=new Date(); const day=(d.getDay()+6)%7; d.setDate(d.getDate()-day+3);
+  const ft=new Date(d.getFullYear(),0,4); const wk=1+Math.round(((d-ft)/864e5-3+((ft.getDay()+6)%7))/7);
+  document.getElementById('week').value=d.getFullYear()+"-W"+String(wk).padStart(2,'0'); })();
+
+/* ===================== NAV ===================== */
+document.querySelectorAll('[data-go]').forEach(li=>{
+  li.addEventListener('click',()=>{
+    document.querySelectorAll('.nav li').forEach(x=>x.classList.remove('active'));
+    li.classList.add('active');
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    document.getElementById(li.dataset.go).classList.add('active');
+    window.scrollTo(0,0);
+  });
+});
+function navDone(go,on){ const li=document.querySelector('[data-go="'+go+'"]'); if(li) li.classList.toggle('done',on); }
+
+/* ===================== ID ===================== */
+const who=document.getElementById('who'), team=document.getElementById('team');
+function syncUser(){ document.getElementById('sbName').textContent = who.value.trim()||'—';
+  document.getElementById('sbMeta').textContent = (who.value.trim()? team.value : 'defina seu nome no Início'); }
+who.addEventListener('input',syncUser); team.addEventListener('change',syncUser);
+
+/* ===================== FUNDAMENTOS ===================== */
+const fundamentos = [
+  { t:'1. Venda é emoção, não discurso técnico', d:'A decisão de compra acontece no cérebro emocional. Vender não é despejar informação, é criar conexão e entender dores, desejos e inseguranças antes mesmo do cliente verbalizá-las.',
+    q:'O que mais aumenta a conversão numa reunião?', o:['Apresentar todas as especificações do produto','Personalizar a conversa para a realidade e as dores daquela escola','Falar o máximo possível para não deixar dúvidas'], a:1,
+    fb:'Reuniões genéricas geram esforço; reuniões intencionais geram fechamento.' },
+  { t:'2. Conhecer a coordenação pedagógica', d:'O principal cliente é a coordenação. Dores reais: sobrecarga, pressão das famílias, equipe desmotivada, falta de reconhecimento e medo de não dar conta. A venda começa quando ela se sente vista e segura.',
+    q:'Qual abordagem fortalece a coordenadora?', o:['Mostrar que o método dela está ultrapassado','Reforçar a autoridade dela e tirar peso da sua rotina','Falar direto com a direção, ignorando a coordenação'], a:1,
+    fb:'O discurso precisa fortalecer a autoridade dela, nunca fragilizá-la.' },
+  { t:'3. Neuroplasticidade e continuidade', d:'O cérebro da criança aprende com repetição associada à emoção. Escrever um livro todo ano consolida o aprendizado. Aplicações pontuais não criam hábito; continuidade cria transformação.',
+    q:'Por que aplicar em todas as séries, todo ano?', o:['Para vender mais kits','Porque continuidade ativa a neuroplasticidade e cria hábito pedagógico','Porque é mais fácil para a escola'], a:1,
+    fb:'Projetos isolados são eventos. Projetos contínuos são formação.' },
+  { t:'4. Inclusão como argumento', d:'O projeto é eficaz para neurodivergentes (estrutura para TEA, propósito e estímulo para TDAH), para altas habilidades (aprofundamento) e para todos (aprendizagem multissensorial). Escrever o próprio livro cria sentido e progresso.',
+    q:'Como o projeto ajuda alunos neurodivergentes?', o:['Substitui o acompanhamento especializado','Oferece estrutura, previsibilidade e propósito claro, com metas alcançáveis','Reduz a carga de conteúdo para eles'], a:1,
+    fb:'Sentido imediato e sensação de progresso aumentam dopamina, foco e engajamento.' },
+  { t:'5. Os 4 gatilhos da decisão', d:'Transformação, Pertencimento, Valorização e Prova Social. O closer não vende um produto: ele transforma decisões e ajuda o cliente a enxergar o valor antes de colocá-lo em palavras.',
+    q:'Qual gatilho é "a escola que forma autores vira referência na comunidade"?', o:['Escassez','Pertencimento e Prova Social','Reciprocidade'], a:1,
+    fb:'Identidade institucional + reconhecimento da comunidade = pertencimento e prova social.' }
+];
 (function(){
-  const d = new Date(); const day=(d.getDay()+6)%7; d.setDate(d.getDate()-day+3);
-  const firstThu = new Date(d.getFullYear(),0,4); const wk = 1+Math.round(((d-firstThu)/86400000-3+((firstThu.getDay()+6)%7))/7);
-  document.getElementById('week').value = d.getFullYear()+"-W"+String(wk).padStart(2,'0');
+  const wrap=document.getElementById('fundList');
+  fundamentos.forEach((m,i)=>{
+    const c=document.createElement('div'); c.className='card';
+    c.innerHTML='<h3>'+m.t+'</h3><p>'+m.d+'</p><p style="font-weight:700;color:var(--primary-dark)">Checkpoint: '+m.q+'</p>'+
+      '<div class="ch"></div><div class="fb" ></div>';
+    const ch=c.querySelector('.ch'), fb=c.querySelector('.fb');
+    m.o.forEach((opt,oi)=>{ const b=document.createElement('button'); b.className='choice'; b.textContent=opt;
+      b.onclick=()=>{ if(c.dataset.answered) return; c.dataset.answered='1';
+        const ok=oi===m.a; b.classList.add(ok?'right':'wrong');
+        if(!ok) ch.children[m.a].classList.add('right');
+        fb.className='fb show '+(ok?'good':'bad'); fb.innerHTML=(ok?'✅ ':'⚠️ ')+m.fb;
+        if(ok) cur.fundCorrect++; fundProgress();
+      }; ch.appendChild(b);
+    });
+    wrap.appendChild(c);
+  });
+})();
+function fundProgress(){ document.getElementById('fundProg').textContent=cur.fundCorrect+'/5';
+  if(cur.fundCorrect>=5){ setTask('fund',true); } refreshKpis(); }
+
+/* ===================== VOCABULÁRIO ===================== */
+const glossario=[
+  ['Neuroplasticidade','Capacidade do cérebro de criar conexões com repetição + emoção. Use para justificar a aplicação anual.'],
+  ['Funções executivas','Planejamento, organização, sequenciação e autocontrole. Produzir um livro treina tudo isso.'],
+  ['Consciência fonológica','Percepção dos sons da fala, base da alfabetização. O projeto estimula desde o Infantil.'],
+  ['Prova social','As pessoas confiam no que outras já validaram. Use depoimentos de outras escolas.'],
+  ['Pertencimento','Sentir-se parte de algo maior. "A escola que forma autores" ativa esse gatilho.'],
+  ['BNCC','Base Nacional Comum. O projeto dialoga com oralidade, escrita e narrativa exigidas por ela.'],
+  ['Multissensorial','Aprender por vários sentidos (arte, movimento, emoção). Aumenta engajamento e fixação.'],
+  ['Protagonismo','O aluno deixa de ser "quem precisa de ajuda" e vira autor. Reduz ansiedade e eleva autoestima.']
+];
+(function(){ const g=document.getElementById('fcGrid');
+  glossario.forEach(([t,d])=>{ const c=document.createElement('div'); c.className='fc';
+    c.innerHTML='<div class="fc-in"><div class="fc-face fc-front">'+t+'</div><div class="fc-face fc-back">'+d+'</div></div>';
+    c.onclick=()=>c.classList.toggle('flip'); g.appendChild(c); });
+})();
+const rewrites=[
+  { tec:'"Nosso produto inclui kit com 30 itens e plataforma de acompanhamento."',
+    o:['"São 30 itens no kit, mais a plataforma e o suporte por e-mail."',
+       '"Imagina cada criança da sua escola segurando o próprio livro impresso. A gente entrega tudo pronto pra que isso aconteça sem peso para a sua equipe."',
+       '"Temos o melhor custo-benefício do mercado em material escolar."'], a:1,
+    fb:'Tirou o foco da ficha técnica e colocou na transformação e no alívio operacional.' },
+  { tec:'"O projeto trabalha competências de escrita previstas na BNCC."',
+    o:['"Quando a criança escreve o próprio livro, ela descobre que tem algo valioso a dizer. E isso, de quebra, atende o que a BNCC pede."',
+       '"Está 100% alinhado às competências e habilidades da BNCC."',
+       '"Cobre os descritores de língua portuguesa do currículo."'], a:0,
+    fb:'Começou pela emoção e pela criança; a BNCC entra como reforço racional, não como abertura.' },
+  { tec:'"Recomendamos aplicar em todas as séries para padronizar o processo."',
+    o:['"Padronizar reduz retrabalho da coordenação."',
+       '"Aplicar em todas as turmas é o ideal operacional."',
+       '"Quando todas as turmas vivem o projeto, vira tradição da escola. E, na prática, isso ainda organiza tudo num único calendário, tirando peso de você."'], a:2,
+    fb:'Liderou com pertencimento/tradição e fechou com o benefício prático para a coordenadora.' }
+];
+(function(){ const wrap=document.getElementById('rewriteList');
+  rewrites.forEach(r=>{ const c=document.createElement('div'); c.style.marginBottom='16px';
+    c.innerHTML='<p style="font-weight:700;color:var(--soft)">Fala técnica: <span style="font-weight:400;font-style:italic">'+r.tec+'</span></p><div class="ch"></div><div class="fb"></div>';
+    const ch=c.querySelector('.ch'), fb=c.querySelector('.fb');
+    r.o.forEach((opt,oi)=>{ const b=document.createElement('button'); b.className='choice'; b.textContent=opt;
+      b.onclick=()=>{ if(c.dataset.answered) return; c.dataset.answered='1';
+        const ok=oi===r.a; b.classList.add(ok?'right':'wrong'); if(!ok) ch.children[r.a].classList.add('right');
+        fb.className='fb show '+(ok?'good':'bad'); fb.innerHTML=(ok?'✅ ':'⚠️ ')+r.fb;
+        if(ok){ cur.vocabRight++; document.getElementById('rwProg').textContent=cur.vocabRight+'/3'; if(cur.vocabRight>=3) setTask('vocab',true); refreshKpis(); }
+      }; ch.appendChild(b); });
+    wrap.appendChild(c); });
 })();
 
-/* ===== RITUAL ===== */
-document.querySelectorAll('.task').forEach(t=>{
-  t.addEventListener('click',()=>{
-    const k=t.dataset.task; tasks[k]=!tasks[k];
-    t.classList.toggle('done',tasks[k]);
-    t.querySelector('.state').textContent = tasks[k] ? '✓ Concluído' : '○ Pendente';
-  });
-});
+/* ===================== ARGUMENTAÇÃO ===================== */
+const levers=[
+  ['🤝 Reciprocidade','Dê valor antes de pedir: um diagnóstico, uma ideia aplicável já na reunião. Quem recebe primeiro tende a retribuir.'],
+  ['👥 Prova social','"Escolas parecidas com a sua já vivem isso." Mostre quem já decidiu e o resultado. Ninguém quer ficar de fora.'],
+  ['🔁 Compromisso e coerência','Faça o gestor dizer "sim" a pequenos acordos. Quem concorda com o pequeno tende a manter coerência no grande.'],
+  ['💛 Afinidade e rapport','Pessoas dizem sim para quem confiam e gostam. Espelhe a linguagem, demonstre que entende o mundo dela.'],
+  ['🎓 Autoridade emprestada','Você não precisa ser a autoridade: traga-a (neurociência, BNCC, dados, especialistas). O argumento ganha peso.'],
+  ['⏳ Escassez e aversão à perda','O ano letivo tem janela. O que se perde dói mais do que o que se ganha agrada. Mostre o custo de não agir agora.']
+];
+(function(){ const w=document.getElementById('leverList');
+  levers.forEach(([t,d])=>{ const el=document.createElement('details'); el.className='acc';
+    el.innerHTML='<summary>'+t+'</summary><div>'+d+'</div>'; w.appendChild(el); });
+})();
+const argDrills=[
+  { g:'"Vou pensar e te retorno." (clássico fim de reunião)',
+    o:['"Sem problema, fico no aguardo!"',
+       '"Claro. Só pra eu te ajudar melhor: o que ainda falta ficar claro pra você decidir? É o tempo, o formato ou o investimento?"',
+       '"Se decidir hoje consigo um desconto."'], a:1,
+    fb:'Compromisso/coerência + diagnóstico: você isola a real objeção em vez de aceitar o adiamento vago.' },
+  { g:'"Já fazemos um projeto de leitura aqui."',
+    o:['"O nosso é melhor que o de vocês."',
+       '"Que ótimo, isso mostra que vocês valorizam leitura. O nosso não substitui: ele dá um destino concreto pra essa leitura, o livro autoral da criança. Como seus alunos reagiriam a ver o próprio nome na capa?"',
+       '"Então vocês não precisam do nosso."'], a:1,
+    fb:'Afinidade + redirecionamento: validou o que já existe e reposicionou como complemento, terminando com pergunta que projeta a emoção.' },
+  { g:'"Não tenho verba aprovada para isso este ano."',
+    o:['"Entendo. E me ajuda a entender: se a verba não fosse o ponto, esse projeto faria sentido pra escola? Pergunto porque, fazendo sentido, a gente encontra o formato que cabe no seu momento."',
+       '"Sem verba não dá pra fazer nada mesmo."',
+       '"Posso parcelar em 12 vezes."'], a:0,
+    fb:'Isola a objeção (preço x valor): confirma o valor primeiro; só depois discute o "como caber". Nunca negocie preço antes de confirmar desejo.' }
+];
+(function(){ const w=document.getElementById('argDrills');
+  argDrills.forEach(d=>{ const c=document.createElement('div'); c.style.marginBottom='16px';
+    c.innerHTML='<p style="font-weight:700;color:var(--primary-dark)">Gestor: <span style="font-weight:400;font-style:italic">'+d.g+'</span></p><div class="ch"></div><div class="fb"></div>';
+    const ch=c.querySelector('.ch'), fb=c.querySelector('.fb');
+    d.o.forEach((opt,oi)=>{ const b=document.createElement('button'); b.className='choice'; b.textContent=opt;
+      b.onclick=()=>{ if(c.dataset.answered) return; c.dataset.answered='1';
+        const ok=oi===d.a; b.classList.add(ok?'right':'wrong'); if(!ok) ch.children[d.a].classList.add('right');
+        fb.className='fb show '+(ok?'good':'bad'); fb.innerHTML=(ok?'✅ ':'⚠️ ')+d.fb;
+        if(ok){ cur.argRight++; document.getElementById('argProg').textContent=cur.argRight+'/3'; if(cur.argRight>=3) setTask('arg',true); refreshKpis(); }
+      }; ch.appendChild(b); });
+    w.appendChild(c); });
+})();
 
-/* ===== DRILL ===== */
-document.querySelectorAll('.choice').forEach(c=>{
-  c.addEventListener('click',()=>{
-    const good = c.dataset.good==='1';
-    document.getElementById('fbGood').style.display = good?'block':'none';
-    document.getElementById('fbBad').style.display = good?'none':'block';
-    if(good){ objScore = 1; const dojo=document.querySelector('[data-task="dojo"]'); tasks.dojo=true; dojo.classList.add('done'); dojo.querySelector('.state').textContent='✓ Concluído'; }
-  });
-});
+/* ===================== DOJO ===================== */
+const personas=[
+  { id:'coord', ico:'😟', nome:'Coordenadora sobrecarregada', desc:'Adora a ideia, mas teme não dar conta.',
+    turns:[
+      { fala:'"Amei, mas sinceramente já estou no limite. Mais um projeto pra gerenciar eu não consigo."',
+        op:[ {t:'"É super tranquilo, dá quase nenhum trabalho."', r:'parcial', f:'Minimizar a dor soa falso e fragiliza. Ela está pedindo segurança, não simplificação.'},
+             {t:'"Entendo demais. Por isso ele vem com cronograma e materiais prontos: a ideia é tirar peso de você, não somar. Posso te mostrar como fica a sua rotina?"', r:'bom', f:'Validou a dor, reposicionou como alívio e pediu permissão para avançar.'},
+             {t:'"Pensa no diferencial pra escola."', r:'ruim', f:'Foi para o racional ignorando a emoção dela. Conecte antes de convencer.'} ] },
+      { fala:'"E se a equipe não abraçar? Já tentei coisas que não foram pra frente."',
+        op:[ {t:'"A gente segura na mão da equipe do início ao evento de autógrafos, com apoio e treinamento. Você não vai estar sozinha nisso."', r:'bom', f:'Gatilho de apoio + pertencimento. Reduz o medo do fracasso.'},
+             {t:'"Aí já depende de vocês."', r:'ruim', f:'Jogou o risco de volta pra ela. Péssimo para a confiança.'},
+             {t:'"Se não der certo, cancela."', r:'parcial', f:'Tira a pressão, mas não inspira. Falta visão.'} ] }
+    ] },
+  { id:'dir', ico:'🤨', nome:'Diretora cética', desc:'Quer dados e ROI, pouca paciência.',
+    turns:[
+      { fala:'"Tudo isso é muito bonito, mas qual o resultado concreto pra escola?"',
+        op:[ {t:'"Escolas que aplicam viram referência: fortalece a marca, fideliza famílias e gera prova social espontânea, além do ganho pedagógico real em escrita e leitura."', r:'bom', f:'Autoridade emprestada + prova social, falando a língua de resultado dela.'},
+             {t:'"As crianças ficam felizes."', r:'parcial', f:'Verdadeiro, mas insuficiente para um perfil cético orientado a resultado.'},
+             {t:'"Todo mundo está fazendo."', r:'ruim', f:'Prova social mal usada, sem substância. Soa raso.'} ] },
+      { fala:'"E por que eu faria todo ano, e não só uma vez?"',
+        op:[ {t:'"Porque o cérebro aprende com repetição e emoção. Uma vez é evento; todo ano é formação e vira tradição esperada pela comunidade."', r:'bom', f:'Neurociência + continuidade + pertencimento. Argumento redondo.'},
+             {t:'"Pra gente vender mais."', r:'ruim', f:'Honestidade fora de hora; some o valor para a escola.'},
+             {t:'"Fica mais barato no pacote."', r:'parcial', f:'Preço não é o motivo central; perde a força do argumento.'} ] }
+    ] }
+];
+let curPersona=null, curTurn=0, dojoScore=0;
+(function(){ const g=document.getElementById('personaGrid');
+  personas.forEach(p=>{ const el=document.createElement('div'); el.className='persona';
+    el.innerHTML='<div class="pico">'+p.ico+'</div><h4>'+p.nome+'</h4><p>'+p.desc+'</p>';
+    el.onclick=()=>startScenario(p); g.appendChild(el); });
+})();
+function startScenario(p){ curPersona=p; curTurn=0; dojoScore=0;
+  document.getElementById('personaPick').style.display='none';
+  document.getElementById('scenarioBox').style.display='block'; renderTurn(); }
+document.getElementById('backPersona').onclick=()=>{ document.getElementById('scenarioBox').style.display='none'; document.getElementById('personaPick').style.display='block'; };
+function renderTurn(){
+  const run=document.getElementById('scenarioRun'); const p=curPersona;
+  if(curTurn>=p.turns.length){ const res= dojoScore>=p.turns.length*2 ? '🟢 Excelente condução' : dojoScore>=p.turns.length ? '🟡 Boa, com ajustes' : '🔴 Reveja a abordagem';
+    cur.dojoResult = dojoScore>=p.turns.length*2?'🟢':dojoScore>=p.turns.length?'🟡':'🔴';
+    run.innerHTML='<h3>'+res+'</h3><p>Você conduziu a conversa com '+p.nome+'. Resultado registrado no indicador de Simulação.</p><button class="btn" onclick="document.getElementById(\'backPersona\').click()">Treinar outra persona</button>';
+    maybeDojoDone(); refreshKpis(); return; }
+  const t=p.turns[curTurn];
+  run.innerHTML='<p class="pill">'+p.ico+' '+p.nome+' · turno '+(curTurn+1)+'/'+p.turns.length+'</p><p style="font-size:16px;font-style:italic;margin:8px 0 12px">'+t.fala+'</p><div class="ch"></div><div class="fb"></div>';
+  const ch=run.querySelector('.ch'), fb=run.querySelector('.fb');
+  t.op.forEach((o)=>{ const b=document.createElement('button'); b.className='choice'; b.textContent=o.t;
+    b.onclick=()=>{ if(run.dataset.answered) return; run.dataset.answered='1';
+      const pts=o.r==='bom'?2:o.r==='parcial'?1:0; dojoScore+=pts;
+      b.classList.add(o.r==='bom'?'right':o.r==='ruim'?'wrong':'right');
+      fb.className='fb show '+(o.r==='ruim'?'bad':'good'); fb.innerHTML=(o.r==='bom'?'✅ ':o.r==='parcial'?'🟡 ':'⚠️ ')+o.f+'<br><button class="btn sm" style="margin-top:10px" id="nextT">Continuar →</button>';
+      document.getElementById('nextT').onclick=()=>{ curTurn++; run.dataset.answered=''; renderTurn(); };
+    }; ch.appendChild(b); });
+}
+/* banco de objeções cronometrado */
+const objecoes=[
+  { o:'"O calendário deste ano já está fechado."', m:'"Calendário cheio é sinal de escola séria. Por isso ele não entra como mais um projeto: integra ao que vocês já fazem, com um único cronograma. Posso te mostrar como ele tira peso, em vez de somar?"' },
+  { o:'"Preciso falar com a mantenedora."', m:'"Perfeito, faz todo sentido. Quer que eu prepare um resumo de 1 página com o impacto pedagógico e o apoio que damos, pra você levar forte pra essa conversa?"' },
+  { o:'"Os pais podem achar caro."', m:'"Entendo. E geralmente o que os pais valorizam é ver o filho autor de um livro de verdade. Quando o valor fica claro, o preço vira detalhe. Posso te mostrar como outras escolas comunicaram isso às famílias?"' }
+];
+let objIdx=0;
+function renderObj(){ const box=document.getElementById('objBox'); const ob=objecoes[objIdx];
+  box.innerHTML='<p style="font-weight:700;color:var(--primary-dark)">Objeção: <span style="font-weight:400;font-style:italic">'+ob.o+'</span></p>'+
+    '<div class="timer" id="t">15</div><div class="btnrow"><button class="btn" id="reveal">Ver resposta-modelo</button></div><div class="fb" id="objfb"></div>';
+  let n=15; const tEl=document.getElementById('t');
+  const iv=setInterval(()=>{ n--; tEl.textContent=n; if(n<=0){ clearInterval(iv); tEl.textContent='⏱'; } },1000);
+  document.getElementById('reveal').onclick=()=>{ clearInterval(iv);
+    const fb=document.getElementById('objfb'); fb.className='fb show good';
+    fb.innerHTML='💡 <strong>Modelo:</strong> '+ob.m+'<br><span style="display:block;margin-top:8px">Como foi a sua versão?</span>'+
+      '<div class="btnrow" style="margin-top:8px"><button class="btn sm gold" data-sr="1">Mandei bem</button><button class="btn sm ghost" data-sr="0">Preciso treinar</button></div>';
+    fb.querySelectorAll('[data-sr]').forEach(b=>b.onclick=()=>{ cur.objDone=true; objIdx=(objIdx+1)%objecoes.length; maybeDojoDone(); renderObj(); });
+  };
+}
+renderObj();
+function maybeDojoDone(){ if(cur.dojoResult && cur.objDone) setTask('dojo',true); }
 
-/* ===== STARS ===== */
-const starsEl = document.getElementById('stars');
-starsEl.querySelectorAll('span').forEach(s=>{
-  s.addEventListener('click',()=>{
-    dictionStars = +s.dataset.v;
-    starsEl.querySelectorAll('span').forEach(x=> x.classList.toggle('on', +x.dataset.v<=dictionStars));
-    const voz=document.querySelector('[data-task="voz"]'); tasks.voz=true; voz.classList.add('done'); voz.querySelector('.state').textContent='✓ Concluído';
-  });
-});
-
-/* ===== RECORDER ===== */
+/* ===================== DICÇÃO ===================== */
 let mediaRec, chunks=[], recording=false;
 document.getElementById('recBtn').addEventListener('click', async ()=>{
   const btn=document.getElementById('recBtn');
-  if(!recording){
-    try{
-      const stream = await navigator.mediaDevices.getUserMedia({audio:true});
-      mediaRec = new MediaRecorder(stream); chunks=[];
-      mediaRec.ondataavailable = e=> chunks.push(e.data);
-      mediaRec.onstop = ()=>{ const blob=new Blob(chunks,{type:'audio/webm'}); const url=URL.createObjectURL(blob);
-        const p=document.getElementById('player'); p.src=url; p.style.display='inline-block'; stream.getTracks().forEach(t=>t.stop()); };
+  if(!recording){ try{
+      const st=await navigator.mediaDevices.getUserMedia({audio:true});
+      mediaRec=new MediaRecorder(st); chunks=[]; mediaRec.ondataavailable=e=>chunks.push(e.data);
+      mediaRec.onstop=()=>{ const u=URL.createObjectURL(new Blob(chunks,{type:'audio/webm'})); const p=document.getElementById('player'); p.src=u; p.style.display='inline-block'; st.getTracks().forEach(t=>t.stop()); };
       mediaRec.start(); recording=true; btn.textContent='■ Parar';
-      setTimeout(()=>{ if(recording){ mediaRec.stop(); recording=false; btn.textContent='● Regravar'; } }, 60000);
-    }catch(e){ alert('Não consegui acessar o microfone. Verifique a permissão do navegador.'); }
+      setTimeout(()=>{ if(recording){ mediaRec.stop(); recording=false; btn.textContent='● Regravar'; } },60000);
+    }catch(e){ alert('Não consegui acessar o microfone. Verifique a permissão.'); }
   } else { mediaRec.stop(); recording=false; btn.textContent='● Regravar'; }
 });
+const rubricItems=['Clareza','Ritmo & pausa','Energia','Conexão emocional'];
+const rubricScores={};
+(function(){ const r=document.getElementById('rubric');
+  rubricItems.forEach(it=>{ rubricScores[it]=0; const d=document.createElement('div'); d.className='ri';
+    d.innerHTML='<label>'+it+'</label><span class="stars">'+[1,2,3,4,5].map(v=>'<span data-v="'+v+'">★</span>').join('')+'</span>';
+    const stars=d.querySelector('.stars');
+    stars.querySelectorAll('span').forEach(s=>s.onclick=()=>{ rubricScores[it]=+s.dataset.v;
+      stars.querySelectorAll('span').forEach(x=>x.classList.toggle('on',+x.dataset.v<=rubricScores[it])); updateDic(); });
+    r.appendChild(d); });
+})();
+function updateDic(){ const vals=Object.values(rubricScores); const filled=vals.filter(v=>v>0);
+  cur.dicStars = filled.length? Math.round(vals.reduce((a,b)=>a+b,0)/rubricItems.length*10)/10 : 0;
+  if(filled.length===rubricItems.length) setTask('dic',true); refreshKpis(); }
 
-/* ===== METRICS ===== */
-function computeWeek(){
-  const doneCount = Object.values(tasks).filter(Boolean).length;
-  const vocab = tasks.vocab ? 100 : (doneCount>=2?60:30);
-  const conv = tasks.dojo ? (objScore? '🟢':'🟡') : '🔴';
-  const dic = dictionStars || 0;
-  return { vocab, conv, obj: objScore, dic, done: doneCount };
-}
+/* ===================== TASKS / KPIs ===================== */
+function setTask(k,v){ cur.tasks[k]=v; const t=document.querySelector('.task[data-task="'+k+'"]');
+  if(t){ t.classList.toggle('done',v); t.querySelector('.state').textContent=v?'✓ Concluído':'○ Pendente'; }
+  navDone(k==='fund'?'fundamentos':k==='vocab'?'vocab':k==='arg'?'arg':k==='dojo'?'dojo':'diccao', v); }
+function metrics(){ return {
+  fund: Math.round(cur.fundCorrect/cur.fundTotal*100),
+  vocab: Math.round(cur.vocabRight/cur.vocabTotal*100),
+  arg: Math.round(cur.argRight/cur.argTotal*100),
+  dojo: cur.dojoResult||'—', dic: cur.dicStars,
+  done: Object.values(cur.tasks).filter(Boolean).length }; }
+function deltaTag(el,c,p,suf){ if(p==null){ el.className='delta flat'; el.textContent='1ª semana'; return; }
+  const d=c-p; el.className='delta '+(d>0?'up':d<0?'down':'flat'); el.textContent=(d>0?'▲ +':d<0?'▼ ':'■ ')+d+suf; }
+function refreshKpis(){ const m=metrics(); const data=load(); const last=data.history[data.history.length-1];
+  document.getElementById('kFund').textContent=m.fund+'%'; document.getElementById('kVocab').textContent=m.vocab+'%';
+  document.getElementById('kArg').textContent=m.arg+'%'; document.getElementById('kDojo').textContent=m.dojo;
+  document.getElementById('kDic').textContent=m.dic?m.dic+'★':'—'; document.getElementById('kStreak').textContent=data.streak||0;
+  document.getElementById('streakBadge').textContent=(data.streak||0)>0?'🔥 '+data.streak+' semanas de consistência':'';
+  deltaTag(document.getElementById('dFund'),m.fund,last?last.fund:null,'%');
+  deltaTag(document.getElementById('dVocab'),m.vocab,last?last.vocab:null,'%');
+  deltaTag(document.getElementById('dArg'),m.arg,last?last.arg:null,'%');
+  deltaTag(document.getElementById('dDic'),m.dic,last?last.dic:null,'★'); }
 
-function deltaTag(el, cur, prev, suffix=''){
-  if(prev==null){ el.className='delta flat'; el.textContent='primeira semana'; return; }
-  const d = cur-prev;
-  el.className = 'delta ' + (d>0?'up':d<0?'down':'flat');
-  el.textContent = (d>0?'▲ +':d<0?'▼ ':'■ ') + d + suffix + ' vs. anterior';
-}
+/* manual ritual toggle */
+document.querySelectorAll('.task').forEach(t=>t.addEventListener('click',()=>{ const k=t.dataset.task; setTask(k,!cur.tasks[k]); }));
 
-function refreshKpis(){
-  const m = computeWeek();
-  const data = load(); const last = data.history[data.history.length-1];
-  document.getElementById('kVocab').textContent = m.vocab+'%';
-  document.getElementById('kConv').textContent = m.conv;
-  document.getElementById('kObj').textContent = m.obj+'/1';
-  document.getElementById('kDic').textContent = m.dic? m.dic+'★' : '—';
-  document.getElementById('kStreak').textContent = data.streak||0;
-  document.getElementById('streakBadge').textContent = (data.streak||0)>0 ? '🔥 '+data.streak+' semanas de consistência' : '';
-  deltaTag(document.getElementById('dVocab'), m.vocab, last? last.vocab:null, '%');
-  deltaTag(document.getElementById('dObj'), m.obj, last? last.obj:null);
-  deltaTag(document.getElementById('dDic'), m.dic, last? last.dic:null, '★');
-  document.getElementById('dConv').textContent='este ciclo';
-}
-
-function renderHist(){
-  const data = load(); const tb = document.querySelector('#histTable tbody');
+/* ===================== HISTÓRICO ===================== */
+function renderHist(){ const data=load(); const tb=document.querySelector('#histTable tbody');
   if(!data.history.length){ tb.innerHTML='<tr><td colspan="6" class="empty">Nenhuma semana fechada ainda.</td></tr>'; return; }
-  tb.innerHTML = data.history.slice().reverse().map(h=>
-    `<tr><td>${h.week}</td><td>${h.vocab}%</td><td>${h.conv}</td><td>${h.obj}/1</td><td>${h.dic}★</td><td>${h.done}/4</td></tr>`).join('');
-}
-
+  tb.innerHTML=data.history.slice().reverse().map(h=>'<tr><td>'+h.week+'</td><td>'+h.fund+'%</td><td>'+h.vocab+'%</td><td>'+h.arg+'%</td><td>'+h.dojo+'</td><td>'+h.dic+'★</td></tr>').join(''); }
 document.getElementById('saveWeek').addEventListener('click', async ()=>{
-  const who = document.getElementById('who').value.trim();
-  if(!who){ alert('Coloque seu nome antes de fechar a semana.'); return; }
-  const m = computeWeek();
-  const rec = { who, team: document.getElementById('team').value, week: document.getElementById('week').value,
-    vocab:m.vocab, conv:m.conv, obj:m.obj, dic:m.dic, done:m.done, ts: new Date().toISOString() };
-  const data = load();
-  data.streak = (data.streak||0) + 1;
-  data.history.push(rec);
-  save(data);
-  if(SHEETS_ENDPOINT){ try{ await fetch(SHEETS_ENDPOINT,{method:'POST',mode:'no-cors',body:JSON.stringify(rec)}); }catch(e){} }
-  refreshKpis(); renderHist();
-  alert('Semana fechada! 🔥 Streak: '+data.streak+' semana(s).');
-});
+  if(!who.value.trim()){ alert('Coloque seu nome antes de fechar a semana.'); return; }
+  const m=metrics(); const rec={ who:who.value.trim(), team:team.value, week:document.getElementById('week').value,
+    fund:m.fund, vocab:m.vocab, arg:m.arg, dojo:m.dojo, dic:m.dic, done:m.done, ts:new Date().toISOString() };
+  const data=load(); data.streak=(data.streak||0)+1; data.history.push(rec); save(data);
+  if(ENDPOINT){ try{ await fetch(ENDPOINT,{method:'POST',mode:'no-cors',body:JSON.stringify(rec)}); }catch(e){} }
+  refreshKpis(); renderHist(); renderTeam(); alert('Semana fechada! 🔥 Streak: '+data.streak); });
+document.getElementById('exportCsv').addEventListener('click',()=>{ const data=load();
+  const rows=[['Closer','Time','Semana','Fund%','Vocab%','Argum%','Simulacao','Diccao','Praticas','Quando'],
+    ...data.history.map(h=>[h.who,h.team,h.week,h.fund,h.vocab,h.arg,h.dojo,h.dic,h.done,h.ts])];
+  const csv=rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(',')).join('\n');
+  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download='academia_historico.csv'; a.click(); });
+document.getElementById('emailReport').addEventListener('click',()=>{ const data=load(); const last=data.history[data.history.length-1];
+  const body=`Relatório semanal — Academia do Closer%0A%0ACloser: ${who.value.trim()||'(sem nome)'}%0ATime: ${team.value}%0AStreak: ${data.streak||0}%0A%0A`+
+    (last?`Última semana (${last.week}):%0A- Fundamentos: ${last.fund}%25%0A- Vocabulário: ${last.vocab}%25%0A- Argumentação: ${last.arg}%25%0A- Simulação: ${last.dojo}%0A- Dicção: ${last.dic}★`:'Nenhuma semana fechada.');
+  window.location.href=`mailto:${LEADER_EMAIL}?subject=${encodeURIComponent('Relatório Academia — '+(who.value.trim()||''))}&body=${body}`; });
 
-document.getElementById('exportCsv').addEventListener('click', ()=>{
-  const data = load();
-  const rows = [['Closer','Time','Semana','Vocab%','Conversao','Objecoes','Diccao','Praticas','Quando'],
-    ...data.history.map(h=>[h.who,h.team,h.week,h.vocab,h.conv,h.obj,h.dic,h.done,h.ts])];
-  const csv = rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(',')).join('\n');
-  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
-  a.download='academia_closer_historico.csv'; a.click();
-});
+/* ===================== LÍDER ===================== */
+document.getElementById('endpoint').value=ENDPOINT;
+document.getElementById('saveEndpoint').onclick=()=>{ ENDPOINT=document.getElementById('endpoint').value.trim(); localStorage.setItem('academia_endpoint',ENDPOINT); alert('Endpoint salvo.'); };
+document.getElementById('loadTeam').onclick=renderTeam;
+async function renderTeam(){ const tb=document.querySelector('#teamTable tbody'); let rows=[];
+  if(ENDPOINT){ try{ const r=await fetch(ENDPOINT); rows=await r.json(); }catch(e){ rows=load().history; } }
+  else { rows=load().history; }
+  if(!rows||!rows.length){ tb.innerHTML='<tr><td colspan="8" class="empty">Sem registros ainda.</td></tr>'; return; }
+  tb.innerHTML=rows.slice().reverse().map(h=>'<tr><td>'+(h.who||'')+'</td><td>'+(h.team||'')+'</td><td>'+(h.week||'')+'</td><td>'+(h.fund||0)+'%</td><td>'+(h.vocab||0)+'%</td><td>'+(h.arg||0)+'%</td><td>'+(h.dojo||'—')+'</td><td>'+(h.dic||0)+'★</td></tr>').join(''); }
+document.getElementById('gasCode').textContent =
+`function doPost(e){
+  const sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('dados')
+        || SpreadsheetApp.getActiveSpreadsheet().insertSheet('dados');
+  const d = JSON.parse(e.postData.contents);
+  sh.appendRow([new Date(), d.who, d.team, d.week, d.fund, d.vocab, d.arg, d.dojo, d.dic, d.done]);
+  return ContentService.createTextOutput('ok');
+}
+function doGet(){
+  const sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('dados');
+  const v = sh.getDataRange().getValues(); v.shift();
+  const out = v.map(r => ({who:r[1],team:r[2],week:r[3],fund:r[4],vocab:r[5],arg:r[6],dojo:r[7],dic:r[8]}));
+  return ContentService.createTextOutput(JSON.stringify(out)).setMimeType(ContentService.MimeType.JSON);
+}`;
 
-document.getElementById('emailReport').addEventListener('click', ()=>{
-  const who=document.getElementById('who').value.trim()||'(sem nome)';
-  const data=load(); const last=data.history[data.history.length-1];
-  const body = `Relatório semanal — Academia do Closer%0A%0ACloser: ${who}%0ATime: ${document.getElementById('team').value}%0AStreak: ${data.streak||0} semana(s)%0A%0A`+
-    (last? `Última semana (${last.week}):%0A- Vocabulário: ${last.vocab}%25%0A- Conversão: ${last.conv}%0A- Objeções: ${last.obj}/1%0A- Dicção: ${last.dic}★%0A- Práticas: ${last.done}/4` : 'Nenhuma semana fechada ainda.');
-  window.location.href = `mailto:${LEADER_EMAIL}?subject=${encodeURIComponent('Relatório semanal Academia do Closer — '+who)}&body=${body}`;
-});
-
-refreshKpis(); renderHist();
+/* ===================== INIT ===================== */
+syncUser(); refreshKpis(); renderHist(); renderTeam();
 </script>
 </body>
 </html>
