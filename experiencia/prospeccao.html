@@ -63,6 +63,13 @@
   #s2 .q b { font-weight:700; color:#FCD34D; font-style:normal; }
   #s2 .src { margin-top:18px; font-size:14px; opacity:.7; }
 
+  /* CENA 2.5 — provocação: a sua própria história */
+  #s2b { background:linear-gradient(160deg,#241646,#0F0A1E); color:#fff; text-align:center; flex-direction:column; }
+  #s2b h2 { font-size:30px; color:#FCD34D; max-width:680px; margin:0 auto 20px; line-height:1.25; }
+  #s2b p { font-size:18px; opacity:.93; max-width:620px; margin:0 auto 14px; }
+  #s2b p b { color:#fff; }
+  #s2b .punch { font-size:21px; opacity:1; margin-top:6px; }
+
   /* CENA 3 — construtor lúdico */
   #s3 { background:#FAF7FF; color:var(--ink); flex-direction:column; }
   .greet { text-align:center; margin-bottom:8px; }
@@ -99,6 +106,14 @@
   .linkout code { display:block; word-break:break-all; font-size:12px; background:#F3F0FA; padding:10px; border-radius:8px; margin:8px 0; }
   .copy { background:var(--primary); color:#fff; border:none; border-radius:8px; padding:9px 16px; font-size:13px; font-weight:700; cursor:pointer; }
   .note { font-size:12px; opacity:.85; margin-top:14px; }
+  .lead { background:rgba(255,255,255,.97); color:var(--ink); border-radius:16px; padding:22px 24px; max-width:540px; margin:22px auto 0; text-align:left; box-shadow:0 14px 34px rgba(0,0,0,.28); }
+  .lead h3 { color:var(--primary-dark); font-size:18px; margin-bottom:4px; text-align:center; }
+  .lead .hint { color:var(--soft); font-size:13px; text-align:center; margin-bottom:16px; }
+  .lead .field { margin-bottom:12px; }
+  .lead label { display:block; font-size:13px; font-weight:600; color:var(--ink); margin-bottom:5px; }
+  .lead input { width:100%; padding:12px 13px; border:1px solid var(--border); border-radius:10px; font-size:15px; font-family:inherit; }
+  .lead input:focus { outline:none; border-color:var(--primary); }
+  .lead .err { display:none; color:#DC2626; font-size:13px; margin-top:4px; font-weight:600; }
   .confetti { position:fixed; top:-10px; font-size:20px; pointer-events:none; z-index:50; animation:fall linear forwards; }
   @keyframes fall { to { transform:translateY(105vh) rotate(360deg); opacity:0; } }
 </style>
@@ -153,12 +168,24 @@
   </div>
 </section>
 
+<!-- CENA 2.5 -->
+<section id="s2b">
+  <div class="inner">
+    <h2>Antes de gestor, você também foi uma criança cheia de histórias.</h2>
+    <p>Em algum momento, alguém acreditou em você — ou talvez tenha sido você quem deu coragem para tanta gente seguir em frente.</p>
+    <p>Hoje, milhares de histórias atravessam os corredores da sua escola todos os anos. Sem saída, muitas delas vão dormir caladas. Com a chance certa, viram livro, viram voz, viram futuro.</p>
+    <p class="punch"><b>Cada história contada melhora o mundo de algum jeito. Imagine o tamanho do impacto se nenhuma delas ficasse sem ser ouvida.</b></p>
+    <p>A pergunta é só uma: vai ser na sua escola que essas histórias vão começar?</p>
+    <div class="scrollcue">↓ descubra como</div>
+  </div>
+</section>
+
 <!-- CENA 3 -->
 <section id="s3">
   <div class="inner">
     <div class="greet">
       <h2 id="greetTitle">Que história a sua escola vai contar este ano?</h2>
-      <p>Responda em 3 toques — sem digitar nada. 👇</p>
+      <p>Responda em 3 toques, como num passe de mágica. ✨</p>
     </div>
     <div class="progress3"><div class="pdot on" id="pd1"></div><div class="pdot" id="pd2"></div><div class="pdot" id="pd3"></div></div>
 
@@ -195,7 +222,17 @@
     <div class="arrow">🏹</div>
     <h2>A flecha está na sua mão.</h2>
     <div class="vision" id="vision">Toque nas opções acima e veja a história da sua escola se formar aqui. ✨</div>
-    <button class="btn" id="cta">Quero ver isso na minha escola →</button>
+
+    <div class="lead" id="lead">
+      <h3>Falta um passo para essa história começar ✨</h3>
+      <p class="hint">Deixe seu contato e nosso time fala com você — no seu tempo, do seu jeito.</p>
+      <div class="field"><label>Nome da escola</label><input id="f_escola" placeholder="Nome da sua escola"></div>
+      <div class="field"><label>Seu nome</label><input id="f_gestor" placeholder="Como podemos te chamar?"></div>
+      <div class="field"><label>Melhor número para contato (WhatsApp)</label><input id="f_fone" type="tel" inputmode="tel" placeholder="(00) 00000-0000"></div>
+      <div class="err" id="leadErr"></div>
+    </div>
+
+    <button class="btn" id="cta" style="margin-top:18px;">Quero ver isso na minha escola →</button>
     <div class="linkout" id="linkout">
       <strong>✅ Pronto para a conversa.</strong> Seu time já vai chegar conhecendo o sonho da sua escola. Este link leva a reunião personalizada:
       <code id="genlink"></code>
@@ -329,9 +366,31 @@ function buildVision(){
   document.getElementById('vision').innerHTML = v;
 }
 
+/* prefill com o que o SDR já trouxe + máscara de telefone */
+const fEscola = document.getElementById('f_escola'), fGestor = document.getElementById('f_gestor'), fFone = document.getElementById('f_fone');
+if (ESCOLA) fEscola.value = ESCOLA;
+if (GESTOR) fGestor.value = GESTOR;
+fFone.addEventListener('input', ()=>{
+  let d = fFone.value.replace(/\D/g,'').slice(0,11);
+  if (d.length > 7) fFone.value = '('+d.slice(0,2)+') '+d.slice(2,7)+'-'+d.slice(7);
+  else if (d.length > 2) fFone.value = '('+d.slice(0,2)+') '+d.slice(2);
+  else fFone.value = d;
+});
+
 document.getElementById('cta').addEventListener('click', ()=>{
+  const escola = fEscola.value.trim(), gestor = fGestor.value.trim(), fone = fFone.value.trim();
+  const digits = fone.replace(/\D/g,''); const err = document.getElementById('leadErr');
+  if (!escola || !gestor || digits.length < 10) {
+    err.style.display = 'block';
+    err.textContent = !escola ? 'Conta pra gente o nome da escola 🙂'
+      : !gestor ? 'Como podemos te chamar?'
+      : 'Coloque um WhatsApp válido com DDD.';
+    document.getElementById('lead').scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+  err.style.display = 'none';
   const params = new URLSearchParams({
-    escola: ESCOLA, gestor: GESTOR, alunos: sel.alunos, alunosN: sel.alunosN,
+    escola, gestor, fone, alunos: sel.alunos, alunosN: sel.alunosN,
     sonho: sel.sonho, t: Date.now().toString(36)
   });
   const url = location.origin + location.pathname.replace('prospeccao.html', NEXT_STAGE) + '?' + params.toString();
