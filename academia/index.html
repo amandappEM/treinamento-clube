@@ -129,6 +129,17 @@
   .timer{ font-size:30px; font-weight:800; color:var(--gold); font-variant-numeric:tabular-nums; }
   .report{ background:#fff; border:1px dashed var(--primary); border-radius:12px; padding:18px; font-size:14px; }
   .report h4{ margin:12px 0 6px; } .report .stat{ display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding:5px 0; }
+  .medal{ background:#fff; border:1px solid var(--border); border-radius:14px; padding:16px; text-align:center; }
+  .medal.on{ cursor:pointer; border-color:var(--accent); box-shadow:0 4px 12px rgba(245,158,11,.15); }
+  .medal.off{ filter:grayscale(1); opacity:.45; }
+  .medal .memoji{ font-size:40px; } .medal .mname{ font-weight:700; color:var(--primary-dark); font-size:14px; margin-top:4px; }
+  .medal .mstat{ font-size:11px; color:var(--soft); text-transform:uppercase; letter-spacing:.5px; }
+  .medal.on .mstat{ color:var(--gold); font-weight:700; }
+  .profrow{ display:flex; gap:20px; align-items:center; flex-wrap:wrap; }
+  .avatarprev{ width:120px; height:120px; border-radius:50%; background:var(--primary-light) center/cover no-repeat; display:flex; align-items:center; justify-content:center; font-size:40px; color:var(--primary); border:4px solid var(--accent); flex-shrink:0; }
+  #certCanvas{ width:100%; max-width:420px; border-radius:14px; box-shadow:0 8px 24px rgba(0,0,0,.18); display:block; margin:0 auto; background:var(--primary-dark); }
+  .scopts .choice{ margin-bottom:7px; }
+  input[type=file]{ font-size:13px; }
   @media(max-width:860px){ .sidebar{ display:none; } .main{ padding:24px 18px 70px; } }
 </style>
 </head>
@@ -158,6 +169,7 @@
   </ul>
   <div class="nav-sec">Próximos passos</div>
   <ul class="nav">
+    <li data-go="conquistas">🏅 Conquistas</li>
     <li data-go="relatorio">📈 Meu relatório</li>
     <li data-go="lider">📊 Painel do Líder</li>
   </ul>
@@ -248,6 +260,8 @@
     <p class="lead">A base que serve a todos os cargos: por que as pessoas compram e como o nosso modelo B2B2C muda o jogo. Responda o checkpoint de cada pilar.</p>
     <div id="fundList"></div>
     <div class="note">Conclua os 5 checkpoints para marcar o ritual de Fundamentos. Progresso: <strong id="fundProg">0/5</strong></div>
+    <h3 id="fundRoleTitle"></h3>
+    <div id="fundRole"></div>
   </section>
 
   <!-- ================= MÉTODOS ================= -->
@@ -390,6 +404,39 @@
     </div>
   </section>
 
+  <!-- ================= CONQUISTAS ================= -->
+  <section class="section" id="conquistas">
+    <h2 class="title">🏅 Conquistas &amp; Reconhecimento</h2>
+    <p class="lead">Cada etapa concluída vira uma medalha. Suba sua foto, escolha a conquista e gere um card com a marca da Estante Mágica para compartilhar com orgulho. <strong>#TimeEstanteMágica</strong></p>
+
+    <div class="card">
+      <span class="tag">Seu perfil</span><h3>Sua foto</h3>
+      <div class="profrow">
+        <div class="avatarprev" id="avatarPrev">📷</div>
+        <div>
+          <input type="file" id="photoInput" accept="image/*">
+          <p style="font-size:12.5px;color:var(--soft);margin-top:6px">A foto fica só no seu navegador. Usada para gerar o seu card e a sua foto de perfil.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="tag">Medalhas</span><h3>Sua jornada</h3>
+      <div class="grid" id="medalGrid"></div>
+      <div class="note">Conclua as práticas da trilha para desbloquear medalhas. A "Trilha Completa" libera o título de <strong>Mestre da Trilha</strong>. Clique numa medalha conquistada para usá-la no card.</div>
+    </div>
+
+    <div class="card">
+      <span class="tag">Compartilhar</span><h3>Seu card de conquista</h3>
+      <p class="lead" style="margin-bottom:14px">Preview do seu reconhecimento. Baixe e poste nas redes ou use como foto de perfil.</p>
+      <canvas id="certCanvas" width="1080" height="1080"></canvas>
+      <div class="btnrow" style="justify-content:center;margin-top:16px">
+        <button class="btn gold" id="dlCert">⬇ Baixar card (post/story)</button>
+        <button class="btn ghost" id="dlProfile">⬇ Baixar foto de perfil</button>
+      </div>
+    </div>
+  </section>
+
   <!-- ================= LÍDER ================= -->
   <section class="section" id="lider">
     <h2 class="title">📊 Painel do Líder</h2>
@@ -474,32 +521,50 @@ function renderRoleBanner(){ const r=ROLES[role()];
     '<div class="b2"><strong>Seu jogo B2B2C:</strong> '+r.b2b2c+'</div>';
   document.getElementById('dicChallenge').textContent='Desafio do seu cargo: '+r.dic;
 }
-function onRoleChange(){ syncUser(); renderRoleBanner(); renderMethods(); renderRel(); if(cur.diag) renderDiag(); }
+function onRoleChange(){ syncUser(); renderRoleBanner(); renderMethods(); renderRel(); renderFundRole(); renderPersonas(); if(cur.diag) renderDiag(); drawCert(); }
 who.addEventListener('input',syncUser); roleSel.addEventListener('change',onRoleChange);
 
 /* ===================== RAIO-X ===================== */
 const DIMS=[
-  {id:'prosp', n:'Prospecção & Qualificação', d:'abordar, despertar interesse e separar quem tem dor real.'},
-  {id:'desc',  n:'Descoberta & Diagnóstico', d:'fazer boas perguntas e entender a dor antes de oferecer.'},
-  {id:'arg',   n:'Argumentação & Persuasão', d:'construir valor e influenciar sem pressão.'},
-  {id:'neg',   n:'Negociação & Objeções', d:'conduzir o "não" e fechar com segurança.'},
-  {id:'rel',   n:'Relacionamento & Expansão', d:'reter, reativar e ampliar contas pelo sucesso.'},
-  {id:'com',   n:'Comunicação & Presença', d:'voz, ritmo e narrativa que prendem a atenção.'}
+  {id:'prosp', n:'Prospecção & Qualificação', d:'abordar, despertar interesse e separar quem tem dor real.',
+   sc:{ q:'Você liga para uma escola que nunca ouviu falar da gente. Como abre?',
+        o:['"Bom dia, queria apresentar nossos produtos."','"Bom dia! Ajudo escolas a fazerem cada aluno publicar o próprio livro. Posso te contar em 2 min como isso engaja as turmas?"','"Vocês têm projeto de leitura? Posso mandar um material?"'], s:[1,5,3] }},
+  {id:'desc',  n:'Descoberta & Diagnóstico', d:'fazer boas perguntas e entender a dor antes de oferecer.',
+   sc:{ q:'A coordenadora diz que "está tudo bem" no projeto atual. Qual sua próxima fala?',
+        o:['"Que ótimo, então deixa eu te apresentar o nosso."','"Que bom! E se pudesse melhorar uma única coisa no engajamento dos alunos, o que seria?"','"Posso te enviar uma proposta?"'], s:[1,5,3] }},
+  {id:'arg',   n:'Argumentação & Persuasão', d:'construir valor e influenciar sem pressão.',
+   sc:{ q:'Diretora: "projeto de leitura todo mundo tem". Melhor resposta?',
+        o:['"O nosso é diferente."','"Verdade. A diferença é que cada criança vira autora de um livro impresso — e a escola comunica isso com orgulho às famílias. Como sua comunidade reagiria?"','"Discordo, o nosso é único."'], s:[3,5,1] }},
+  {id:'neg',   n:'Negociação & Objeções', d:'conduzir o "não" e fechar com segurança.',
+   sc:{ q:'"Está caro." O que você faz primeiro?',
+        o:['"Ofereço um desconto."','"Pergunto se, além do investimento, mais algo impede — e confirmo o valor antes de falar de número."','"Explico que vale a pena."'], s:[1,5,3] }},
+  {id:'rel',   n:'Relacionamento & Expansão', d:'reter, reativar e ampliar contas pelo sucesso.',
+   sc:{ q:'Uma escola sumiu e quase não usou o projeto. Melhor abordagem?',
+        o:['"Cobro o uso e pergunto da renovação."','"Reativo com uma história de sucesso de escola parecida e ofereço um plano enxuto pra próxima turma."','"Mando um lembrete do contrato."'], s:[1,5,3] }},
+  {id:'com',   n:'Comunicação & Presença', d:'voz, ritmo e narrativa que prendem a atenção.',
+   sc:{ q:'Vai apresentar para uma diretora ocupada. Como estrutura a fala?',
+        o:['"Falo tudo que sei, o mais rápido possível."','"Começo pela dor/visão, uso pausas e fecho com um convite claro."','"Sigo um roteiro decorado sem adaptar."'], s:[1,5,3] }}
 ];
 const ROLE_PRIORITY={ sdr:['prosp','desc','arg'], closer:['desc','arg','neg','com'], cs:['rel','desc','neg'], heroi:['rel','arg','desc'], ativacao:['rel','prosp','desc'] };
+let diagSc={};
 (function(){ const w=document.getElementById('diagInputs');
-  DIMS.forEach(dm=>{ const row=document.createElement('div'); row.className='bar';
-    row.innerHTML='<div class="blab"><span>'+dm.n+' <span style="color:var(--soft);font-weight:400">— '+dm.d+'</span></span><span id="vv_'+dm.id+'">3</span></div>'+
-      '<input class="slider" type="range" min="1" max="5" value="3" id="sl_'+dm.id+'">';
+  DIMS.forEach(dm=>{ const row=document.createElement('div'); row.className='card'; row.style.padding='16px';
+    row.innerHTML='<div class="bar" style="margin-bottom:12px"><div class="blab"><span>'+dm.n+' <span style="color:var(--soft);font-weight:400">— '+dm.d+'</span></span><span id="vv_'+dm.id+'">3</span></div>'+
+      '<input class="slider" type="range" min="1" max="5" value="3" id="sl_'+dm.id+'"></div>'+
+      '<p style="font-weight:600;font-size:13.5px;margin:4px 0 8px">🎬 Cenário: '+dm.sc.q+'</p><div class="scopts" data-dim="'+dm.id+'"></div>';
     w.appendChild(row);
     row.querySelector('input').addEventListener('input',e=>{ document.getElementById('vv_'+dm.id).textContent=e.target.value; });
+    const opts=row.querySelector('.scopts');
+    dm.sc.o.forEach((opt,oi)=>{ const b=document.createElement('button'); b.className='choice'; b.textContent=opt;
+      b.onclick=()=>{ opts.querySelectorAll('.choice').forEach(x=>{x.classList.remove('right');}); b.classList.add('right'); diagSc[dm.id]=dm.sc.s[oi]; };
+      opts.appendChild(b); });
   });
 })();
 function levelOf(p){ return p<55?{c:'lv-ini',t:'Iniciante'}:p<78?{c:'lv-int',t:'Intermediário'}:{c:'lv-avc',t:'Avançado'}; }
 document.getElementById('runDiag').onclick=()=>{
-  const scores={}; DIMS.forEach(dm=>scores[dm.id]=+document.getElementById('sl_'+dm.id).value);
+  const scores={}; DIMS.forEach(dm=>{ const sl=+document.getElementById('sl_'+dm.id).value; const sc=diagSc[dm.id]; scores[dm.id]= sc!=null? Math.round((sl+sc)/2): sl; });
   cur.diag={ scores, ts:new Date().toISOString() };
-  setTask('raio',true); renderDiag(); refreshKpis();
+  setTask('raio',true); renderDiag(); refreshKpis(); renderMedals();
   document.getElementById('diagResult').scrollIntoView({behavior:'smooth'});
 };
 function diagPct(scores){ const v=Object.values(scores); return Math.round(v.reduce((a,b)=>a+b,0)/(v.length*5)*100); }
@@ -550,6 +615,31 @@ const fundamentos = [
       }; ch.appendChild(b); });
     wrap.appendChild(c); });
 })();
+const ROLE_FUND={
+  ativacao:[ {q:'Ativação bem-sucedida significa:', o:['O contrato foi assinado','O cliente chegou rápido ao primeiro valor (primeira turma escrevendo)','O kit foi entregue'], a:1, fb:'Primeiro valor rápido é o que evita o churn precoce.'},
+             {q:'A coordenadora está perdida no início. Sua prioridade é:', o:['Mandar o manual e aguardar','Definir juntas a primeira turma e uma data da primeira aula','Esperar ela pedir ajuda'], a:1, fb:'Reduza fricção e crie uma vitória rápida e visível.'} ],
+  sdr:[ {q:'No primeiro contato (cold call), seu objetivo principal é:', o:['Fechar a venda ali mesmo','Conquistar a próxima conversa qualificando a dor','Apresentar todo o catálogo'], a:1, fb:'SDR abre portas: qualifica a dor e agenda o Closer com contexto.'},
+        {q:'O que torna um lead pronto para passar ao Closer?', o:['Foi simpático no telefone','Tem dor real, decisor mapeado e momento favorável','Pediu para receber e-mail'], a:1, fb:'Qualidade no hand-off evita reunião furada lá na frente.'} ],
+  closer:[ {q:'Antes de falar de preço na reunião de fechamento, você deve:', o:['Dar logo o desconto','Confirmar o valor percebido e isolar as objeções','Encerrar rápido'], a:1, fb:'Preço só faz sentido depois do valor confirmado.'},
+           {q:'Diante de "vou pensar", a melhor jogada é:', o:['Aceitar e aguardar','Descobrir a real objeção: é tempo, formato ou investimento?','Pressionar pela assinatura'], a:1, fb:'Isole a objeção real em vez de aceitar o adiamento vago.'} ],
+  cs:[ {q:'O sinal mais forte de que a conta vai renovar é:', o:['A escola respondeu rápido','Escola usando o projeto + famílias percebendo valor','O contrato ainda está vigente'], a:1, fb:'Renovação vive dos dois "sins": adoção e valor sentido.'},
+       {q:'Numa QBR, o melhor momento para propor expansão é:', o:['Logo na abertura','Depois de mostrar resultados e reconhecer a escola','Por e-mail, sem reunião'], a:1, fb:'Expansão flui quando o valor já foi comprovado na conversa.'} ],
+  heroi:[ {q:'Num chamado de atendimento, a oportunidade comercial está em:', o:['Resolver rápido e encerrar','Resolver, encantar e plantar valor/expansão','Encaminhar para vendas'], a:1, fb:'Herói é a ponte comercial do atendimento: cada contato retém e expande.'},
+          {q:'Uma coordenadora elogia o projeto. Você:', o:['Agradece e encerra','Aproveita para sugerir ampliar para outra série/turma','Pede para ela avaliar no formulário'], a:1, fb:'Elogio = conta verde. Transforme satisfação em expansão.'} ]
+};
+function renderFundRole(){ const w=document.getElementById('fundRole'); if(!w) return; const r=role();
+  document.getElementById('fundRoleTitle').innerHTML='🎓 Aplicação no seu cargo <span class="rec">'+ROLES[r].label+'</span>';
+  w.innerHTML='';
+  (ROLE_FUND[r]||[]).forEach(item=>{ const c=document.createElement('div'); c.className='card';
+    c.innerHTML='<p style="font-weight:700;color:var(--primary-dark)">Checkpoint: '+item.q+'</p><div class="ch"></div><div class="fb"></div>';
+    const ch=c.querySelector('.ch'), fb=c.querySelector('.fb');
+    item.o.forEach((opt,oi)=>{ const b=document.createElement('button'); b.className='choice'; b.textContent=opt;
+      b.onclick=()=>{ if(c.dataset.answered) return; c.dataset.answered='1'; const ok=oi===item.a;
+        b.classList.add(ok?'right':'wrong'); if(!ok) ch.children[item.a].classList.add('right');
+        fb.className='fb show '+(ok?'good':'bad'); fb.innerHTML=(ok?'✅ ':'⚠️ ')+item.fb; };
+      ch.appendChild(b); });
+    w.appendChild(c); });
+}
 
 /* ===================== MÉTODOS ===================== */
 const METHODS=[
@@ -699,7 +789,7 @@ const relDrills=[
 
 /* ===================== DOJO ===================== */
 const personas=[
-  { id:'coord', ico:'😟', nome:'Coordenadora sobrecarregada', desc:'(SDR/Closer) Gosta da ideia, teme não dar conta.',
+  { id:'coord', ico:'😟', nome:'Coordenadora sobrecarregada', roles:['sdr','closer'], desc:'(SDR/Closer) Gosta da ideia, teme não dar conta.',
     turns:[
       { fala:'"Amei, mas já estou no limite. Mais um projeto pra gerenciar eu não consigo."',
         op:[ {t:'"É super tranquilo, dá quase nenhum trabalho."', r:'parcial', f:'Minimizar a dor soa falso. Ela quer segurança, não simplificação.'},
@@ -709,7 +799,7 @@ const personas=[
         op:[ {t:'"A gente segura na mão da equipe do início ao evento de autógrafos. Você não vai estar sozinha."', r:'bom', f:'Apoio + pertencimento reduzem o medo do fracasso.'},
              {t:'"Aí já depende de vocês."', r:'ruim', f:'Jogou o risco de volta pra ela.'},
              {t:'"Se não der certo, cancela."', r:'parcial', f:'Tira pressão, mas não inspira.'} ] } ] },
-  { id:'dir', ico:'🤨', nome:'Diretora cética', desc:'(Closer) Quer dados e ROI, pouca paciência.',
+  { id:'dir', ico:'🤨', nome:'Diretora cética', roles:['closer'], desc:'(Closer) Quer dados e ROI, pouca paciência.',
     turns:[
       { fala:'"Bonito, mas qual o resultado concreto pra escola?"',
         op:[ {t:'"Escolas que aplicam viram referência: marca mais forte, famílias fidelizadas e ganho real em escrita e leitura."', r:'bom', f:'Autoridade + prova social na língua de resultado.'},
@@ -719,7 +809,7 @@ const personas=[
         op:[ {t:'"Porque o cérebro aprende com repetição e emoção. Uma vez é evento; todo ano é formação e vira tradição esperada pela comunidade."', r:'bom', f:'Neurociência + continuidade + pertencimento.'},
              {t:'"Pra gente vender mais."', r:'ruim', f:'Honestidade fora de hora; some o valor.'},
              {t:'"Fica mais barato no pacote."', r:'parcial', f:'Preço não é o motivo central.'} ] } ] },
-  { id:'risco', ico:'❄️', nome:'Escola em risco de churn', desc:'(CS/Heróis) Usou pouco, renovação ameaçada.',
+  { id:'risco', ico:'❄️', nome:'Escola em risco de churn', roles:['cs','heroi'], desc:'(CS/Heróis) Usou pouco, renovação ameaçada.',
     turns:[
       { fala:'"Sinceramente, não sei se vale renovar. Usamos pouco este ano."',
         op:[ {t:'"Que pena ouvir isso. Posso entender o que travou o uso? Quero achar o caminho pra próxima turma viver o projeto de verdade."', r:'bom', f:'Diagnóstico antes de defender. Mostra parceria, não cobrança.'},
@@ -728,12 +818,44 @@ const personas=[
       { fala:'"Faltou tempo da equipe pra tocar o projeto."',
         op:[ {t:'"Entendi. Vou montar um plano enxuto de 30 dias e acompanhar de perto, com um resultado rápido pra reengajar a equipe. Topa?"', r:'bom', f:'Plano de ativação + acompanhamento resgata a conta pelo sucesso.'},
              {t:'"Então não tem o que eu fazer."', r:'ruim', f:'Abandonou a conta.'},
-             {t:'"Ano que vem vocês se organizam."', r:'parcial', f:'Empurrou o problema; o churn vem antes disso.'} ] } ] }
+             {t:'"Ano que vem vocês se organizam."', r:'parcial', f:'Empurrou o problema; o churn vem antes disso.'} ] } ] },
+  { id:'cold', ico:'📞', nome:'Gatekeeper na cold call', roles:['sdr'], desc:'(SDR) A secretária filtra seu acesso à coordenação.',
+    turns:[
+      { fala:'"A coordenadora não está, pode mandar um e-mail."',
+        op:[ {t:'"Tudo bem, qual o e-mail?"', r:'parcial', f:'Pega o contato, mas perde a chance de qualificar e marcar.'},
+             {t:'"Claro! Só pra eu personalizar: vocês já têm algum projeto onde os alunos publicam o próprio livro? Aí mando algo útil e marco com ela."', r:'bom', f:'Transforma o gatekeeper em aliado e já começa a qualificar.'},
+             {t:'"Preciso falar com ela agora."', r:'ruim', f:'Pressionar o gatekeeper fecha a porta.'} ] },
+      { fala:'"Recebemos muitas ofertas, viu."',
+        op:[ {t:'"Imagino! Por isso não quero mandar mais um e-mail genérico. Em 1 frase: ajudamos escolas a virar referência formando alunos autores. Vale 10 min com a coordenação?"', r:'bom', f:'Diferenciou-se em 1 frase e pediu um micro-compromisso.'},
+             {t:'"A nossa é diferente."', r:'parcial', f:'Afirmou sem provar; pouco convincente.'},
+             {t:'"Mas a nossa é importante."', r:'ruim', f:'Genérico e autocentrado.'} ] } ] },
+  { id:'qbr', ico:'📈', nome:'QBR de renovação', roles:['cs','heroi'], desc:'(CS/Heróis) Revisão de resultados com chance de expansão.',
+    turns:[
+      { fala:'"Foi um ano corrido, mas no geral gostamos."',
+        op:[ {t:'"Que bom! Trouxe os números: participação alta e depoimentos de famílias. Olhando isso, faz sentido pensarmos em ampliar pro Fundamental II?"', r:'bom', f:'Ancorou no resultado e abriu expansão no momento certo.'},
+             {t:'"Então renovamos igual?"', r:'parcial', f:'Renova, mas deixa a expansão na mesa.'},
+             {t:'"Ótimo, te mando o boleto."', r:'ruim', f:'Transformou um momento de valor em cobrança.'} ] },
+      { fala:'"Ampliar parece interessante, mas receio o custo."',
+        op:[ {t:'"Entendo. Vamos olhar o retorno: as turmas atendidas viraram prova social e ajudaram nas matrículas. Posso montar um cenário de expansão que se paga?"', r:'bom', f:'Reposicionou custo como investimento com retorno.'},
+             {t:'"Dou um desconto."', r:'parcial', f:'Desconto sem valor ensina a barganhar.'},
+             {t:'"Então deixa como está."', r:'ruim', f:'Desistiu da expansão cedo demais.'} ] } ] },
+  { id:'ativa', ico:'🚀', nome:'Kickoff de ativação', roles:['ativacao','cs'], desc:'(Ativação/CS) Cliente novo, perdido em como começar.',
+    turns:[
+      { fala:'"Comprei, mas confesso que estou perdida em por onde começar."',
+        op:[ {t:'"Sem stress, está tudo no portal."', r:'parcial', f:'Joga a responsabilidade pro cliente; risco de churn.'},
+             {t:'"Tô aqui pra isso! Vamos definir juntas a primeira turma e uma data pra primeira aula. Em 30 dias seus alunos já estarão escrevendo."', r:'bom', f:'Plano claro + primeiro valor rápido = ativação de verdade.'},
+             {t:'"É só seguir o manual."', r:'ruim', f:'Fricção pura; ativação morre aqui.'} ] },
+      { fala:'"E se a equipe não engajar?"',
+        op:[ {t:'"Vou acompanhar de perto e a gente celebra a primeira conquista com a equipe e as famílias. Engajamento vem do primeiro sucesso visível."', r:'bom', f:'Usa vitória rápida e reconhecimento para engajar.'},
+             {t:'"Aí depende de vocês."', r:'ruim', f:'Abandonou o cliente na hora crítica.'},
+             {t:'"Tenta motivar eles."', r:'parcial', f:'Vago; não oferece caminho.'} ] } ] }
 ];
 let curPersona=null, curTurn=0, dojoScore=0;
-function renderPersonas(){ const g=document.getElementById('personaGrid'); g.innerHTML='';
-  personas.forEach(p=>{ const el=document.createElement('div'); el.className='persona';
-    el.innerHTML='<div class="pico">'+p.ico+'</div><h4>'+p.nome+'</h4><p>'+p.desc+'</p>';
+function renderPersonas(){ const g=document.getElementById('personaGrid'); const rec=role();
+  const ordered=[...personas].sort((a,b)=>(b.roles.includes(rec)?1:0)-(a.roles.includes(rec)?1:0));
+  g.innerHTML='';
+  ordered.forEach(p=>{ const el=document.createElement('div'); el.className='persona';
+    el.innerHTML='<div class="pico">'+p.ico+'</div><h4>'+p.nome+(p.roles.includes(rec)?' <span class="rec">pra você</span>':'')+'</h4><p>'+p.desc+'</p>';
     el.onclick=()=>startScenario(p); g.appendChild(el); });
 }
 function startScenario(p){ curPersona=p; curTurn=0; dojoScore=0;
@@ -807,7 +929,7 @@ function updateDic(){ const vals=Object.values(rubricScores); const filled=vals.
 const taskNav={ raio:'raiox', fund:'fundamentos', met:'metodos', arg:'arg', dojo:'dojo', dic:'diccao' };
 function setTask(k,v){ cur.tasks[k]=v; const t=document.querySelector('.task[data-task="'+k+'"]');
   if(t){ t.classList.toggle('done',v); t.querySelector('.state').textContent=v?'✓ Concluído':'○ Pendente'; }
-  navDone(taskNav[k],v); }
+  navDone(taskNav[k],v); renderMedals(); }
 document.querySelectorAll('.task').forEach(t=>t.addEventListener('click',()=>{ const k=t.dataset.task; setTask(k,!cur.tasks[k]); }));
 
 function metrics(){ return {
@@ -911,9 +1033,79 @@ function doGet(){
   return ContentService.createTextOutput(JSON.stringify(out)).setMimeType(ContentService.MimeType.JSON);
 }`;
 
+/* ===================== CONQUISTAS ===================== */
+const MEDALS=[
+  {id:'raio',   emoji:'🧭', nome:'Autoconhecimento', title:'Explorador de Talentos', cond:()=>!!cur.diag},
+  {id:'fund',   emoji:'📚', nome:'Fundamentos',      title:'Base Sólida',           cond:()=>cur.tasks.fund},
+  {id:'met',    emoji:'🧰', nome:'Métodos',          title:'Mente Estratégica',     cond:()=>cur.tasks.met},
+  {id:'arg',    emoji:'🧠', nome:'Persuasão',        title:'Voz que Convence',      cond:()=>cur.tasks.arg},
+  {id:'dojo',   emoji:'🥋', nome:'Dojo',             title:'Faixa-Preta de Vendas', cond:()=>cur.tasks.dojo},
+  {id:'dic',    emoji:'🎙️', nome:'Dicção',           title:'Presença de Palco',     cond:()=>cur.tasks.dic},
+  {id:'full',   emoji:'🏆', nome:'Trilha Completa',  title:'Mestre da Trilha',      cond:()=>['raio','fund','met','arg','dojo','dic'].every(k=>cur.tasks[k])},
+  {id:'streak', emoji:'🔥', nome:'Consistência',     title:'Imparável',             cond:()=>(load().streak||0)>=4}
+];
+let selMedal=null;
+const logoImg=new Image(); logoImg.src='../assets/logo.png'; logoImg.onload=drawCert;
+function renderMedals(){ const g=document.getElementById('medalGrid'); if(!g) return;
+  g.innerHTML=MEDALS.map(m=>{ const on=m.cond();
+    return '<div class="medal '+(on?'on':'off')+'" data-m="'+m.id+'"><div class="memoji">'+m.emoji+'</div><div class="mname">'+m.nome+'</div><div class="mstat">'+(on?'✓ conquistada':'bloqueada')+'</div></div>'; }).join('');
+  g.querySelectorAll('.medal.on').forEach(el=>el.onclick=()=>{ selMedal=MEDALS.find(m=>m.id===el.dataset.m); drawCert(); });
+  if(!selMedal || !selMedal.cond()){ const u=MEDALS.filter(m=>m.cond()); selMedal=u.length?u[u.length-1]:null; }
+  drawCert();
+}
+const photoInput=document.getElementById('photoInput');
+if(photoInput) photoInput.addEventListener('change',e=>{ const f=e.target.files[0]; if(!f) return;
+  const rd=new FileReader(); rd.onload=ev=>{ const img=new Image(); img.onload=()=>{
+    const cv=document.createElement('canvas'); cv.width=cv.height=400; const x=cv.getContext('2d');
+    const s=Math.min(img.width,img.height); x.drawImage(img,(img.width-s)/2,(img.height-s)/2,s,s,0,0,400,400);
+    cur.photo=cv.toDataURL('image/jpeg',0.85); const d=load(); d.profile=d.profile||{}; d.profile.photo=cur.photo; save(d);
+    loadPhotoImg(); }; img.src=ev.target.result; }; rd.readAsDataURL(f); });
+function loadPhotoImg(){ if(!cur.photo){ cur.photoImg=null; drawCert(); return; }
+  const i=new Image(); i.onload=()=>{ cur.photoImg=i; const av=document.getElementById('avatarPrev'); if(av){ av.style.backgroundImage='url('+cur.photo+')'; av.textContent=''; } drawCert(); }; i.src=cur.photo; }
+function roundRect(c,x,y,w,h,r){ c.beginPath(); c.moveTo(x+r,y); c.arcTo(x+w,y,x+w,y+h,r); c.arcTo(x+w,y+h,x,y+h,r); c.arcTo(x,y+h,x,y,r); c.arcTo(x,y,x+w,y,r); c.closePath(); }
+function drawCircleImg(ctx,img,cx,cy,r){ ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.closePath(); ctx.clip();
+  if(img){ const s=Math.min(img.width,img.height); ctx.drawImage(img,(img.width-s)/2,(img.height-s)/2,s,s,cx-r,cy-r,2*r,2*r); }
+  else { ctx.fillStyle='#EDE5FA'; ctx.fillRect(cx-r,cy-r,2*r,2*r); ctx.fillStyle='#6B46C1'; ctx.font='bold 140px sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(((who.value.trim()[0])||'?').toUpperCase(),cx,cy); }
+  ctx.restore(); }
+function drawLogo(c,cx,topY,targetW){ if(!(logoImg.complete && logoImg.naturalWidth)) return;
+  const lw=targetW, lh=lw*logoImg.naturalHeight/logoImg.naturalWidth;
+  c.save(); roundRect(c,cx-lw/2-20,topY,lw+40,lh+24,16); c.fillStyle='rgba(255,255,255,.93)'; c.fill();
+  c.drawImage(logoImg,cx-lw/2,topY+12,lw,lh); c.restore(); }
+function drawCert(){ const cv=document.getElementById('certCanvas'); if(!cv) return; const c=cv.getContext('2d'); const W=1080,H=1080;
+  const g=c.createLinearGradient(0,0,W,H); g.addColorStop(0,'#4C1D95'); g.addColorStop(.55,'#6B46C1'); g.addColorStop(1,'#D97706');
+  c.fillStyle=g; c.fillRect(0,0,W,H);
+  c.strokeStyle='rgba(255,255,255,.12)'; c.lineWidth=46; c.beginPath(); c.arc(W/2,470,330,0,Math.PI*2); c.stroke();
+  drawLogo(c,W/2,52,300);
+  const cy=470; c.fillStyle='#fff'; c.beginPath(); c.arc(W/2,cy,198,0,Math.PI*2); c.fill();
+  c.fillStyle='#F59E0B'; c.beginPath(); c.arc(W/2,cy,190,0,Math.PI*2); c.fill();
+  drawCircleImg(c,cur.photoImg,W/2,cy,180);
+  if(selMedal){ c.fillStyle='#fff'; c.beginPath(); c.arc(W/2+148,cy+150,66,0,Math.PI*2); c.fill();
+    c.font='96px sans-serif'; c.textAlign='center'; c.textBaseline='middle'; c.fillText(selMedal.emoji,W/2+148,cy+156); }
+  c.textAlign='center'; c.textBaseline='alphabetic';
+  c.fillStyle='#fff'; c.font='800 66px sans-serif'; c.fillText(who.value.trim()||'Seu Nome',W/2,766);
+  c.fillStyle='#FDE68A'; c.font='600 34px sans-serif'; c.fillText(ROLES[role()].label+' · Estante Mágica',W/2,814);
+  if(selMedal){ c.fillStyle='#fff'; c.font='800 48px sans-serif'; c.fillText('“'+selMedal.title+'”',W/2,894);
+    c.fillStyle='rgba(255,255,255,.92)'; c.font='500 30px sans-serif'; c.fillText('Conquista: '+selMedal.nome,W/2,940); }
+  else { c.fillStyle='rgba(255,255,255,.9)'; c.font='500 32px sans-serif'; c.fillText('Conclua a trilha para desbloquear sua medalha',W/2,900); }
+  c.fillStyle='#fff'; c.font='700 32px sans-serif'; c.fillText('#TimeEstanteMágica',W/2,1012);
+  c.fillStyle='rgba(255,255,255,.8)'; c.font='400 24px sans-serif'; c.fillText('Hub de Crescimento Comercial · '+new Date().toLocaleDateString('pt-BR'),W/2,1052);
+}
+const dlCertBtn=document.getElementById('dlCert');
+if(dlCertBtn) dlCertBtn.onclick=()=>{ const cv=document.getElementById('certCanvas'); const a=document.createElement('a'); a.download='conquista-estante-magica.png'; a.href=cv.toDataURL('image/png'); a.click(); };
+const dlProfBtn=document.getElementById('dlProfile');
+if(dlProfBtn) dlProfBtn.onclick=()=>{ const W=800; const cv=document.createElement('canvas'); cv.width=cv.height=W; const c=cv.getContext('2d');
+  const g=c.createLinearGradient(0,0,W,W); g.addColorStop(0,'#6B46C1'); g.addColorStop(1,'#D97706');
+  c.fillStyle=g; c.beginPath(); c.arc(W/2,W/2,W/2,0,Math.PI*2); c.fill();
+  drawCircleImg(c,cur.photoImg,W/2,W/2,W/2-46);
+  if(selMedal){ c.fillStyle='#fff'; c.beginPath(); c.arc(W-150,W-150,92,0,Math.PI*2); c.fill();
+    c.font='130px sans-serif'; c.textAlign='center'; c.textBaseline='middle'; c.fillText(selMedal.emoji,W-150,W-142); }
+  drawLogo(c,W/2,26,150);
+  const a=document.createElement('a'); a.download='foto-perfil-estante-magica.png'; a.href=cv.toDataURL('image/png'); a.click(); };
+
 /* ===================== INIT ===================== */
-syncUser(); renderRoleBanner(); renderMethods(); renderRel(); renderPersonas(); renderObj(); refreshKpis(); renderHist(); renderTeam();
-who.addEventListener('input',()=>{ refreshKpis(); renderHist(); });
+(function(){ const d=load(); if(d.profile&&d.profile.photo) cur.photo=d.profile.photo; })();
+syncUser(); renderRoleBanner(); renderMethods(); renderRel(); renderFundRole(); renderPersonas(); renderObj(); refreshKpis(); renderHist(); renderTeam(); renderMedals(); loadPhotoImg();
+who.addEventListener('input',()=>{ refreshKpis(); renderHist(); drawCert(); });
 </script>
 </body>
 </html>
