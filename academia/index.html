@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Academia do Closer · Dojo de Neurovendas · Estante Mágica</title>
+<title>Hub de Crescimento Comercial · Do SDR ao CS · Estante Mágica</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   :root {
@@ -15,10 +15,9 @@
   }
   body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; display:flex; min-height:100vh; }
 
-  /* SIDEBAR */
-  .sidebar { width:280px; background:var(--card); border-right:1px solid var(--border); position:sticky; top:0; height:100vh; overflow-y:auto; flex-shrink:0; }
+  .sidebar { width:288px; background:var(--card); border-right:1px solid var(--border); position:sticky; top:0; height:100vh; overflow-y:auto; flex-shrink:0; }
   .sb-head { padding:22px 22px 16px; border-bottom:1px solid var(--border); }
-  .sb-head h1 { font-size:17px; color:var(--primary-dark); }
+  .sb-head h1 { font-size:16px; color:var(--primary-dark); }
   .sb-head p { font-size:12px; color:var(--soft); }
   .sb-user { padding:12px 22px; background:var(--primary-light); font-size:13px; border-bottom:1px solid var(--border); }
   .sb-user strong { color:var(--primary-dark); }
@@ -28,42 +27,50 @@
   .nav li:hover { background:var(--primary-light); }
   .nav li.active { background:var(--primary-light); border-left-color:var(--primary); color:var(--primary); font-weight:700; }
   .nav li.done::after { content:'✓'; color:var(--success); font-weight:800; margin-left:auto; }
+  .step { font-size:10px; background:var(--accent-light); color:var(--gold); padding:1px 6px; border-radius:5px; font-weight:700; margin-left:auto; }
 
-  .main { flex:1; padding:34px 46px 80px; max-width:980px; margin:0 auto; width:100%; }
+  .main { flex:1; padding:34px 46px 90px; max-width:1000px; margin:0 auto; width:100%; }
   .section { display:none; } .section.active { display:block; animation:fade .3s; }
   @keyframes fade { from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:none} }
 
   h2.title { font-size:30px; color:var(--primary-dark); margin-bottom:4px; }
   .lead { color:var(--soft); font-size:16px; margin-bottom:22px; }
   h3 { font-size:20px; color:var(--primary-dark); margin:26px 0 10px; }
+  h4 { color:var(--primary-dark); }
   p { margin-bottom:12px; } ul { margin:0 0 14px 22px; } li { margin-bottom:6px; }
 
-  .hero { background:linear-gradient(135deg,#4C1D95,#6B46C1 55%,#D97706 135%); color:#fff; padding:32px; border-radius:16px; margin-bottom:22px; }
-  .hero h2 { font-size:28px; margin-bottom:8px; } .hero p { opacity:.95; }
+  .hero { background:linear-gradient(135deg,#4C1D95,#6B46C1 55%,#D97706 135%); color:#fff; padding:30px; border-radius:16px; margin-bottom:22px; }
+  .hero h2 { font-size:26px; margin-bottom:8px; } .hero p { opacity:.95; }
   .hero .q { font-style:italic; font-weight:300; border-left:3px solid rgba(255,255,255,.5); padding-left:14px; margin-top:14px; }
 
-  .idbar { display:flex; gap:10px; align-items:center; flex-wrap:wrap; background:var(--card); border:1px solid var(--border); border-radius:14px; padding:14px 18px; margin-bottom:18px; }
+  .idbar { display:flex; gap:10px; align-items:center; flex-wrap:wrap; background:var(--card); border:1px solid var(--border); border-radius:14px; padding:14px 18px; margin-bottom:14px; }
   .idbar label { font-size:13px; color:var(--soft); font-weight:600; }
   .idbar input, .idbar select { padding:9px 12px; border:1px solid var(--border); border-radius:9px; font-size:14px; }
 
-  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:13px; margin-bottom:22px; }
-  .kpi { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:16px; position:relative; overflow:hidden; }
+  .rolebanner { border-radius:14px; padding:18px 20px; margin-bottom:20px; color:#fff; background:var(--primary); }
+  .rolebanner h3 { color:#fff; margin:0 0 4px; font-size:18px; }
+  .rolebanner p { margin:0; opacity:.95; font-size:14px; }
+  .rolebanner .b2 { margin-top:10px; font-size:13px; background:rgba(255,255,255,.15); border-radius:10px; padding:10px 12px; }
+
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(165px,1fr)); gap:12px; margin-bottom:22px; }
+  .kpi { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:15px; position:relative; overflow:hidden; }
   .kpi::after { content:''; position:absolute; left:0; top:0; bottom:0; width:5px; background:var(--primary); }
-  .kpi.streak::after { background:var(--accent); }
+  .kpi.streak::after { background:var(--accent); } .kpi.time::after{ background:var(--info); }
   .kpi .lab { font-size:11px; color:var(--soft); text-transform:uppercase; letter-spacing:.5px; font-weight:700; }
-  .kpi .val { font-size:30px; font-weight:800; color:var(--primary-dark); margin:3px 0; }
-  .kpi.streak .val { color:var(--gold); }
+  .kpi .val { font-size:27px; font-weight:800; color:var(--primary-dark); margin:3px 0; }
+  .kpi.streak .val { color:var(--gold); } .kpi.time .val{ color:var(--info); }
   .kpi .delta { font-size:12px; font-weight:700; }
   .delta.up{color:var(--success)} .delta.down{color:var(--danger)} .delta.flat{color:var(--soft)}
 
   .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:22px; margin-bottom:18px; }
   .card h3 { margin-top:0; }
   .tag { display:inline-block; font-size:11px; background:var(--primary-light); color:var(--primary); padding:3px 9px; border-radius:6px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; margin-bottom:8px; }
+  .rec { display:inline-block; font-size:10px; background:var(--success-light); color:var(--success); padding:2px 8px; border-radius:20px; font-weight:800; margin-left:8px; }
 
-  .ritual { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:12px; }
-  .task { border:1px solid var(--border); border-radius:12px; padding:15px; background:#fff; }
+  .ritual { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; }
+  .task { border:1px solid var(--border); border-radius:12px; padding:15px; background:#fff; cursor:pointer; }
   .task.done { background:var(--success-light); border-color:var(--success); }
-  .task .ico{font-size:22px} .task h4{font-size:14px; color:var(--primary-dark); margin:6px 0 3px} .task p{font-size:12.5px; color:var(--soft); margin:0}
+  .task .ico{font-size:22px} .task h4{font-size:14px; margin:6px 0 3px} .task p{font-size:12.5px; color:var(--soft); margin:0}
   .task .state{font-size:12px; font-weight:700; margin-top:6px; color:var(--soft)} .task.done .state{color:var(--success)}
 
   .btn { background:var(--primary); color:#fff; border:none; border-radius:10px; padding:11px 20px; font-size:14px; font-weight:700; cursor:pointer; transition:.15s; }
@@ -86,7 +93,6 @@
   .empty{ color:var(--soft); font-style:italic; font-size:14px; }
   .note{ font-size:12.5px; color:var(--soft); background:var(--accent-light); border:1px solid var(--accent); border-radius:10px; padding:10px 14px; margin-top:12px; }
 
-  /* flashcards */
   .fc-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; }
   .fc{ perspective:900px; height:130px; cursor:pointer; }
   .fc-in{ position:relative; width:100%; height:100%; transition:transform .5s; transform-style:preserve-3d; }
@@ -95,10 +101,9 @@
   .fc-front{ background:var(--primary-light); color:var(--primary-dark); font-weight:700; font-size:15px; }
   .fc-back{ background:#fff; color:var(--text); font-size:12.5px; transform:rotateY(180deg); }
 
-  /* personas */
   .persona{ border:1.5px solid var(--border); border-radius:12px; padding:16px; cursor:pointer; transition:.15s; }
   .persona:hover{ border-color:var(--primary); transform:translateY(-3px); box-shadow:0 8px 18px rgba(107,70,193,.12); }
-  .persona .pico{ font-size:30px; } .persona h4{ color:var(--primary-dark); margin:6px 0 3px; } .persona p{ font-size:13px; color:var(--soft); margin:0; }
+  .persona .pico{ font-size:30px; } .persona h4{ margin:6px 0 3px; } .persona p{ font-size:13px; color:var(--soft); margin:0; }
 
   .stars span{ font-size:24px; cursor:pointer; color:#D1D5DB; } .stars span.on{ color:var(--accent); }
   .rubric{ display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px; }
@@ -106,38 +111,54 @@
   .rubric .ri label{ font-size:13px; font-weight:600; display:block; margin-bottom:4px; }
 
   .acc{ border:1px solid var(--border); border-radius:10px; margin-bottom:8px; overflow:hidden; }
-  .acc summary{ padding:12px 14px; cursor:pointer; font-weight:700; color:var(--primary-dark); font-size:14px; }
-  .acc div{ padding:0 14px 14px; font-size:14px; }
+  .acc summary{ padding:12px 14px; cursor:pointer; font-weight:700; color:var(--primary-dark); font-size:14px; list-style:none; display:flex; align-items:center; gap:6px; }
+  .acc summary::-webkit-details-marker{ display:none; }
+  .acc div.body{ padding:0 14px 14px; font-size:14px; }
   code.inl{ background:var(--primary-light); padding:1px 6px; border-radius:5px; font-size:13px; }
-
-  .timer{ font-size:34px; font-weight:800; color:var(--gold); font-variant-numeric:tabular-nums; }
   .pill{ display:inline-block; background:var(--info-light); color:var(--info); border-radius:20px; padding:3px 12px; font-size:12px; font-weight:700; margin:0 6px 6px 0; }
+  .roletag{ display:inline-block; font-size:10px; border:1px solid var(--border); color:var(--soft); border-radius:20px; padding:1px 8px; margin:0 4px 4px 0; }
   pre{ background:#1e1b2e; color:#e6e1f5; border-radius:10px; padding:14px; overflow:auto; font-size:12px; line-height:1.5; }
+
+  /* radar / bars */
+  .bar{ margin-bottom:12px; } .bar .blab{ display:flex; justify-content:space-between; font-size:13px; font-weight:600; margin-bottom:3px; }
+  .bar .track{ height:14px; background:var(--plight); border-radius:8px; overflow:hidden; }
+  .bar .fill{ height:100%; background:linear-gradient(90deg,var(--primary),var(--gold)); border-radius:8px; transition:width .6s; }
+  .slider{ width:100%; }
+  .levelbadge{ font-size:14px; font-weight:800; padding:5px 14px; border-radius:20px; display:inline-block; }
+  .lv-ini{ background:var(--danger-light); color:var(--danger); } .lv-int{ background:var(--accent-light); color:var(--gold); } .lv-avc{ background:var(--success-light); color:var(--success); }
+  .timer{ font-size:30px; font-weight:800; color:var(--gold); font-variant-numeric:tabular-nums; }
+  .report{ background:#fff; border:1px dashed var(--primary); border-radius:12px; padding:18px; font-size:14px; }
+  .report h4{ margin:12px 0 6px; } .report .stat{ display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding:5px 0; }
   @media(max-width:860px){ .sidebar{ display:none; } .main{ padding:24px 18px 70px; } }
 </style>
 </head>
 <body>
 
 <aside class="sidebar">
-  <div class="sb-head"><h1>🎓 Academia do Closer</h1><p>Dojo de Neurovendas · Estante Mágica</p></div>
-  <div class="sb-user"><strong id="sbName">—</strong><br><span id="sbMeta" style="color:var(--soft)">defina seu nome no Início</span></div>
-  <div class="nav-sec">Início</div>
+  <div class="sb-head"><h1>🚀 Hub de Crescimento Comercial</h1><p>Do SDR ao CS · Estante Mágica</p></div>
+  <div class="sb-user"><strong id="sbName">—</strong><br><span id="sbMeta" style="color:var(--soft)">defina seu perfil no Início</span></div>
+
+  <div class="nav-sec">Início da trilha</div>
   <ul class="nav">
-    <li class="active" data-go="inicio">🏠 Painel da semana</li>
+    <li class="active" data-go="inicio">🏠 Painel <span class="step">base</span></li>
+    <li data-go="raiox">🩺 Raio-X inicial <span class="step">passo 1</span></li>
   </ul>
-  <div class="nav-sec">Aprender</div>
+  <div class="nav-sec">Meio · Aprender</div>
   <ul class="nav">
     <li data-go="fundamentos">📚 Fundamentos</li>
+    <li data-go="metodos">🧰 Métodos de venda</li>
     <li data-go="vocab">🗂️ Vocabulário &amp; Reescrita</li>
     <li data-go="arg">🧠 Argumentação &amp; Persuasão</li>
+    <li data-go="relacao">🤝 Relacionamento &amp; Expansão</li>
   </ul>
-  <div class="nav-sec">Praticar</div>
+  <div class="nav-sec">Meio · Praticar</div>
   <ul class="nav">
     <li data-go="dojo">🥋 Dojo de Simulação</li>
     <li data-go="diccao">🎙️ Estúdio de Dicção</li>
   </ul>
-  <div class="nav-sec">Gestão</div>
+  <div class="nav-sec">Próximos passos</div>
   <ul class="nav">
+    <li data-go="relatorio">📈 Meu relatório</li>
     <li data-go="lider">📊 Painel do Líder</li>
   </ul>
 </aside>
@@ -147,103 +168,133 @@
   <!-- ================= INÍCIO ================= -->
   <section class="section active" id="inicio">
     <div class="hero">
-      <h2>Bem-vindo ao próximo nível</h2>
-      <p>Vender não é improviso. É profissão, técnica e consciência emocional construídas todo dia. Aqui você treina, mede e evolui.</p>
-      <div class="q">"Não é sobre ser melhor que o outro. É ser melhor do que ontem. O próximo nível começa com a escolha de não voltar para a média."</div>
+      <h2>Uma máquina de crescimento, todos os perfis</h2>
+      <p>Do primeiro contato (SDR) ao fechamento (Closer), da ativação à retenção e expansão (CS e Heróis). Aqui todo mundo treina a mesma língua: vender é conduzir decisões e construir relações.</p>
+      <div class="q">"Somos B2B2C: vendemos para a escola e encantamos a família. Dois clientes, dois 'sins'. Por isso treinamos o dobro."</div>
     </div>
 
     <div class="idbar">
-      <label>Closer:</label><input id="who" placeholder="Seu nome">
-      <label>Time:</label><select id="team"><option>Habilitação</option><option>SDR</option><option>Closer</option><option>CS</option></select>
+      <label>Quem é você?</label><input id="who" placeholder="Seu nome">
+      <label>Cargo:</label>
+      <select id="role">
+        <option value="ativacao">Ativação</option>
+        <option value="sdr">SDR</option>
+        <option value="closer">Closer</option>
+        <option value="cs">CS</option>
+        <option value="heroi">Heróis (Atendimento)</option>
+      </select>
       <label>Semana:</label><input id="week" type="week">
       <span id="streakBadge" style="margin-left:auto; font-weight:700; color:var(--gold)"></span>
     </div>
 
+    <div class="rolebanner" id="roleBanner"></div>
+
     <div class="grid" id="kpis">
-      <div class="kpi"><div class="lab">Fundamentos</div><div class="val" id="kFund">—</div><div class="delta flat" id="dFund">checkpoints</div></div>
-      <div class="kpi"><div class="lab">Vocabulário</div><div class="val" id="kVocab">—</div><div class="delta flat" id="dVocab">reescrita</div></div>
-      <div class="kpi"><div class="lab">Argumentação</div><div class="val" id="kArg">—</div><div class="delta flat" id="dArg">persuasão</div></div>
-      <div class="kpi"><div class="lab">Simulação</div><div class="val" id="kDojo">—</div><div class="delta flat" id="dDojo">conversão</div></div>
-      <div class="kpi"><div class="lab">Dicção</div><div class="val" id="kDic">—</div><div class="delta flat" id="dDic">narrativa</div></div>
+      <div class="kpi"><div class="lab">Raio-X</div><div class="val" id="kRaio">—</div><div class="delta flat" id="dRaio">nível atual</div></div>
+      <div class="kpi"><div class="lab">Fundamentos</div><div class="val" id="kFund">—</div><div class="delta flat">checkpoints</div></div>
+      <div class="kpi"><div class="lab">Métodos</div><div class="val" id="kMet">—</div><div class="delta flat">dominados</div></div>
+      <div class="kpi"><div class="lab">Argumentação</div><div class="val" id="kArg">—</div><div class="delta flat">persuasão</div></div>
+      <div class="kpi"><div class="lab">Simulação</div><div class="val" id="kDojo">—</div><div class="delta flat">conversão</div></div>
+      <div class="kpi"><div class="lab">Dicção</div><div class="val" id="kDic">—</div><div class="delta flat">narrativa</div></div>
+      <div class="kpi time"><div class="lab">Tempo no hub</div><div class="val" id="kTime">0min</div><div class="delta flat">esta semana</div></div>
       <div class="kpi streak"><div class="lab">Consistência</div><div class="val" id="kStreak">0</div><div class="delta flat">semanas seguidas</div></div>
     </div>
 
     <div class="card">
-      <span class="tag">Ritual</span>
-      <h3>Sua semana de treino</h3>
-      <p class="lead" style="margin-bottom:14px">Complete as práticas em cada área. Continuidade cria transformação.</p>
+      <span class="tag">Como funciona a trilha</span>
+      <h3>Início → Meio → Próximos passos</h3>
+      <p><strong>1. Início:</strong> faça o <strong>Raio-X</strong> para mapear suas forças e lacunas e receber um plano personalizado.</p>
+      <p><strong>2. Meio:</strong> avance pelos módulos de <strong>aprender</strong> (fundamentos, métodos, persuasão, relacionamento) e <strong>praticar</strong> (dojo e dicção). O conteúdo recomendado para o seu cargo aparece com o selo <span class="rec">pra você</span>.</p>
+      <p><strong>3. Próximos passos:</strong> feche a semana, veja seu <strong>relatório de evolução</strong> e leve para o seu gestor.</p>
+    </div>
+
+    <div class="card">
+      <span class="tag">Ritual da semana</span>
+      <h3>Suas práticas</h3>
       <div class="ritual" id="ritual">
-        <div class="task" data-task="fund"><div class="ico">📚</div><h4>Fundamentos</h4><p>Conclua os checkpoints da trilha.</p><div class="state">○ Pendente</div></div>
-        <div class="task" data-task="vocab"><div class="ico">🗂️</div><h4>Vocabulário</h4><p>Faça a reescrita do discurso.</p><div class="state">○ Pendente</div></div>
-        <div class="task" data-task="arg"><div class="ico">🧠</div><h4>Argumentação</h4><p>Resolva os drills de persuasão.</p><div class="state">○ Pendente</div></div>
+        <div class="task" data-task="raio"><div class="ico">🩺</div><h4>Raio-X</h4><p>Faça/atualize o diagnóstico.</p><div class="state">○ Pendente</div></div>
+        <div class="task" data-task="fund"><div class="ico">📚</div><h4>Fundamentos</h4><p>Conclua os checkpoints.</p><div class="state">○ Pendente</div></div>
+        <div class="task" data-task="met"><div class="ico">🧰</div><h4>Métodos</h4><p>Estude e teste 1 método.</p><div class="state">○ Pendente</div></div>
+        <div class="task" data-task="arg"><div class="ico">🧠</div><h4>Argumentação</h4><p>Resolva os drills.</p><div class="state">○ Pendente</div></div>
         <div class="task" data-task="dojo"><div class="ico">🥋</div><h4>Dojo</h4><p>1 simulação + 1 objeção.</p><div class="state">○ Pendente</div></div>
         <div class="task" data-task="dic"><div class="ico">🎙️</div><h4>Dicção</h4><p>Grave e avalie seu pitch.</p><div class="state">○ Pendente</div></div>
       </div>
     </div>
+  </section>
+
+  <!-- ================= RAIO-X ================= -->
+  <section class="section" id="raiox">
+    <h2 class="title">🩺 Raio-X inicial</h2>
+    <p class="lead">Antes de treinar, vamos medir. Autoavalie de 1 (frágil) a 5 (domino) cada competência. O hub cruza com o seu cargo e monta um plano pra você.</p>
 
     <div class="card">
-      <span class="tag">Histórico</span>
-      <h3>Fechar a semana &amp; relatórios</h3>
-      <div class="btnrow">
-        <button class="btn" id="saveWeek">✓ Fechar semana</button>
-        <button class="btn ghost" id="exportCsv">⬇ Exportar CSV</button>
-        <button class="btn ghost" id="emailReport">✉ Enviar ao líder</button>
-      </div>
-      <div style="overflow-x:auto; margin-top:16px">
-        <table id="histTable"><thead><tr><th>Semana</th><th>Fund.</th><th>Vocab</th><th>Argum.</th><th>Simul.</th><th>Dicção</th></tr></thead>
-        <tbody><tr><td colspan="6" class="empty">Nenhuma semana fechada ainda.</td></tr></tbody></table>
-      </div>
+      <span class="tag">Diagnóstico</span><h3>Suas 6 competências comerciais</h3>
+      <div id="diagInputs"></div>
+      <div class="btnrow" style="margin-top:6px"><button class="btn" id="runDiag">Gerar meu Raio-X →</button></div>
+    </div>
+
+    <div class="card" id="diagResult" style="display:none">
+      <span class="tag">Resultado</span>
+      <h3>Seu perfil <span id="diagLevel"></span></h3>
+      <div id="diagBars"></div>
+      <div class="report" id="diagReport" style="margin-top:16px"></div>
+      <div class="note">Este Raio-X vira a linha de base do seu relatório. Refaça quando sentir evolução para ver o antes e depois.</div>
     </div>
   </section>
 
   <!-- ================= FUNDAMENTOS ================= -->
   <section class="section" id="fundamentos">
-    <h2 class="title">📚 Fundamentos de Neurovendas</h2>
-    <p class="lead">As pessoas não compram pela razão. Compram pela emoção e justificam com a razão depois. Domine os pilares e responda o checkpoint de cada um.</p>
+    <h2 class="title">📚 Fundamentos</h2>
+    <p class="lead">A base que serve a todos os cargos: por que as pessoas compram e como o nosso modelo B2B2C muda o jogo. Responda o checkpoint de cada pilar.</p>
     <div id="fundList"></div>
-    <div class="note" id="fundNote">Conclua os 5 checkpoints para marcar o ritual de Fundamentos. Progresso: <strong id="fundProg">0/5</strong></div>
+    <div class="note">Conclua os 5 checkpoints para marcar o ritual de Fundamentos. Progresso: <strong id="fundProg">0/5</strong></div>
+  </section>
+
+  <!-- ================= MÉTODOS ================= -->
+  <section class="section" id="metodos">
+    <h2 class="title">🧰 Métodos de venda</h2>
+    <p class="lead">As metodologias que estruturam a conversa comercial. Cada uma é uma lente diferente. Os selos <span class="rec">pra você</span> indicam o que priorizar no seu cargo.</p>
+
+    <div class="card">
+      <span class="tag">B2B2C</span><h3>Por que pra gente é nível "hard"</h3>
+      <p>Empresa <strong>B2B</strong> convence uma organização. Empresa <strong>B2C</strong> convence uma pessoa. Nós, <strong>B2B2C</strong>, precisamos dos dois "sins": a <strong>escola</strong> (decisão de compra: coordenação, direção, mantenedora) e a <strong>família/aluno</strong> (percepção de valor que sustenta a renovação). Todo método abaixo deve ser lido nessa chave dupla: <em>resolvo a dor da escola E entrego valor sentido pela família.</em></p>
+    </div>
+
+    <div id="methodList"></div>
   </section>
 
   <!-- ================= VOCAB ================= -->
   <section class="section" id="vocab">
     <h2 class="title">🗂️ Vocabulário &amp; Reescrita</h2>
-    <p class="lead">Repertório é o que te tira do improviso. Vire as cartas para fixar os termos e depois reescreva falas técnicas em falas que conectam.</p>
-
+    <p class="lead">Repertório tira você do improviso. Vire as cartas e depois reescreva falas técnicas em falas que conectam.</p>
     <div class="card">
       <span class="tag">Flashcards</span><h3>Glossário ativo</h3>
-      <p class="lead" style="margin-bottom:14px">Toque na carta para ver a definição e como usar na conversa.</p>
       <div class="fc-grid" id="fcGrid"></div>
     </div>
-
     <div class="card">
       <span class="tag">Exercício</span><h3>Reescreva o discurso</h3>
-      <p class="lead" style="margin-bottom:14px">Para cada fala técnica, escolha a versão que gera conexão emocional.</p>
       <div id="rewriteList"></div>
-      <div class="note">Acerte as 3 reescritas para concluir o ritual de Vocabulário. Progresso: <strong id="rwProg">0/3</strong></div>
+      <div class="note">Acerte as 3 reescritas para concluir Vocabulário. Progresso: <strong id="rwProg">0/3</strong></div>
     </div>
   </section>
 
   <!-- ================= ARGUMENTAÇÃO ================= -->
   <section class="section" id="arg">
     <h2 class="title">🧠 Argumentação &amp; Persuasão</h2>
-    <p class="lead">Como influenciar sem ter autoridade formal, enriquecer o discurso e nunca travar diante de uma "saia justa". Persuasão ética: ajudar o cliente a enxergar o valor antes de colocá-lo em palavras.</p>
-
+    <p class="lead">Influenciar sem autoridade formal, enriquecer o discurso e nunca travar numa "saia justa".</p>
     <div class="card">
-      <span class="tag">Influência sem autoridade</span><h3>6 alavancas de persuasão</h3>
-      <p class="lead" style="margin-bottom:14px">Você não manda na escola. Você conduz. Estas alavancas movem a decisão sem pressão.</p>
+      <span class="tag">Influência</span><h3>6 alavancas de persuasão</h3>
       <div id="leverList"></div>
     </div>
-
     <div class="card">
       <span class="tag">Saia justa</span><h3>Método P.A.R.R. — para nunca travar</h3>
-      <p>Quando vier a pergunta difícil, o silêncio ou a objeção afiada, não responda no susto. Rode o ciclo:</p>
       <ul>
-        <li><strong>Pausa</strong> — respire e ganhe 2 segundos. Quem pausa parece seguro; quem atropela parece inseguro.</li>
-        <li><strong>Acolhe</strong> — valide antes de rebater. "Faz sentido você pensar nisso."</li>
-        <li><strong>Redireciona</strong> — leve para o terreno onde você é forte (emoção, impacto na criança, apoio do time).</li>
-        <li><strong>Reconquista</strong> — feche com uma pergunta que devolve o protagonismo ao gestor.</li>
+        <li><strong>Pausa</strong>: respire e ganhe 2 segundos. Quem pausa parece seguro.</li>
+        <li><strong>Acolhe</strong>: valide antes de rebater. "Faz sentido você pensar nisso."</li>
+        <li><strong>Redireciona</strong>: leve para onde você é forte (impacto na criança, apoio do time).</li>
+        <li><strong>Reconquista</strong>: feche com uma pergunta que devolve o protagonismo ao cliente.</li>
       </ul>
-      <h4 style="color:var(--primary-dark); margin-top:10px">Frases-ponte (repertório para não travar)</h4>
+      <h4 style="margin-top:10px">Frases-ponte (repertório anti-travamento)</h4>
       <div>
         <span class="pill">"Ótima pergunta. Deixa eu te mostrar por outro ângulo…"</span>
         <span class="pill">"Eu entendo. E é justamente por isso que…"</span>
@@ -253,33 +304,44 @@
         <span class="pill">"Me ajuda a entender o que mais pesa aí?"</span>
       </div>
     </div>
-
     <div class="card">
       <span class="tag">Drill</span><h3>Treino de réplica</h3>
-      <p class="lead" style="margin-bottom:14px">Leia a fala do gestor e escolha a melhor jogada de persuasão.</p>
       <div id="argDrills"></div>
-      <div class="note">Acerte os 3 drills para concluir o ritual de Argumentação. Progresso: <strong id="argProg">0/3</strong></div>
+      <div class="note">Acerte os 3 drills para concluir Argumentação. Progresso: <strong id="argProg">0/3</strong></div>
+    </div>
+  </section>
+
+  <!-- ================= RELACIONAMENTO ================= -->
+  <section class="section" id="relacao">
+    <h2 class="title">🤝 Relacionamento &amp; Expansão</h2>
+    <p class="lead">Vender não acaba no contrato. CS e Heróis vendem todo dia no relacionamento: retêm, reativam e expandem. E SDR/Closer ganham quando entendem o ciclo todo.</p>
+    <div class="card">
+      <span class="tag">Mentalidade</span><h3>Relacionamento é venda contínua</h3>
+      <p>No nosso modelo, a <strong>renovação</strong> depende de dois sinais: a escola enxergou resultado e as famílias sentiram valor. O papel de CS/Heróis é tornar esses dois sinais visíveis e crescentes. Cada interação de atendimento é uma microvenda de confiança.</p>
+    </div>
+    <div id="relList"></div>
+    <div class="card">
+      <span class="tag">Drill</span><h3>Conversa de relacionamento</h3>
+      <div id="relDrills"></div>
+      <div class="note">Voltado a CS e Heróis, mas todos podem treinar. Progresso: <strong id="relProg">0/2</strong></div>
     </div>
   </section>
 
   <!-- ================= DOJO ================= -->
   <section class="section" id="dojo">
     <h2 class="title">🥋 Dojo de Simulação</h2>
-    <p class="lead">Reuniões genéricas geram esforço; reuniões intencionais geram fechamento. Escolha uma persona e conduza a conversa.</p>
-
+    <p class="lead">Escolha uma persona e conduza a conversa. As personas variam por etapa do funil — escolha a do seu desafio.</p>
     <div class="card" id="personaPick">
-      <span class="tag">Personas</span><h3>Com quem você vai treinar hoje?</h3>
+      <span class="tag">Personas</span><h3>Com quem você vai treinar?</h3>
       <div class="grid" id="personaGrid" style="margin-top:12px"></div>
     </div>
-
     <div class="card" id="scenarioBox" style="display:none">
       <button class="btn ghost sm" id="backPersona" style="margin-bottom:12px">← trocar persona</button>
       <div id="scenarioRun"></div>
     </div>
-
     <div class="card">
       <span class="tag">Banco de objeções</span><h3>Drill cronometrado</h3>
-      <p class="lead" style="margin-bottom:12px">15 segundos para formular sua resposta na cabeça. Depois confira o modelo e se autoavalie.</p>
+      <p class="lead" style="margin-bottom:12px">15 segundos para pensar. Depois confira o modelo e se autoavalie.</p>
       <div id="objBox"></div>
     </div>
   </section>
@@ -287,51 +349,66 @@
   <!-- ================= DICÇÃO ================= -->
   <section class="section" id="diccao">
     <h2 class="title">🎙️ Estúdio de Dicção &amp; Narrativa</h2>
-    <p class="lead">A mesma mensagem muda de poder conforme a voz que a entrega. Aqueça, pratique e grave.</p>
-
+    <p class="lead">A mesma mensagem muda de poder conforme a voz. Aqueça, pratique e grave.</p>
     <div class="card">
       <span class="tag">Aquecimento</span><h3>Exercícios guiados</h3>
-      <details class="acc"><summary>🫁 Respiração diafragmática (1 min)</summary><div>Inspire em 4 tempos, segure 4, solte em 6. Repita 5 vezes. Voz apoiada no diafragma soa mais firme e segura, sem cansar.</div></details>
-      <details class="acc"><summary>👅 Aquecimento articulatório (1 min)</summary><div>Exagere a articulação de "pa-ta-ka" acelerando aos poucos. Solte a mandíbula e os lábios. Articulação clara reduz o "comer" de sílabas na pressão.</div></details>
-      <details class="acc"><summary>🎚️ Ritmo &amp; pausa (2 min)</summary><div>Leia uma frase do pitch marcando 2 pausas intencionais. A pausa cria expectativa e dá peso ao que vem depois. Quem pausa controla a conversa.</div></details>
-      <details class="acc"><summary>📈 Ênfase &amp; intenção (2 min)</summary><div>Pegue uma frase e mude a palavra enfatizada a cada repetição. Sinta como o sentido muda. Ênfase é direção: ela diz ao cérebro do ouvinte onde olhar.</div></details>
-      <details class="acc"><summary>📖 Arco da transformação (3 min)</summary><div>Conte a Estante Mágica em 60s seguindo: dor → visão → ponte → prova → convite. História com arco gera emoção; emoção gera memória.</div></details>
+      <details class="acc"><summary>🫁 Respiração diafragmática (1 min)</summary><div class="body">Inspire em 4 tempos, segure 4, solte em 6. Repita 5 vezes. Voz apoiada soa mais firme e segura.</div></details>
+      <details class="acc"><summary>👅 Aquecimento articulatório (1 min)</summary><div class="body">Exagere "pa-ta-ka" acelerando. Solte mandíbula e lábios. Articulação clara evita "comer" sílabas na pressão.</div></details>
+      <details class="acc"><summary>🎚️ Ritmo &amp; pausa (2 min)</summary><div class="body">Leia uma frase do pitch marcando 2 pausas intencionais. Quem pausa controla a conversa.</div></details>
+      <details class="acc"><summary>📈 Ênfase &amp; intenção (2 min)</summary><div class="body">Mude a palavra enfatizada a cada repetição e sinta o sentido mudar. Ênfase é direção.</div></details>
+      <details class="acc"><summary>📖 Arco da transformação (3 min)</summary><div class="body">Conte em 60s: dor → visão → ponte → prova → convite. História com arco gera emoção e memória.</div></details>
     </div>
-
     <div class="card">
       <span class="tag">Desafio da semana</span><h3>Grave seu pitch de 60s</h3>
-      <p class="lead" style="margin-bottom:12px">"Conte a Estante Mágica para uma diretora cética." Grave, ouça e avalie pela rubrica.</p>
+      <p class="lead" id="dicChallenge" style="margin-bottom:12px"></p>
       <div class="btnrow"><button class="btn gold" id="recBtn">● Gravar 60s</button><audio id="player" controls style="display:none"></audio></div>
-      <h4 style="color:var(--primary-dark); margin:16px 0 8px">Rubrica de autoavaliação</h4>
+      <h4 style="margin:16px 0 8px">Rubrica de autoavaliação</h4>
       <div class="rubric" id="rubric"></div>
       <div class="note">🎧 A gravação fica só no seu navegador. A média da rubrica alimenta o indicador de Dicção.</div>
+    </div>
+  </section>
+
+  <!-- ================= MEU RELATÓRIO ================= -->
+  <section class="section" id="relatorio">
+    <h2 class="title">📈 Meu relatório de evolução</h2>
+    <p class="lead">Seu retrato da semana: diagnóstico, tempo treinado, progresso e próximos passos. Pronto para você e para o seu gestor.</p>
+    <div class="card">
+      <div class="btnrow">
+        <button class="btn" id="saveWeek">✓ Fechar semana</button>
+        <button class="btn ghost" id="genReport">↻ Atualizar relatório</button>
+        <button class="btn ghost" id="emailReport">✉ Enviar ao gestor</button>
+        <button class="btn ghost" id="exportCsv">⬇ Exportar CSV</button>
+      </div>
+      <div class="report" id="myReport" style="margin-top:16px"></div>
+    </div>
+    <div class="card">
+      <span class="tag">Histórico</span><h3>Evolução semanal</h3>
+      <div style="overflow-x:auto">
+        <table id="histTable"><thead><tr><th>Semana</th><th>Raio-X</th><th>Fund.</th><th>Métodos</th><th>Argum.</th><th>Simul.</th><th>Dicção</th><th>Tempo</th></tr></thead>
+        <tbody><tr><td colspan="8" class="empty">Nenhuma semana fechada ainda.</td></tr></tbody></table>
+      </div>
     </div>
   </section>
 
   <!-- ================= LÍDER ================= -->
   <section class="section" id="lider">
     <h2 class="title">📊 Painel do Líder</h2>
-    <p class="lead">Acompanhe a evolução do time semana a semana. Configure a planilha Google para centralizar o histórico de todos.</p>
-
+    <p class="lead">Acompanhe a evolução de cada pessoa: nível no Raio-X, tempo dedicado, progresso e consistência. Centralize tudo no Google Sheets.</p>
     <div class="card">
       <span class="tag">Conexão</span><h3>Google Sheets (Apps Script)</h3>
-      <p>Cole a URL do Web App do Apps Script. Enquanto não houver URL, o painel mostra os dados deste dispositivo (demonstração).</p>
+      <p>Cole a URL do Web App. Sem URL, o painel mostra os dados deste dispositivo (demo).</p>
       <div class="btnrow" style="margin:8px 0">
         <input id="endpoint" placeholder="https://script.google.com/macros/s/.../exec" style="flex:1; min-width:260px; padding:10px 12px; border:1px solid var(--border); border-radius:9px; font-size:13px">
         <button class="btn" id="saveEndpoint">Salvar</button>
         <button class="btn ghost" id="loadTeam">Atualizar painel</button>
       </div>
-      <details class="acc"><summary>📄 Ver código do Apps Script (copie para a planilha)</summary><div>
-        <p>Na planilha: Extensões → Apps Script, cole, e publique como Web App (acesso "qualquer pessoa").</p>
-        <pre id="gasCode"></pre>
-      </div></details>
+      <details class="acc"><summary>📄 Ver código do Apps Script</summary><div class="body"><p>Planilha → Extensões → Apps Script, cole e publique como Web App ("qualquer pessoa").</p><pre id="gasCode"></pre></div></details>
     </div>
-
     <div class="card">
       <span class="tag">Time</span><h3>Histórico consolidado</h3>
       <div style="overflow-x:auto">
-        <table id="teamTable"><thead><tr><th>Closer</th><th>Time</th><th>Semana</th><th>Fund.</th><th>Vocab</th><th>Argum.</th><th>Simul.</th><th>Dicção</th></tr></thead>
-        <tbody><tr><td colspan="8" class="empty">Sem registros ainda.</td></tr></tbody></table>
+        <table id="teamTable"><thead><tr><th>Pessoa</th><th>Cargo</th><th>Semana</th><th>Raio-X</th><th>Fund.</th><th>Métodos</th><th>Argum.</th><th>Simul.</th><th>Dicção</th><th>Tempo</th></tr></thead>
+        <tbody><tr><td colspan="10" class="empty">Sem registros ainda.</td></tr></tbody></table>
       </div>
     </div>
   </section>
@@ -340,17 +417,36 @@
 
 <script>
 /* ===================== CONFIG & STATE ===================== */
-const KEY = "academia_closer_v2";
+const KEY = "hub_comercial_v1";
 const LEADER_EMAIL = "amanda.pimentel@estantemagica.com.br";
-let ENDPOINT = localStorage.getItem("academia_endpoint") || "";
+let ENDPOINT = localStorage.getItem("hub_endpoint") || "";
 
-const cur = { fundCorrect:0, fundTotal:5, vocabRight:0, vocabTotal:3, argRight:0, argTotal:3,
-  dojoResult:"", objDone:false, dicStars:0, tasks:{fund:false,vocab:false,arg:false,dojo:false,dic:false} };
+const ROLES = {
+  ativacao:{ label:"Ativação", ico:"⚡", mission:"Ativar a escola para o primeiro sucesso e reduzir churn precoce. Você transforma uma assinatura em hábito.",
+    b2b2c:"Na escola: garante que a coordenação implemente. Na família: assegura que o aluno viva a primeira experiência de valor (o primeiro livro).",
+    methods:["spin","onboarding","gap"], dic:"Conte como será a jornada de implementação para uma coordenadora ansiosa, em 60s." },
+  sdr:{ label:"SDR", ico:"🎯", mission:"Gerar reuniões qualificadas. Você abre portas e separa quem tem dor real de quem só é curioso.",
+    b2b2c:"Na escola: qualifica o decisor e a dor pedagógica. Na família: usa o impacto no aluno como gancho de interesse.",
+    methods:["bant","spin","gpct"], dic:"Faça uma abertura de cold call de 60s que gere a próxima reunião." },
+  closer:{ label:"Closer", ico:"🏆", mission:"Transformar reunião em contrato. Você conduz a decisão e dissolve objeções com método.",
+    b2b2c:"Na escola: prova ROI e segurança. Na família: vende a transformação que a escola poderá comunicar aos pais.",
+    methods:["spin","meddic","challenger","negociacao"], dic:"Apresente a proposta para uma diretora cética, em 60s, fechando com convite à decisão." },
+  cs:{ label:"CS", ico:"💚", mission:"Reter e expandir. Você protege a renovação e abre upsell/cross-sell pelo sucesso comprovado.",
+    b2b2c:"Na escola: monitora adoção e resultado. Na família: garante que o valor é percebido (renovação depende disso).",
+    methods:["health","qbr","landexpand","spin"], dic:"Conduza uma QBR de 60s mostrando resultado e propondo a expansão." },
+  heroi:{ label:"Heróis (Atendimento)", ico:"🦸", mission:"Atender com pegada comercial as escolas sem CS. Cada contato é uma chance de reter, reativar e plantar expansão.",
+    b2b2c:"Na escola: resolve e encanta. Na família: protege a experiência do aluno. Você é a ponte comercial do atendimento.",
+    methods:["health","spin","landexpand","negociacao"], dic:"Atenda uma escola insatisfeita e transforme o chamado em oportunidade, em 60s." }
+};
 
-function load(){ try{ return JSON.parse(localStorage.getItem(KEY)) || {history:[],streak:0}; }catch(e){ return {history:[],streak:0}; } }
+const cur = { fundCorrect:0, vocabRight:0, argRight:0, relRight:0, metDone:0, dojoResult:"", objDone:false, dicStars:0,
+  diag:null, tasks:{raio:false,fund:false,met:false,arg:false,dojo:false,dic:false} };
+
+function load(){ try{ return JSON.parse(localStorage.getItem(KEY)) || {history:[],streak:0,time:{}}; }catch(e){ return {history:[],streak:0,time:{}}; } }
 function save(d){ localStorage.setItem(KEY, JSON.stringify(d)); }
+function role(){ return document.getElementById('role').value; }
+function weekVal(){ return document.getElementById('week').value; }
 
-/* default ISO week */
 (function(){ const d=new Date(); const day=(d.getDay()+6)%7; d.setDate(d.getDate()-day+3);
   const ft=new Date(d.getFullYear(),0,4); const wk=1+Math.round(((d-ft)/864e5-3+((ft.getDay()+6)%7))/7);
   document.getElementById('week').value=d.getFullYear()+"-W"+String(wk).padStart(2,'0'); })();
@@ -362,66 +458,161 @@ document.querySelectorAll('[data-go]').forEach(li=>{
     li.classList.add('active');
     document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
     document.getElementById(li.dataset.go).classList.add('active');
+    if(li.dataset.go==='relatorio') genReport();
     window.scrollTo(0,0);
   });
 });
 function navDone(go,on){ const li=document.querySelector('[data-go="'+go+'"]'); if(li) li.classList.toggle('done',on); }
 
-/* ===================== ID ===================== */
-const who=document.getElementById('who'), team=document.getElementById('team');
+/* ===================== ID + ROLE ===================== */
+const who=document.getElementById('who'), roleSel=document.getElementById('role');
 function syncUser(){ document.getElementById('sbName').textContent = who.value.trim()||'—';
-  document.getElementById('sbMeta').textContent = (who.value.trim()? team.value : 'defina seu nome no Início'); }
-who.addEventListener('input',syncUser); team.addEventListener('change',syncUser);
+  document.getElementById('sbMeta').textContent = (who.value.trim()? ROLES[role()].label : 'defina seu perfil no Início'); }
+function renderRoleBanner(){ const r=ROLES[role()];
+  document.getElementById('roleBanner').innerHTML =
+    '<h3>'+r.ico+' Trilha do '+r.label+'</h3><p>'+r.mission+'</p>'+
+    '<div class="b2"><strong>Seu jogo B2B2C:</strong> '+r.b2b2c+'</div>';
+  document.getElementById('dicChallenge').textContent='Desafio do seu cargo: '+r.dic;
+}
+function onRoleChange(){ syncUser(); renderRoleBanner(); renderMethods(); renderRel(); if(cur.diag) renderDiag(); }
+who.addEventListener('input',syncUser); roleSel.addEventListener('change',onRoleChange);
+
+/* ===================== RAIO-X ===================== */
+const DIMS=[
+  {id:'prosp', n:'Prospecção & Qualificação', d:'abordar, despertar interesse e separar quem tem dor real.'},
+  {id:'desc',  n:'Descoberta & Diagnóstico', d:'fazer boas perguntas e entender a dor antes de oferecer.'},
+  {id:'arg',   n:'Argumentação & Persuasão', d:'construir valor e influenciar sem pressão.'},
+  {id:'neg',   n:'Negociação & Objeções', d:'conduzir o "não" e fechar com segurança.'},
+  {id:'rel',   n:'Relacionamento & Expansão', d:'reter, reativar e ampliar contas pelo sucesso.'},
+  {id:'com',   n:'Comunicação & Presença', d:'voz, ritmo e narrativa que prendem a atenção.'}
+];
+const ROLE_PRIORITY={ sdr:['prosp','desc','arg'], closer:['desc','arg','neg','com'], cs:['rel','desc','neg'], heroi:['rel','arg','desc'], ativacao:['rel','prosp','desc'] };
+(function(){ const w=document.getElementById('diagInputs');
+  DIMS.forEach(dm=>{ const row=document.createElement('div'); row.className='bar';
+    row.innerHTML='<div class="blab"><span>'+dm.n+' <span style="color:var(--soft);font-weight:400">— '+dm.d+'</span></span><span id="vv_'+dm.id+'">3</span></div>'+
+      '<input class="slider" type="range" min="1" max="5" value="3" id="sl_'+dm.id+'">';
+    w.appendChild(row);
+    row.querySelector('input').addEventListener('input',e=>{ document.getElementById('vv_'+dm.id).textContent=e.target.value; });
+  });
+})();
+function levelOf(p){ return p<55?{c:'lv-ini',t:'Iniciante'}:p<78?{c:'lv-int',t:'Intermediário'}:{c:'lv-avc',t:'Avançado'}; }
+document.getElementById('runDiag').onclick=()=>{
+  const scores={}; DIMS.forEach(dm=>scores[dm.id]=+document.getElementById('sl_'+dm.id).value);
+  cur.diag={ scores, ts:new Date().toISOString() };
+  setTask('raio',true); renderDiag(); refreshKpis();
+  document.getElementById('diagResult').scrollIntoView({behavior:'smooth'});
+};
+function diagPct(scores){ const v=Object.values(scores); return Math.round(v.reduce((a,b)=>a+b,0)/(v.length*5)*100); }
+function renderDiag(){
+  const box=document.getElementById('diagResult'); box.style.display='block';
+  const s=cur.diag.scores; const pct=diagPct(s); const lv=levelOf(pct);
+  document.getElementById('diagLevel').innerHTML='<span class="levelbadge '+lv.c+'">'+lv.t+' · '+pct+'%</span>';
+  document.getElementById('diagBars').innerHTML=DIMS.map(dm=>{ const p=s[dm.id]/5*100;
+    return '<div class="bar"><div class="blab"><span>'+dm.n+'</span><span>'+s[dm.id]+'/5</span></div><div class="track"><div class="fill" style="width:'+p+'%"></div></div></div>'; }).join('');
+  // recommendations: lowest 2 dims + role priorities
+  const sorted=[...DIMS].sort((a,b)=>s[a.id]-s[b.id]);
+  const gaps=sorted.slice(0,2);
+  const pri=ROLE_PRIORITY[role()];
+  const focus=[...new Set([...gaps.map(g=>g.id), ...pri])].slice(0,3).map(id=>DIMS.find(d=>d.id===id));
+  const modMap={ prosp:['🧰 Métodos (BANT, GPCT)','🥋 Dojo'], desc:['🧰 Métodos (SPIN)','🥋 Dojo'], arg:['🧠 Argumentação','🗂️ Vocabulário'], neg:['🧠 Argumentação (objeções)','🥋 Dojo (banco de objeções)'], rel:['🤝 Relacionamento & Expansão','🧰 Métodos (Health, QBR)'], com:['🎙️ Estúdio de Dicção'] };
+  const recMods=[...new Set(focus.flatMap(f=>modMap[f.id]))];
+  document.getElementById('diagReport').innerHTML=
+    '<h4>📋 Diagnóstico de '+(who.value.trim()||'você')+' · '+ROLES[role()].label+'</h4>'+
+    '<p>Nível geral: <strong>'+lv.t+' ('+pct+'%)</strong>. '+(pct<55?'Base em construção — foco em fundamentos e repetição.':pct<78?'Boa base — hora de afiar técnica e consistência.':'Nível alto — busque maestria e ajude a treinar o time.')+'</p>'+
+    '<h4>🎯 Onde focar primeiro</h4><ul>'+focus.map(f=>'<li><strong>'+f.n+'</strong> — '+f.d+'</li>').join('')+'</ul>'+
+    '<h4>🗺️ Plano sugerido para a sua semana</h4><ol>'+recMods.map(m=>'<li>'+m+'</li>').join('')+'<li>Feche a semana em 📈 Meu relatório e leve ao seu gestor.</li></ol>'+
+    '<p style="margin-top:8px;color:var(--soft);font-size:13px">Prioridades do cargo '+ROLES[role()].label+': '+pri.map(id=>DIMS.find(d=>d.id===id).n).join(' · ')+'.</p>';
+}
 
 /* ===================== FUNDAMENTOS ===================== */
 const fundamentos = [
-  { t:'1. Venda é emoção, não discurso técnico', d:'A decisão de compra acontece no cérebro emocional. Vender não é despejar informação, é criar conexão e entender dores, desejos e inseguranças antes mesmo do cliente verbalizá-las.',
-    q:'O que mais aumenta a conversão numa reunião?', o:['Apresentar todas as especificações do produto','Personalizar a conversa para a realidade e as dores daquela escola','Falar o máximo possível para não deixar dúvidas'], a:1,
-    fb:'Reuniões genéricas geram esforço; reuniões intencionais geram fechamento.' },
-  { t:'2. Conhecer a coordenação pedagógica', d:'O principal cliente é a coordenação. Dores reais: sobrecarga, pressão das famílias, equipe desmotivada, falta de reconhecimento e medo de não dar conta. A venda começa quando ela se sente vista e segura.',
-    q:'Qual abordagem fortalece a coordenadora?', o:['Mostrar que o método dela está ultrapassado','Reforçar a autoridade dela e tirar peso da sua rotina','Falar direto com a direção, ignorando a coordenação'], a:1,
-    fb:'O discurso precisa fortalecer a autoridade dela, nunca fragilizá-la.' },
-  { t:'3. Neuroplasticidade e continuidade', d:'O cérebro da criança aprende com repetição associada à emoção. Escrever um livro todo ano consolida o aprendizado. Aplicações pontuais não criam hábito; continuidade cria transformação.',
-    q:'Por que aplicar em todas as séries, todo ano?', o:['Para vender mais kits','Porque continuidade ativa a neuroplasticidade e cria hábito pedagógico','Porque é mais fácil para a escola'], a:1,
-    fb:'Projetos isolados são eventos. Projetos contínuos são formação.' },
-  { t:'4. Inclusão como argumento', d:'O projeto é eficaz para neurodivergentes (estrutura para TEA, propósito e estímulo para TDAH), para altas habilidades (aprofundamento) e para todos (aprendizagem multissensorial). Escrever o próprio livro cria sentido e progresso.',
-    q:'Como o projeto ajuda alunos neurodivergentes?', o:['Substitui o acompanhamento especializado','Oferece estrutura, previsibilidade e propósito claro, com metas alcançáveis','Reduz a carga de conteúdo para eles'], a:1,
-    fb:'Sentido imediato e sensação de progresso aumentam dopamina, foco e engajamento.' },
-  { t:'5. Os 4 gatilhos da decisão', d:'Transformação, Pertencimento, Valorização e Prova Social. O closer não vende um produto: ele transforma decisões e ajuda o cliente a enxergar o valor antes de colocá-lo em palavras.',
-    q:'Qual gatilho é "a escola que forma autores vira referência na comunidade"?', o:['Escassez','Pertencimento e Prova Social','Reciprocidade'], a:1,
-    fb:'Identidade institucional + reconhecimento da comunidade = pertencimento e prova social.' }
+  { t:'1. Pessoas compram por emoção', d:'A decisão nasce no cérebro emocional e é justificada pela razão. Vender é conectar antes de convencer, em qualquer ponto do funil.',
+    q:'O que mais aumenta a conversão?', o:['Despejar todas as especificações','Personalizar para a dor real daquele cliente','Falar o máximo para não deixar dúvida'], a:1, fb:'Conversa intencional > conversa genérica.' },
+  { t:'2. Somos B2B2C: dois clientes', d:'Vendemos para a escola e precisamos que a família perceba valor. Os dois "sins" sustentam a venda e, principalmente, a renovação.',
+    q:'Por que o B2B2C é mais difícil?', o:['Porque só importa o preço','Porque precisamos satisfazer escola E família ao mesmo tempo','Porque não há concorrência'], a:1, fb:'Dois focos, dois "sins". Quem domina os dois, escala.' },
+  { t:'3. O funil é um time', d:'SDR abre, Closer fecha, Ativação engaja, CS e Heróis retêm e expandem. Cada elo entrega o próximo com contexto. Venda ruim no início vira churn no fim.',
+    q:'Qual a vantagem de conhecer o funil inteiro?', o:['Nenhuma, cada um cuida do seu','Passar o bastão com contexto e evitar churn lá na frente','Trabalhar menos'], a:1, fb:'A máquina de crescimento é um relay, não corridas isoladas.' },
+  { t:'4. Continuidade gera transformação', d:'O cérebro aprende com repetição + emoção. Projeto aplicado todo ano vira hábito pedagógico — e argumento de retenção e expansão.',
+    q:'Por que defender a aplicação anual?', o:['Para vender mais kits','Porque continuidade ativa neuroplasticidade e fideliza','Porque é mais fácil'], a:1, fb:'Evento não transforma; formação contínua, sim.' },
+  { t:'5. Vender é servir', d:'O melhor vendedor ajuda o cliente a enxergar valor antes de colocá-lo em palavras. Diagnóstico honesto > pressão. Isso vale do SDR ao Herói.',
+    q:'Qual postura sustenta resultado no longo prazo?', o:['Empurrar para bater meta','Diagnosticar e recomendar o que serve ao cliente','Esconder limitações'], a:1, fb:'Confiança é o ativo que renova contratos.' }
 ];
-(function(){
-  const wrap=document.getElementById('fundList');
-  fundamentos.forEach((m,i)=>{
-    const c=document.createElement('div'); c.className='card';
-    c.innerHTML='<h3>'+m.t+'</h3><p>'+m.d+'</p><p style="font-weight:700;color:var(--primary-dark)">Checkpoint: '+m.q+'</p>'+
-      '<div class="ch"></div><div class="fb" ></div>';
+(function(){ const wrap=document.getElementById('fundList');
+  fundamentos.forEach(m=>{ const c=document.createElement('div'); c.className='card';
+    c.innerHTML='<h3>'+m.t+'</h3><p>'+m.d+'</p><p style="font-weight:700;color:var(--primary-dark)">Checkpoint: '+m.q+'</p><div class="ch"></div><div class="fb"></div>';
     const ch=c.querySelector('.ch'), fb=c.querySelector('.fb');
     m.o.forEach((opt,oi)=>{ const b=document.createElement('button'); b.className='choice'; b.textContent=opt;
-      b.onclick=()=>{ if(c.dataset.answered) return; c.dataset.answered='1';
-        const ok=oi===m.a; b.classList.add(ok?'right':'wrong');
-        if(!ok) ch.children[m.a].classList.add('right');
+      b.onclick=()=>{ if(c.dataset.answered) return; c.dataset.answered='1'; const ok=oi===m.a;
+        b.classList.add(ok?'right':'wrong'); if(!ok) ch.children[m.a].classList.add('right');
         fb.className='fb show '+(ok?'good':'bad'); fb.innerHTML=(ok?'✅ ':'⚠️ ')+m.fb;
-        if(ok) cur.fundCorrect++; fundProgress();
-      }; ch.appendChild(b);
-    });
-    wrap.appendChild(c);
-  });
+        if(ok) cur.fundCorrect++; document.getElementById('fundProg').textContent=cur.fundCorrect+'/5';
+        if(cur.fundCorrect>=5) setTask('fund',true); refreshKpis();
+      }; ch.appendChild(b); });
+    wrap.appendChild(c); });
 })();
-function fundProgress(){ document.getElementById('fundProg').textContent=cur.fundCorrect+'/5';
-  if(cur.fundCorrect>=5){ setTask('fund',true); } refreshKpis(); }
+
+/* ===================== MÉTODOS ===================== */
+const METHODS=[
+  { id:'spin', nome:'SPIN Selling', sub:'A arte de perguntar', oque:'Conduz a descoberta por 4 tipos de pergunta, fazendo o cliente verbalizar a própria dor.',
+    etapas:['<strong>S</strong>ituação: entenda o contexto ("Como funciona o projeto de leitura hoje?")','<strong>P</strong>roblema: revele a dor ("O que mais incomoda nisso?")','<strong>I</strong>mplicação: amplie a dor ("Se continuar assim, o que acontece com o engajamento?")','<strong>N</strong>eed-payoff: faça o cliente dizer o valor ("Como seria se cada aluno virasse autor?")'],
+    b2b2c:'Pergunte pela dor da escola E pela experiência do aluno — a implicação fica mais forte quando toca os dois.' },
+  { id:'bant', nome:'BANT', sub:'Qualificação rápida', oque:'Checklist clássico para saber se vale investir tempo na oportunidade.',
+    etapas:['<strong>B</strong>udget: há verba/possibilidade de investimento?','<strong>A</strong>uthority: quem decide? (coordenação, direção, mantenedora)','<strong>N</strong>eed: a dor é real e prioritária?','<strong>T</strong>iming: o momento do ano letivo favorece?'],
+    b2b2c:'Authority quase nunca é uma pessoa só na escola. Mapeie o comitê: quem usa, quem aprova, quem paga.' },
+  { id:'gpct', nome:'GPCT', sub:'Evolução do BANT (HubSpot)', oque:'Foca em metas e planos antes de orçamento — ótimo para vendas consultivas.',
+    etapas:['<strong>G</strong>oals: metas da escola para o ano','<strong>P</strong>lans: o que já tentaram','<strong>C</strong>hallenges: o que trava o resultado','<strong>T</strong>imeline: prazos pedagógicos e de matrícula'],
+    b2b2c:'Conecte a meta institucional (ex.: diferenciação na comunidade) ao desejo das famílias por protagonismo dos filhos.' },
+  { id:'meddic', nome:'MEDDIC', sub:'Vendas complexas', oque:'Mapa para deals com vários decisores e ciclo longo (redes de escolas, mantenedoras).',
+    etapas:['<strong>M</strong>etrics: que resultado provamos?','<strong>E</strong>conomic buyer: quem assina o cheque','<strong>D</strong>ecision criteria/process: como decidem','<strong>I</strong>dentify pain: a dor central','<strong>C</strong>hampion: o aliado interno que defende você'],
+    b2b2c:'Seu Champion costuma ser a coordenação apaixonada pelo impacto nos alunos. Arme-a com dados e narrativa.' },
+  { id:'challenger', nome:'Challenger Sale', sub:'Ensinar, customizar, controlar', oque:'O vendedor traz uma visão nova que reposiciona o problema do cliente.',
+    etapas:['<strong>Ensine</strong> algo que ele não via (ex.: neurociência da continuidade)','<strong>Customize</strong> para a realidade da escola','<strong>Controle</strong> a conversa com segurança e dados'],
+    b2b2c:'Eduque a escola sobre como o protagonismo do aluno vira percepção de valor das famílias — e marketing espontâneo.' },
+  { id:'negociacao', nome:'Negociação & Objeções', sub:'Conduzir o "não"', oque:'Framework para tratar objeção sem brigar nem ceder cedo demais.',
+    etapas:['Acolha a objeção (não rebata no susto)','Isole: "além disso, mais algo te impede?"','Confirme o valor antes de falar de preço','Reposicione com prova e feche com pergunta'],
+    b2b2c:'"Caro" quase sempre é "ainda não vi valor". Volte para o impacto na escola e nas famílias antes de negociar número.' },
+  { id:'gap', nome:'Gap Selling', sub:'Estado atual × futuro', oque:'Vende a distância entre onde a escola está e onde quer chegar.',
+    etapas:['Mapeie o estado atual (com dados)','Pinte o estado futuro desejado','Mostre o gap e o custo de não agir','Posicione a solução como a ponte'],
+    b2b2c:'O gap é duplo: resultado pedagógico (escola) + experiência memorável (aluno/família).' },
+  { id:'onboarding', nome:'Ativação & Onboarding', sub:'Primeiro valor rápido', oque:'Leva o cliente ao primeiro sucesso o quanto antes para evitar churn precoce.',
+    etapas:['Defina o "primeiro valor" (ex.: primeira turma escrevendo)','Crie um plano de 30/60/90 dias','Remova fricção da coordenação','Comemore a primeira conquista publicamente'],
+    b2b2c:'Ativação só está completa quando a família vê o resultado — peça que a escola comunique a conquista aos pais.' },
+  { id:'health', nome:'Customer Health Score', sub:'Sinais de risco e expansão', oque:'Termômetro da conta para agir antes do churn e enxergar oportunidades.',
+    etapas:['Adoção: a escola está usando?','Resultado: há evidência de impacto?','Relacionamento: temos um Champion ativo?','Sentimento: famílias satisfeitas?'],
+    b2b2c:'Conta saudável = escola usando + famílias felizes. Verde nos dois é gatilho de expansão; vermelho num deles é alerta.' },
+  { id:'qbr', nome:'QBR (revisão de resultados)', sub:'Reunião que renova', oque:'Encontro periódico para mostrar valor entregue e planejar o próximo ciclo.',
+    etapas:['Relembre as metas combinadas','Mostre resultados e histórias de alunos','Reconheça a escola e o Champion','Proponha o próximo passo (renovação/expansão)'],
+    b2b2c:'Leve evidências dos dois lados: indicadores para a escola e depoimentos de famílias para a emoção.' },
+  { id:'landexpand', nome:'Land & Expand', sub:'Crescer dentro da conta', oque:'Começa pequeno, prova valor e expande para mais séries, turmas ou unidades.',
+    etapas:['Land: entregue um sucesso inicial claro','Prove com dados e narrativa','Identifique a próxima fronteira (outra série/unidade)','Expanda apoiado no Champion'],
+    b2b2c:'A expansão é natural quando as famílias das turmas atendidas viram prova social para as demais.' }
+];
+function renderMethods(){ const list=document.getElementById('methodList'); const rec=ROLES[role()].methods;
+  // recommended first
+  const ordered=[...METHODS].sort((a,b)=>(rec.includes(b.id)?1:0)-(rec.includes(a.id)?1:0));
+  list.innerHTML=ordered.map(m=>{
+    const isRec=rec.includes(m.id);
+    const rolesFor=Object.keys(ROLES).filter(r=>ROLES[r].methods.includes(m.id)).map(r=>'<span class="roletag">'+ROLES[r].ico+' '+ROLES[r].label+'</span>').join('');
+    return '<details class="acc" '+(isRec?'open':'')+'><summary>'+m.nome+' <span style="color:var(--soft);font-weight:400">· '+m.sub+'</span>'+(isRec?'<span class="rec">pra você</span>':'')+'</summary>'+
+      '<div class="body"><p>'+m.oque+'</p><ol>'+m.etapas.map(e=>'<li>'+e+'</li>').join('')+'</ol>'+
+      '<div class="note" style="margin-top:0">🔁 <strong>Chave B2B2C:</strong> '+m.b2b2c+'</div>'+
+      '<p style="margin-top:8px;font-size:12px">Recomendado para: '+rolesFor+'</p></div></details>';
+  }).join('');
+  // wire: opening a recommended method counts toward "métodos" task
+  list.querySelectorAll('details').forEach(d=>d.addEventListener('toggle',()=>{ if(d.open){ cur.metDone=Math.min(cur.metDone+1, rec.length);
+    if(cur.metDone>=1) setTask('met',true); refreshKpis(); } }));
+}
 
 /* ===================== VOCABULÁRIO ===================== */
 const glossario=[
-  ['Neuroplasticidade','Capacidade do cérebro de criar conexões com repetição + emoção. Use para justificar a aplicação anual.'],
-  ['Funções executivas','Planejamento, organização, sequenciação e autocontrole. Produzir um livro treina tudo isso.'],
-  ['Consciência fonológica','Percepção dos sons da fala, base da alfabetização. O projeto estimula desde o Infantil.'],
-  ['Prova social','As pessoas confiam no que outras já validaram. Use depoimentos de outras escolas.'],
-  ['Pertencimento','Sentir-se parte de algo maior. "A escola que forma autores" ativa esse gatilho.'],
-  ['BNCC','Base Nacional Comum. O projeto dialoga com oralidade, escrita e narrativa exigidas por ela.'],
-  ['Multissensorial','Aprender por vários sentidos (arte, movimento, emoção). Aumenta engajamento e fixação.'],
-  ['Protagonismo','O aluno deixa de ser "quem precisa de ajuda" e vira autor. Reduz ansiedade e eleva autoestima.']
+  ['Neuroplasticidade','Cérebro cria conexões com repetição + emoção. Justifica a aplicação anual.'],
+  ['B2B2C','Vendemos para a escola e encantamos a família. Dois clientes no mesmo ciclo.'],
+  ['Champion','Aliado interno que defende você na escola. Geralmente a coordenação engajada.'],
+  ['Churn','Cliente que cancela. Em ativação/CS, é o inimigo nº1 — combatido com valor percebido.'],
+  ['NRR','Net Revenue Retention: o quanto a base cresce sozinha (renovação + expansão − churn).'],
+  ['Upsell / Cross-sell','Vender mais do mesmo (mais turmas) ou produtos complementares.'],
+  ['Prova social','Pessoas confiam no que outras validaram. Use depoimentos de escolas e famílias.'],
+  ['Pertencimento','"A escola que forma autores." Identidade que ativa decisão e renovação.']
 ];
 (function(){ const g=document.getElementById('fcGrid');
   glossario.forEach(([t,d])=>{ const c=document.createElement('div'); c.className='fc';
@@ -429,109 +620,122 @@ const glossario=[
     c.onclick=()=>c.classList.toggle('flip'); g.appendChild(c); });
 })();
 const rewrites=[
-  { tec:'"Nosso produto inclui kit com 30 itens e plataforma de acompanhamento."',
-    o:['"São 30 itens no kit, mais a plataforma e o suporte por e-mail."',
-       '"Imagina cada criança da sua escola segurando o próprio livro impresso. A gente entrega tudo pronto pra que isso aconteça sem peso para a sua equipe."',
-       '"Temos o melhor custo-benefício do mercado em material escolar."'], a:1,
-    fb:'Tirou o foco da ficha técnica e colocou na transformação e no alívio operacional.' },
-  { tec:'"O projeto trabalha competências de escrita previstas na BNCC."',
-    o:['"Quando a criança escreve o próprio livro, ela descobre que tem algo valioso a dizer. E isso, de quebra, atende o que a BNCC pede."',
-       '"Está 100% alinhado às competências e habilidades da BNCC."',
-       '"Cobre os descritores de língua portuguesa do currículo."'], a:0,
-    fb:'Começou pela emoção e pela criança; a BNCC entra como reforço racional, não como abertura.' },
-  { tec:'"Recomendamos aplicar em todas as séries para padronizar o processo."',
-    o:['"Padronizar reduz retrabalho da coordenação."',
-       '"Aplicar em todas as turmas é o ideal operacional."',
-       '"Quando todas as turmas vivem o projeto, vira tradição da escola. E, na prática, isso ainda organiza tudo num único calendário, tirando peso de você."'], a:2,
-    fb:'Liderou com pertencimento/tradição e fechou com o benefício prático para a coordenadora.' }
+  { tec:'"Nosso produto inclui kit com 30 itens e plataforma."',
+    o:['"São 30 itens, mais a plataforma e suporte por e-mail."','"Imagina cada criança da sua escola segurando o próprio livro impresso. A gente entrega tudo pronto pra isso acontecer sem peso pra sua equipe."','"Temos o melhor custo-benefício do mercado."'], a:1, fb:'Saiu da ficha técnica e foi pra transformação + alívio operacional.' },
+  { tec:'"O projeto trabalha competências de escrita da BNCC."',
+    o:['"Quando a criança escreve o próprio livro, ela descobre que tem algo valioso a dizer. E isso, de quebra, atende a BNCC."','"Está 100% alinhado às competências da BNCC."','"Cobre os descritores de língua portuguesa."'], a:0, fb:'Emoção primeiro; BNCC entra como reforço racional.' },
+  { tec:'"Recomendamos aplicar em todas as séries para padronizar."',
+    o:['"Padronizar reduz retrabalho."','"É o ideal operacional."','"Quando todas as turmas vivem o projeto, vira tradição da escola. E ainda organiza tudo num calendário só, tirando peso de você."'], a:2, fb:'Liderou com pertencimento e fechou com benefício prático.' }
 ];
 (function(){ const wrap=document.getElementById('rewriteList');
   rewrites.forEach(r=>{ const c=document.createElement('div'); c.style.marginBottom='16px';
     c.innerHTML='<p style="font-weight:700;color:var(--soft)">Fala técnica: <span style="font-weight:400;font-style:italic">'+r.tec+'</span></p><div class="ch"></div><div class="fb"></div>';
     const ch=c.querySelector('.ch'), fb=c.querySelector('.fb');
     r.o.forEach((opt,oi)=>{ const b=document.createElement('button'); b.className='choice'; b.textContent=opt;
-      b.onclick=()=>{ if(c.dataset.answered) return; c.dataset.answered='1';
-        const ok=oi===r.a; b.classList.add(ok?'right':'wrong'); if(!ok) ch.children[r.a].classList.add('right');
+      b.onclick=()=>{ if(c.dataset.answered) return; c.dataset.answered='1'; const ok=oi===r.a;
+        b.classList.add(ok?'right':'wrong'); if(!ok) ch.children[r.a].classList.add('right');
         fb.className='fb show '+(ok?'good':'bad'); fb.innerHTML=(ok?'✅ ':'⚠️ ')+r.fb;
-        if(ok){ cur.vocabRight++; document.getElementById('rwProg').textContent=cur.vocabRight+'/3'; if(cur.vocabRight>=3) setTask('vocab',true); refreshKpis(); }
+        if(ok){ cur.vocabRight++; document.getElementById('rwProg').textContent=cur.vocabRight+'/3'; refreshKpis(); }
       }; ch.appendChild(b); });
     wrap.appendChild(c); });
 })();
 
 /* ===================== ARGUMENTAÇÃO ===================== */
 const levers=[
-  ['🤝 Reciprocidade','Dê valor antes de pedir: um diagnóstico, uma ideia aplicável já na reunião. Quem recebe primeiro tende a retribuir.'],
-  ['👥 Prova social','"Escolas parecidas com a sua já vivem isso." Mostre quem já decidiu e o resultado. Ninguém quer ficar de fora.'],
-  ['🔁 Compromisso e coerência','Faça o gestor dizer "sim" a pequenos acordos. Quem concorda com o pequeno tende a manter coerência no grande.'],
-  ['💛 Afinidade e rapport','Pessoas dizem sim para quem confiam e gostam. Espelhe a linguagem, demonstre que entende o mundo dela.'],
-  ['🎓 Autoridade emprestada','Você não precisa ser a autoridade: traga-a (neurociência, BNCC, dados, especialistas). O argumento ganha peso.'],
-  ['⏳ Escassez e aversão à perda','O ano letivo tem janela. O que se perde dói mais do que o que se ganha agrada. Mostre o custo de não agir agora.']
+  ['🤝 Reciprocidade','Dê valor antes de pedir: um diagnóstico, uma ideia aplicável já na conversa. Quem recebe tende a retribuir.'],
+  ['👥 Prova social','"Escolas parecidas com a sua já vivem isso." Mostre quem decidiu e o resultado.'],
+  ['🔁 Compromisso e coerência','Conduza pequenos "sins". Quem concorda no pequeno mantém coerência no grande.'],
+  ['💛 Afinidade e rapport','Pessoas dizem sim a quem confiam. Espelhe a linguagem e mostre que entende o mundo dela.'],
+  ['🎓 Autoridade emprestada','Traga neurociência, BNCC, dados e especialistas. O argumento ganha peso.'],
+  ['⏳ Escassez e aversão à perda','O ano letivo tem janela. Perder dói mais que ganhar agrada — mostre o custo de não agir.']
 ];
 (function(){ const w=document.getElementById('leverList');
   levers.forEach(([t,d])=>{ const el=document.createElement('details'); el.className='acc';
-    el.innerHTML='<summary>'+t+'</summary><div>'+d+'</div>'; w.appendChild(el); });
+    el.innerHTML='<summary>'+t+'</summary><div class="body">'+d+'</div>'; w.appendChild(el); });
 })();
 const argDrills=[
-  { g:'"Vou pensar e te retorno." (clássico fim de reunião)',
-    o:['"Sem problema, fico no aguardo!"',
-       '"Claro. Só pra eu te ajudar melhor: o que ainda falta ficar claro pra você decidir? É o tempo, o formato ou o investimento?"',
-       '"Se decidir hoje consigo um desconto."'], a:1,
-    fb:'Compromisso/coerência + diagnóstico: você isola a real objeção em vez de aceitar o adiamento vago.' },
-  { g:'"Já fazemos um projeto de leitura aqui."',
-    o:['"O nosso é melhor que o de vocês."',
-       '"Que ótimo, isso mostra que vocês valorizam leitura. O nosso não substitui: ele dá um destino concreto pra essa leitura, o livro autoral da criança. Como seus alunos reagiriam a ver o próprio nome na capa?"',
-       '"Então vocês não precisam do nosso."'], a:1,
-    fb:'Afinidade + redirecionamento: validou o que já existe e reposicionou como complemento, terminando com pergunta que projeta a emoção.' },
-  { g:'"Não tenho verba aprovada para isso este ano."',
-    o:['"Entendo. E me ajuda a entender: se a verba não fosse o ponto, esse projeto faria sentido pra escola? Pergunto porque, fazendo sentido, a gente encontra o formato que cabe no seu momento."',
-       '"Sem verba não dá pra fazer nada mesmo."',
-       '"Posso parcelar em 12 vezes."'], a:0,
-    fb:'Isola a objeção (preço x valor): confirma o valor primeiro; só depois discute o "como caber". Nunca negocie preço antes de confirmar desejo.' }
+  { g:'"Vou pensar e te retorno."', o:['"Sem problema, fico no aguardo!"','"Claro. Só pra eu te ajudar: o que ainda falta ficar claro? É o tempo, o formato ou o investimento?"','"Se decidir hoje, consigo desconto."'], a:1, fb:'Isola a real objeção em vez de aceitar o adiamento vago.' },
+  { g:'"Já fazemos um projeto de leitura aqui."', o:['"O nosso é melhor."','"Que ótimo, mostra que vocês valorizam leitura. O nosso não substitui: dá um destino concreto a ela, o livro autoral. Como seus alunos reagiriam a ver o próprio nome na capa?"','"Então não precisam do nosso."'], a:1, fb:'Validou o que existe e reposicionou como complemento, com pergunta que projeta emoção.' },
+  { g:'"Não tenho verba aprovada este ano."', o:['"Entendo. Me ajuda a entender: se a verba não fosse o ponto, faria sentido pra escola? Pergunto porque, fazendo sentido, a gente acha o formato que cabe."','"Sem verba não dá."','"Parcelo em 12x."'], a:0, fb:'Confirma o valor antes do preço. Nunca negocie número antes de confirmar desejo.' }
 ];
 (function(){ const w=document.getElementById('argDrills');
   argDrills.forEach(d=>{ const c=document.createElement('div'); c.style.marginBottom='16px';
-    c.innerHTML='<p style="font-weight:700;color:var(--primary-dark)">Gestor: <span style="font-weight:400;font-style:italic">'+d.g+'</span></p><div class="ch"></div><div class="fb"></div>';
+    c.innerHTML='<p style="font-weight:700;color:var(--primary-dark)">Cliente: <span style="font-weight:400;font-style:italic">'+d.g+'</span></p><div class="ch"></div><div class="fb"></div>';
     const ch=c.querySelector('.ch'), fb=c.querySelector('.fb');
     d.o.forEach((opt,oi)=>{ const b=document.createElement('button'); b.className='choice'; b.textContent=opt;
-      b.onclick=()=>{ if(c.dataset.answered) return; c.dataset.answered='1';
-        const ok=oi===d.a; b.classList.add(ok?'right':'wrong'); if(!ok) ch.children[d.a].classList.add('right');
+      b.onclick=()=>{ if(c.dataset.answered) return; c.dataset.answered='1'; const ok=oi===d.a;
+        b.classList.add(ok?'right':'wrong'); if(!ok) ch.children[d.a].classList.add('right');
         fb.className='fb show '+(ok?'good':'bad'); fb.innerHTML=(ok?'✅ ':'⚠️ ')+d.fb;
         if(ok){ cur.argRight++; document.getElementById('argProg').textContent=cur.argRight+'/3'; if(cur.argRight>=3) setTask('arg',true); refreshKpis(); }
       }; ch.appendChild(b); });
     w.appendChild(c); });
 })();
 
+/* ===================== RELACIONAMENTO ===================== */
+const relCards=[
+  ['🌡️ Leia a saúde da conta','Antes de cada contato, cheque: a escola está usando? Há resultado? Famílias satisfeitas? Verde = expanda; amarelo = reforce valor; vermelho = aja rápido.'],
+  ['🎁 Transforme atendimento em valor','Todo chamado resolvido é uma chance de encantar. Feche com um "a propósito, viu que dá pra fazer X também?" — plantando expansão sem empurrar.'],
+  ['🔄 Reative pelo sucesso do aluno','Para reengajar uma escola fria, lidere com história: "Lembra da turma que fez o livro? Veja o que outra escola conseguiu este ano…"'],
+  ['📣 Peça e use prova social','Família feliz é seu melhor vendedor. Colete depoimentos e leve-os para a próxima QBR e para novas vendas.']
+];
+function renderRel(){ const w=document.getElementById('relList');
+  w.innerHTML=relCards.map(([t,d])=>'<details class="acc"><summary>'+t+'</summary><div class="body">'+d+'</div></details>').join(''); }
+const relDrills=[
+  { g:'(CS/Herói) Escola some há 2 meses e não respondeu o último projeto.', o:['"Estou cobrando o retorno do projeto pendente."','"Senti falta de vocês! Separei um resultado de outra escola que lembra muito a de vocês — topam 15 min pra eu mostrar como destravar a próxima turma?"','"Vocês vão renovar?"'], a:1, fb:'Reativou com afeto + prova social + convite leve, em vez de cobrança seca.' },
+  { g:'Coordenadora elogia o projeto no atendimento.', o:['"Que bom, obrigada!"','"Fico muito feliz! Já que está funcionando tão bem no Fundamental I, faz sentido eu te mostrar como ficaria no Fundamental II? Posso enviar uma proposta rápida."','"Avisa se precisar de algo."'], a:1, fb:'Elogio é sinal de conta verde: transformou satisfação em expansão (land & expand).' }
+];
+(function(){ const w=document.getElementById('relDrills');
+  relDrills.forEach(d=>{ const c=document.createElement('div'); c.style.marginBottom='16px';
+    c.innerHTML='<p style="font-weight:700;color:var(--primary-dark)">Situação: <span style="font-weight:400;font-style:italic">'+d.g+'</span></p><div class="ch"></div><div class="fb"></div>';
+    const ch=c.querySelector('.ch'), fb=c.querySelector('.fb');
+    d.o.forEach((opt,oi)=>{ const b=document.createElement('button'); b.className='choice'; b.textContent=opt;
+      b.onclick=()=>{ if(c.dataset.answered) return; c.dataset.answered='1'; const ok=oi===d.a;
+        b.classList.add(ok?'right':'wrong'); if(!ok) ch.children[d.a].classList.add('right');
+        fb.className='fb show '+(ok?'good':'bad'); fb.innerHTML=(ok?'✅ ':'⚠️ ')+d.fb;
+        if(ok){ cur.relRight++; document.getElementById('relProg').textContent=cur.relRight+'/2'; refreshKpis(); }
+      }; ch.appendChild(b); });
+    w.appendChild(c); });
+})();
+
 /* ===================== DOJO ===================== */
 const personas=[
-  { id:'coord', ico:'😟', nome:'Coordenadora sobrecarregada', desc:'Adora a ideia, mas teme não dar conta.',
+  { id:'coord', ico:'😟', nome:'Coordenadora sobrecarregada', desc:'(SDR/Closer) Gosta da ideia, teme não dar conta.',
     turns:[
-      { fala:'"Amei, mas sinceramente já estou no limite. Mais um projeto pra gerenciar eu não consigo."',
-        op:[ {t:'"É super tranquilo, dá quase nenhum trabalho."', r:'parcial', f:'Minimizar a dor soa falso e fragiliza. Ela está pedindo segurança, não simplificação.'},
-             {t:'"Entendo demais. Por isso ele vem com cronograma e materiais prontos: a ideia é tirar peso de você, não somar. Posso te mostrar como fica a sua rotina?"', r:'bom', f:'Validou a dor, reposicionou como alívio e pediu permissão para avançar.'},
-             {t:'"Pensa no diferencial pra escola."', r:'ruim', f:'Foi para o racional ignorando a emoção dela. Conecte antes de convencer.'} ] },
+      { fala:'"Amei, mas já estou no limite. Mais um projeto pra gerenciar eu não consigo."',
+        op:[ {t:'"É super tranquilo, dá quase nenhum trabalho."', r:'parcial', f:'Minimizar a dor soa falso. Ela quer segurança, não simplificação.'},
+             {t:'"Entendo demais. Por isso ele vem com cronograma e material pronto: a ideia é tirar peso de você. Posso te mostrar como fica sua rotina?"', r:'bom', f:'Validou, reposicionou como alívio e pediu permissão.'},
+             {t:'"Pensa no diferencial pra escola."', r:'ruim', f:'Foi pro racional ignorando a emoção.'} ] },
       { fala:'"E se a equipe não abraçar? Já tentei coisas que não foram pra frente."',
-        op:[ {t:'"A gente segura na mão da equipe do início ao evento de autógrafos, com apoio e treinamento. Você não vai estar sozinha nisso."', r:'bom', f:'Gatilho de apoio + pertencimento. Reduz o medo do fracasso.'},
-             {t:'"Aí já depende de vocês."', r:'ruim', f:'Jogou o risco de volta pra ela. Péssimo para a confiança.'},
-             {t:'"Se não der certo, cancela."', r:'parcial', f:'Tira a pressão, mas não inspira. Falta visão.'} ] }
-    ] },
-  { id:'dir', ico:'🤨', nome:'Diretora cética', desc:'Quer dados e ROI, pouca paciência.',
+        op:[ {t:'"A gente segura na mão da equipe do início ao evento de autógrafos. Você não vai estar sozinha."', r:'bom', f:'Apoio + pertencimento reduzem o medo do fracasso.'},
+             {t:'"Aí já depende de vocês."', r:'ruim', f:'Jogou o risco de volta pra ela.'},
+             {t:'"Se não der certo, cancela."', r:'parcial', f:'Tira pressão, mas não inspira.'} ] } ] },
+  { id:'dir', ico:'🤨', nome:'Diretora cética', desc:'(Closer) Quer dados e ROI, pouca paciência.',
     turns:[
-      { fala:'"Tudo isso é muito bonito, mas qual o resultado concreto pra escola?"',
-        op:[ {t:'"Escolas que aplicam viram referência: fortalece a marca, fideliza famílias e gera prova social espontânea, além do ganho pedagógico real em escrita e leitura."', r:'bom', f:'Autoridade emprestada + prova social, falando a língua de resultado dela.'},
-             {t:'"As crianças ficam felizes."', r:'parcial', f:'Verdadeiro, mas insuficiente para um perfil cético orientado a resultado.'},
-             {t:'"Todo mundo está fazendo."', r:'ruim', f:'Prova social mal usada, sem substância. Soa raso.'} ] },
-      { fala:'"E por que eu faria todo ano, e não só uma vez?"',
-        op:[ {t:'"Porque o cérebro aprende com repetição e emoção. Uma vez é evento; todo ano é formação e vira tradição esperada pela comunidade."', r:'bom', f:'Neurociência + continuidade + pertencimento. Argumento redondo.'},
-             {t:'"Pra gente vender mais."', r:'ruim', f:'Honestidade fora de hora; some o valor para a escola.'},
-             {t:'"Fica mais barato no pacote."', r:'parcial', f:'Preço não é o motivo central; perde a força do argumento.'} ] }
-    ] }
+      { fala:'"Bonito, mas qual o resultado concreto pra escola?"',
+        op:[ {t:'"Escolas que aplicam viram referência: marca mais forte, famílias fidelizadas e ganho real em escrita e leitura."', r:'bom', f:'Autoridade + prova social na língua de resultado.'},
+             {t:'"As crianças ficam felizes."', r:'parcial', f:'Verdadeiro, mas insuficiente para perfil cético.'},
+             {t:'"Todo mundo está fazendo."', r:'ruim', f:'Prova social vazia, soa raso.'} ] },
+      { fala:'"Por que faria todo ano, e não uma vez?"',
+        op:[ {t:'"Porque o cérebro aprende com repetição e emoção. Uma vez é evento; todo ano é formação e vira tradição esperada pela comunidade."', r:'bom', f:'Neurociência + continuidade + pertencimento.'},
+             {t:'"Pra gente vender mais."', r:'ruim', f:'Honestidade fora de hora; some o valor.'},
+             {t:'"Fica mais barato no pacote."', r:'parcial', f:'Preço não é o motivo central.'} ] } ] },
+  { id:'risco', ico:'❄️', nome:'Escola em risco de churn', desc:'(CS/Heróis) Usou pouco, renovação ameaçada.',
+    turns:[
+      { fala:'"Sinceramente, não sei se vale renovar. Usamos pouco este ano."',
+        op:[ {t:'"Que pena ouvir isso. Posso entender o que travou o uso? Quero achar o caminho pra próxima turma viver o projeto de verdade."', r:'bom', f:'Diagnóstico antes de defender. Mostra parceria, não cobrança.'},
+             {t:'"Mas o contrato já está aí."', r:'ruim', f:'Pressão contratual destrói relação.'},
+             {t:'"Posso dar um desconto na renovação."', r:'parcial', f:'Desconto sem resgatar valor só ensina a barganhar.'} ] },
+      { fala:'"Faltou tempo da equipe pra tocar o projeto."',
+        op:[ {t:'"Entendi. Vou montar um plano enxuto de 30 dias e acompanhar de perto, com um resultado rápido pra reengajar a equipe. Topa?"', r:'bom', f:'Plano de ativação + acompanhamento resgata a conta pelo sucesso.'},
+             {t:'"Então não tem o que eu fazer."', r:'ruim', f:'Abandonou a conta.'},
+             {t:'"Ano que vem vocês se organizam."', r:'parcial', f:'Empurrou o problema; o churn vem antes disso.'} ] } ] }
 ];
 let curPersona=null, curTurn=0, dojoScore=0;
-(function(){ const g=document.getElementById('personaGrid');
+function renderPersonas(){ const g=document.getElementById('personaGrid'); g.innerHTML='';
   personas.forEach(p=>{ const el=document.createElement('div'); el.className='persona';
     el.innerHTML='<div class="pico">'+p.ico+'</div><h4>'+p.nome+'</h4><p>'+p.desc+'</p>';
     el.onclick=()=>startScenario(p); g.appendChild(el); });
-})();
+}
 function startScenario(p){ curPersona=p; curTurn=0; dojoScore=0;
   document.getElementById('personaPick').style.display='none';
   document.getElementById('scenarioBox').style.display='block'; renderTurn(); }
@@ -539,40 +743,37 @@ document.getElementById('backPersona').onclick=()=>{ document.getElementById('sc
 function renderTurn(){
   const run=document.getElementById('scenarioRun'); const p=curPersona;
   if(curTurn>=p.turns.length){ const res= dojoScore>=p.turns.length*2 ? '🟢 Excelente condução' : dojoScore>=p.turns.length ? '🟡 Boa, com ajustes' : '🔴 Reveja a abordagem';
-    cur.dojoResult = dojoScore>=p.turns.length*2?'🟢':dojoScore>=p.turns.length?'🟡':'🔴';
-    run.innerHTML='<h3>'+res+'</h3><p>Você conduziu a conversa com '+p.nome+'. Resultado registrado no indicador de Simulação.</p><button class="btn" onclick="document.getElementById(\'backPersona\').click()">Treinar outra persona</button>';
+    cur.dojoResult= dojoScore>=p.turns.length*2?'🟢':dojoScore>=p.turns.length?'🟡':'🔴';
+    run.innerHTML='<h3>'+res+'</h3><p>Conversa com '+p.nome+' concluída. Resultado registrado no indicador de Simulação.</p><button class="btn" id="againP">Treinar outra persona</button>';
+    document.getElementById('againP').onclick=()=>document.getElementById('backPersona').click();
     maybeDojoDone(); refreshKpis(); return; }
   const t=p.turns[curTurn];
   run.innerHTML='<p class="pill">'+p.ico+' '+p.nome+' · turno '+(curTurn+1)+'/'+p.turns.length+'</p><p style="font-size:16px;font-style:italic;margin:8px 0 12px">'+t.fala+'</p><div class="ch"></div><div class="fb"></div>';
   const ch=run.querySelector('.ch'), fb=run.querySelector('.fb');
-  t.op.forEach((o)=>{ const b=document.createElement('button'); b.className='choice'; b.textContent=o.t;
+  t.op.forEach(o=>{ const b=document.createElement('button'); b.className='choice'; b.textContent=o.t;
     b.onclick=()=>{ if(run.dataset.answered) return; run.dataset.answered='1';
-      const pts=o.r==='bom'?2:o.r==='parcial'?1:0; dojoScore+=pts;
-      b.classList.add(o.r==='bom'?'right':o.r==='ruim'?'wrong':'right');
+      dojoScore+= o.r==='bom'?2:o.r==='parcial'?1:0;
+      b.classList.add(o.r==='ruim'?'wrong':'right');
       fb.className='fb show '+(o.r==='ruim'?'bad':'good'); fb.innerHTML=(o.r==='bom'?'✅ ':o.r==='parcial'?'🟡 ':'⚠️ ')+o.f+'<br><button class="btn sm" style="margin-top:10px" id="nextT">Continuar →</button>';
       document.getElementById('nextT').onclick=()=>{ curTurn++; run.dataset.answered=''; renderTurn(); };
     }; ch.appendChild(b); });
 }
-/* banco de objeções cronometrado */
 const objecoes=[
-  { o:'"O calendário deste ano já está fechado."', m:'"Calendário cheio é sinal de escola séria. Por isso ele não entra como mais um projeto: integra ao que vocês já fazem, com um único cronograma. Posso te mostrar como ele tira peso, em vez de somar?"' },
-  { o:'"Preciso falar com a mantenedora."', m:'"Perfeito, faz todo sentido. Quer que eu prepare um resumo de 1 página com o impacto pedagógico e o apoio que damos, pra você levar forte pra essa conversa?"' },
-  { o:'"Os pais podem achar caro."', m:'"Entendo. E geralmente o que os pais valorizam é ver o filho autor de um livro de verdade. Quando o valor fica claro, o preço vira detalhe. Posso te mostrar como outras escolas comunicaram isso às famílias?"' }
+  { o:'"O calendário deste ano já está fechado."', m:'"Calendário cheio é sinal de escola séria. Por isso ele não entra como mais um projeto: integra ao que já fazem, num cronograma só. Posso mostrar como ele tira peso?"' },
+  { o:'"Preciso falar com a mantenedora."', m:'"Perfeito. Quer que eu prepare um resumo de 1 página com impacto e apoio que damos, pra você levar forte pra essa conversa?"' },
+  { o:'"Os pais podem achar caro."', m:'"Entendo. O que os pais valorizam é ver o filho autor de um livro de verdade. Quando o valor fica claro, o preço vira detalhe. Posso mostrar como outras escolas comunicaram isso?"' },
+  { o:'"Não vi tanto resultado pra renovar."', m:'"Quero muito entender o que faltou. Deixa eu montar com você um plano enxuto e medir o resultado da próxima turma — se não fizer diferença, repensamos juntos."' }
 ];
 let objIdx=0;
 function renderObj(){ const box=document.getElementById('objBox'); const ob=objecoes[objIdx];
-  box.innerHTML='<p style="font-weight:700;color:var(--primary-dark)">Objeção: <span style="font-weight:400;font-style:italic">'+ob.o+'</span></p>'+
-    '<div class="timer" id="t">15</div><div class="btnrow"><button class="btn" id="reveal">Ver resposta-modelo</button></div><div class="fb" id="objfb"></div>';
+  box.innerHTML='<p style="font-weight:700;color:var(--primary-dark)">Objeção: <span style="font-weight:400;font-style:italic">'+ob.o+'</span></p><div class="timer" id="t">15</div><div class="btnrow"><button class="btn" id="reveal">Ver resposta-modelo</button></div><div class="fb" id="objfb"></div>';
   let n=15; const tEl=document.getElementById('t');
   const iv=setInterval(()=>{ n--; tEl.textContent=n; if(n<=0){ clearInterval(iv); tEl.textContent='⏱'; } },1000);
-  document.getElementById('reveal').onclick=()=>{ clearInterval(iv);
-    const fb=document.getElementById('objfb'); fb.className='fb show good';
-    fb.innerHTML='💡 <strong>Modelo:</strong> '+ob.m+'<br><span style="display:block;margin-top:8px">Como foi a sua versão?</span>'+
-      '<div class="btnrow" style="margin-top:8px"><button class="btn sm gold" data-sr="1">Mandei bem</button><button class="btn sm ghost" data-sr="0">Preciso treinar</button></div>';
+  document.getElementById('reveal').onclick=()=>{ clearInterval(iv); const fb=document.getElementById('objfb'); fb.className='fb show good';
+    fb.innerHTML='💡 <strong>Modelo:</strong> '+ob.m+'<br><span style="display:block;margin-top:8px">Como foi sua versão?</span><div class="btnrow" style="margin-top:8px"><button class="btn sm gold" data-sr="1">Mandei bem</button><button class="btn sm ghost" data-sr="0">Preciso treinar</button></div>';
     fb.querySelectorAll('[data-sr]').forEach(b=>b.onclick=()=>{ cur.objDone=true; objIdx=(objIdx+1)%objecoes.length; maybeDojoDone(); renderObj(); });
   };
 }
-renderObj();
 function maybeDojoDone(){ if(cur.dojoResult && cur.objDone) setTask('dojo',true); }
 
 /* ===================== DICÇÃO ===================== */
@@ -585,7 +786,7 @@ document.getElementById('recBtn').addEventListener('click', async ()=>{
       mediaRec.onstop=()=>{ const u=URL.createObjectURL(new Blob(chunks,{type:'audio/webm'})); const p=document.getElementById('player'); p.src=u; p.style.display='inline-block'; st.getTracks().forEach(t=>t.stop()); };
       mediaRec.start(); recording=true; btn.textContent='■ Parar';
       setTimeout(()=>{ if(recording){ mediaRec.stop(); recording=false; btn.textContent='● Regravar'; } },60000);
-    }catch(e){ alert('Não consegui acessar o microfone. Verifique a permissão.'); }
+    }catch(e){ alert('Não consegui acessar o microfone.'); }
   } else { mediaRec.stop(); recording=false; btn.textContent='● Regravar'; }
 });
 const rubricItems=['Clareza','Ritmo & pausa','Energia','Conexão emocional'];
@@ -599,81 +800,120 @@ const rubricScores={};
     r.appendChild(d); });
 })();
 function updateDic(){ const vals=Object.values(rubricScores); const filled=vals.filter(v=>v>0);
-  cur.dicStars = filled.length? Math.round(vals.reduce((a,b)=>a+b,0)/rubricItems.length*10)/10 : 0;
+  cur.dicStars= filled.length? Math.round(vals.reduce((a,b)=>a+b,0)/rubricItems.length*10)/10 : 0;
   if(filled.length===rubricItems.length) setTask('dic',true); refreshKpis(); }
 
 /* ===================== TASKS / KPIs ===================== */
+const taskNav={ raio:'raiox', fund:'fundamentos', met:'metodos', arg:'arg', dojo:'dojo', dic:'diccao' };
 function setTask(k,v){ cur.tasks[k]=v; const t=document.querySelector('.task[data-task="'+k+'"]');
   if(t){ t.classList.toggle('done',v); t.querySelector('.state').textContent=v?'✓ Concluído':'○ Pendente'; }
-  navDone(k==='fund'?'fundamentos':k==='vocab'?'vocab':k==='arg'?'arg':k==='dojo'?'dojo':'diccao', v); }
-function metrics(){ return {
-  fund: Math.round(cur.fundCorrect/cur.fundTotal*100),
-  vocab: Math.round(cur.vocabRight/cur.vocabTotal*100),
-  arg: Math.round(cur.argRight/cur.argTotal*100),
-  dojo: cur.dojoResult||'—', dic: cur.dicStars,
-  done: Object.values(cur.tasks).filter(Boolean).length }; }
-function deltaTag(el,c,p,suf){ if(p==null){ el.className='delta flat'; el.textContent='1ª semana'; return; }
-  const d=c-p; el.className='delta '+(d>0?'up':d<0?'down':'flat'); el.textContent=(d>0?'▲ +':d<0?'▼ ':'■ ')+d+suf; }
-function refreshKpis(){ const m=metrics(); const data=load(); const last=data.history[data.history.length-1];
-  document.getElementById('kFund').textContent=m.fund+'%'; document.getElementById('kVocab').textContent=m.vocab+'%';
-  document.getElementById('kArg').textContent=m.arg+'%'; document.getElementById('kDojo').textContent=m.dojo;
-  document.getElementById('kDic').textContent=m.dic?m.dic+'★':'—'; document.getElementById('kStreak').textContent=data.streak||0;
-  document.getElementById('streakBadge').textContent=(data.streak||0)>0?'🔥 '+data.streak+' semanas de consistência':'';
-  deltaTag(document.getElementById('dFund'),m.fund,last?last.fund:null,'%');
-  deltaTag(document.getElementById('dVocab'),m.vocab,last?last.vocab:null,'%');
-  deltaTag(document.getElementById('dArg'),m.arg,last?last.arg:null,'%');
-  deltaTag(document.getElementById('dDic'),m.dic,last?last.dic:null,'★'); }
-
-/* manual ritual toggle */
+  navDone(taskNav[k],v); }
 document.querySelectorAll('.task').forEach(t=>t.addEventListener('click',()=>{ const k=t.dataset.task; setTask(k,!cur.tasks[k]); }));
 
-/* ===================== HISTÓRICO ===================== */
-function renderHist(){ const data=load(); const tb=document.querySelector('#histTable tbody');
-  if(!data.history.length){ tb.innerHTML='<tr><td colspan="6" class="empty">Nenhuma semana fechada ainda.</td></tr>'; return; }
-  tb.innerHTML=data.history.slice().reverse().map(h=>'<tr><td>'+h.week+'</td><td>'+h.fund+'%</td><td>'+h.vocab+'%</td><td>'+h.arg+'%</td><td>'+h.dojo+'</td><td>'+h.dic+'★</td></tr>').join(''); }
-document.getElementById('saveWeek').addEventListener('click', async ()=>{
+function metrics(){ return {
+  raio: cur.diag? diagPct(cur.diag.scores):null,
+  fund: Math.round(cur.fundCorrect/5*100),
+  met: cur.metDone, metPct: Math.round(cur.metDone/Math.max(ROLES[role()].methods.length,1)*100),
+  arg: Math.round(cur.argRight/3*100),
+  dojo: cur.dojoResult||'—', dic: cur.dicStars,
+  time: weekMinutes(),
+  done: Object.values(cur.tasks).filter(Boolean).length }; }
+function deltaTag(el,c,p,suf){ if(p==null||c==null){ if(el){el.className='delta flat'; el.textContent= c==null?'pendente':'1ª medida';} return; }
+  const d=c-p; el.className='delta '+(d>0?'up':d<0?'down':'flat'); el.textContent=(d>0?'▲ +':d<0?'▼ ':'■ ')+d+suf; }
+function refreshKpis(){ const m=metrics(); const data=load();
+  const lastSame=[...data.history].reverse().find(h=>h.who===(who.value.trim()) );
+  document.getElementById('kRaio').textContent= m.raio!=null? m.raio+'%':'—';
+  document.getElementById('kFund').textContent=m.fund+'%';
+  document.getElementById('kMet').textContent= m.met+'/'+Math.max(ROLES[role()].methods.length,1);
+  document.getElementById('kArg').textContent=m.arg+'%';
+  document.getElementById('kDojo').textContent=m.dojo;
+  document.getElementById('kDic').textContent= m.dic? m.dic+'★':'—';
+  document.getElementById('kTime').textContent= m.time+'min';
+  document.getElementById('kStreak').textContent=data.streak||0;
+  document.getElementById('streakBadge').textContent=(data.streak||0)>0?'🔥 '+data.streak+' semanas seguidas':'';
+  deltaTag(document.getElementById('dRaio'), m.raio, lastSame?lastSame.raio:null, '%');
+}
+
+/* ===================== TIME TRACKING ===================== */
+function weekMinutes(){ const d=load(); return Math.round((d.time&&d.time[weekVal()]||0)/60); }
+function tick(){ if(document.visibilityState!=='visible' || !document.hasFocus()) return;
+  const d=load(); d.time=d.time||{}; d.time[weekVal()]=(d.time[weekVal()]||0)+15; save(d);
+  document.getElementById('kTime').textContent=weekMinutes()+'min'; }
+setInterval(tick, 15000);
+
+/* ===================== RELATÓRIO ===================== */
+function genReport(){
+  const m=metrics(); const data=load();
+  const mine=data.history.filter(h=>h.who===who.value.trim());
+  const prev=mine[mine.length-1];
+  const r=ROLES[role()];
+  let html='<h4>'+r.ico+' '+(who.value.trim()||'(defina seu nome)')+' · '+r.label+'</h4>';
+  html+='<div class="stat"><span>Semana</span><strong>'+weekVal()+'</strong></div>';
+  html+='<div class="stat"><span>Nível (Raio-X)</span><strong>'+(m.raio!=null?m.raio+'%':'faça o Raio-X')+'</strong></div>';
+  html+='<div class="stat"><span>Tempo treinado nesta semana</span><strong>'+m.time+' min</strong></div>';
+  html+='<div class="stat"><span>Fundamentos</span><strong>'+m.fund+'%</strong></div>';
+  html+='<div class="stat"><span>Métodos explorados</span><strong>'+m.met+'</strong></div>';
+  html+='<div class="stat"><span>Argumentação</span><strong>'+m.arg+'%</strong></div>';
+  html+='<div class="stat"><span>Simulação</span><strong>'+m.dojo+'</strong></div>';
+  html+='<div class="stat"><span>Dicção</span><strong>'+(m.dic?m.dic+'★':'—')+'</strong></div>';
+  html+='<div class="stat"><span>Práticas concluídas</span><strong>'+m.done+'/6</strong></div>';
+  if(cur.diag){ const sorted=[...DIMS].sort((a,b)=>cur.diag.scores[a.id]-cur.diag.scores[b.id]);
+    html+='<h4>🎯 Foco recomendado</h4><p>'+sorted.slice(0,2).map(d=>d.n).join(' e ')+' — são suas maiores oportunidades agora.</p>'; }
+  if(prev && prev.raio!=null && m.raio!=null){ const d=m.raio-prev.raio;
+    html+='<p style="color:'+(d>=0?'var(--success)':'var(--danger)')+'"><strong>Evolução vs. última semana fechada:</strong> '+(d>=0?'+':'')+d+'% no Raio-X.</p>'; }
+  html+='<p style="color:var(--soft);font-size:13px">Próximo passo: feche a semana e envie ao gestor. A consistência (streak) é o que constrói maestria.</p>';
+  document.getElementById('myReport').innerHTML=html;
+}
+document.getElementById('genReport').onclick=genReport;
+document.getElementById('saveWeek').onclick=async ()=>{
   if(!who.value.trim()){ alert('Coloque seu nome antes de fechar a semana.'); return; }
-  const m=metrics(); const rec={ who:who.value.trim(), team:team.value, week:document.getElementById('week').value,
-    fund:m.fund, vocab:m.vocab, arg:m.arg, dojo:m.dojo, dic:m.dic, done:m.done, ts:new Date().toISOString() };
+  const m=metrics();
+  const rec={ who:who.value.trim(), role:ROLES[role()].label, week:weekVal(),
+    raio:m.raio, fund:m.fund, met:m.met, arg:m.arg, dojo:m.dojo, dic:m.dic, time:m.time, done:m.done, ts:new Date().toISOString() };
   const data=load(); data.streak=(data.streak||0)+1; data.history.push(rec); save(data);
   if(ENDPOINT){ try{ await fetch(ENDPOINT,{method:'POST',mode:'no-cors',body:JSON.stringify(rec)}); }catch(e){} }
-  refreshKpis(); renderHist(); renderTeam(); alert('Semana fechada! 🔥 Streak: '+data.streak); });
-document.getElementById('exportCsv').addEventListener('click',()=>{ const data=load();
-  const rows=[['Closer','Time','Semana','Fund%','Vocab%','Argum%','Simulacao','Diccao','Praticas','Quando'],
-    ...data.history.map(h=>[h.who,h.team,h.week,h.fund,h.vocab,h.arg,h.dojo,h.dic,h.done,h.ts])];
-  const csv=rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(',')).join('\n');
-  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download='academia_historico.csv'; a.click(); });
-document.getElementById('emailReport').addEventListener('click',()=>{ const data=load(); const last=data.history[data.history.length-1];
-  const body=`Relatório semanal — Academia do Closer%0A%0ACloser: ${who.value.trim()||'(sem nome)'}%0ATime: ${team.value}%0AStreak: ${data.streak||0}%0A%0A`+
-    (last?`Última semana (${last.week}):%0A- Fundamentos: ${last.fund}%25%0A- Vocabulário: ${last.vocab}%25%0A- Argumentação: ${last.arg}%25%0A- Simulação: ${last.dojo}%0A- Dicção: ${last.dic}★`:'Nenhuma semana fechada.');
-  window.location.href=`mailto:${LEADER_EMAIL}?subject=${encodeURIComponent('Relatório Academia — '+(who.value.trim()||''))}&body=${body}`; });
+  refreshKpis(); renderHist(); renderTeam(); genReport(); alert('Semana fechada! 🔥 Streak: '+data.streak);
+};
+document.getElementById('emailReport').onclick=()=>{ const m=metrics(); const data=load();
+  const body=`Relatório semanal — Hub de Crescimento Comercial%0A%0APessoa: ${who.value.trim()||'(sem nome)'}%0ACargo: ${ROLES[role()].label}%0ASemana: ${weekVal()}%0AStreak: ${data.streak||0}%0A%0ANível (Raio-X): ${m.raio!=null?m.raio+'%25':'pendente'}%0ATempo treinado: ${m.time} min%0AFundamentos: ${m.fund}%25%0AMétodos: ${m.met}%0AArgumentação: ${m.arg}%25%0ASimulação: ${m.dojo}%0ADicção: ${m.dic}★%0APráticas: ${m.done}/6`;
+  window.location.href=`mailto:${LEADER_EMAIL}?subject=${encodeURIComponent('Relatório Hub — '+(who.value.trim()||'')+' ('+ROLES[role()].label+')')}&body=${body}`; };
+document.getElementById('exportCsv').onclick=()=>{ const data=load();
+  const rows=[['Pessoa','Cargo','Semana','RaioX%','Fund%','Metodos','Argum%','Simulacao','Diccao','TempoMin','Praticas','Quando'],
+    ...data.history.map(h=>[h.who,h.role,h.week,h.raio,h.fund,h.met,h.arg,h.dojo,h.dic,h.time,h.done,h.ts])];
+  const csv=rows.map(r=>r.map(c=>'"'+String(c==null?'':c).replace(/"/g,'""')+'"').join(',')).join('\n');
+  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download='hub_historico.csv'; a.click(); };
+
+function renderHist(){ const data=load(); const tb=document.querySelector('#histTable tbody');
+  const mine=data.history.filter(h=>h.who===who.value.trim());
+  if(!mine.length){ tb.innerHTML='<tr><td colspan="8" class="empty">Nenhuma semana fechada ainda.</td></tr>'; return; }
+  tb.innerHTML=mine.slice().reverse().map(h=>'<tr><td>'+h.week+'</td><td>'+(h.raio!=null?h.raio+'%':'—')+'</td><td>'+h.fund+'%</td><td>'+h.met+'</td><td>'+h.arg+'%</td><td>'+h.dojo+'</td><td>'+h.dic+'★</td><td>'+h.time+'min</td></tr>').join(''); }
 
 /* ===================== LÍDER ===================== */
 document.getElementById('endpoint').value=ENDPOINT;
-document.getElementById('saveEndpoint').onclick=()=>{ ENDPOINT=document.getElementById('endpoint').value.trim(); localStorage.setItem('academia_endpoint',ENDPOINT); alert('Endpoint salvo.'); };
+document.getElementById('saveEndpoint').onclick=()=>{ ENDPOINT=document.getElementById('endpoint').value.trim(); localStorage.setItem('hub_endpoint',ENDPOINT); alert('Endpoint salvo.'); };
 document.getElementById('loadTeam').onclick=renderTeam;
 async function renderTeam(){ const tb=document.querySelector('#teamTable tbody'); let rows=[];
-  if(ENDPOINT){ try{ const r=await fetch(ENDPOINT); rows=await r.json(); }catch(e){ rows=load().history; } }
-  else { rows=load().history; }
-  if(!rows||!rows.length){ tb.innerHTML='<tr><td colspan="8" class="empty">Sem registros ainda.</td></tr>'; return; }
-  tb.innerHTML=rows.slice().reverse().map(h=>'<tr><td>'+(h.who||'')+'</td><td>'+(h.team||'')+'</td><td>'+(h.week||'')+'</td><td>'+(h.fund||0)+'%</td><td>'+(h.vocab||0)+'%</td><td>'+(h.arg||0)+'%</td><td>'+(h.dojo||'—')+'</td><td>'+(h.dic||0)+'★</td></tr>').join(''); }
+  if(ENDPOINT){ try{ const r=await fetch(ENDPOINT); rows=await r.json(); }catch(e){ rows=load().history; } } else { rows=load().history; }
+  if(!rows||!rows.length){ tb.innerHTML='<tr><td colspan="10" class="empty">Sem registros ainda.</td></tr>'; return; }
+  tb.innerHTML=rows.slice().reverse().map(h=>'<tr><td>'+(h.who||'')+'</td><td>'+(h.role||'')+'</td><td>'+(h.week||'')+'</td><td>'+(h.raio!=null?h.raio+'%':'—')+'</td><td>'+(h.fund||0)+'%</td><td>'+(h.met||0)+'</td><td>'+(h.arg||0)+'%</td><td>'+(h.dojo||'—')+'</td><td>'+(h.dic||0)+'★</td><td>'+(h.time||0)+'min</td></tr>').join(''); }
 document.getElementById('gasCode').textContent =
 `function doPost(e){
   const sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('dados')
         || SpreadsheetApp.getActiveSpreadsheet().insertSheet('dados');
   const d = JSON.parse(e.postData.contents);
-  sh.appendRow([new Date(), d.who, d.team, d.week, d.fund, d.vocab, d.arg, d.dojo, d.dic, d.done]);
+  sh.appendRow([new Date(), d.who, d.role, d.week, d.raio, d.fund, d.met, d.arg, d.dojo, d.dic, d.time, d.done]);
   return ContentService.createTextOutput('ok');
 }
 function doGet(){
   const sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('dados');
   const v = sh.getDataRange().getValues(); v.shift();
-  const out = v.map(r => ({who:r[1],team:r[2],week:r[3],fund:r[4],vocab:r[5],arg:r[6],dojo:r[7],dic:r[8]}));
+  const out = v.map(r => ({who:r[1],role:r[2],week:r[3],raio:r[4],fund:r[5],met:r[6],arg:r[7],dojo:r[8],dic:r[9],time:r[10]}));
   return ContentService.createTextOutput(JSON.stringify(out)).setMimeType(ContentService.MimeType.JSON);
 }`;
 
 /* ===================== INIT ===================== */
-syncUser(); refreshKpis(); renderHist(); renderTeam();
+syncUser(); renderRoleBanner(); renderMethods(); renderRel(); renderPersonas(); renderObj(); refreshKpis(); renderHist(); renderTeam();
+who.addEventListener('input',()=>{ refreshKpis(); renderHist(); });
 </script>
 </body>
 </html>
