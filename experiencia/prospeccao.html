@@ -16,11 +16,14 @@
   .inner { max-width:880px; width:100%; }
 
   /* LOGO */
-  .brand { display:flex; align-items:center; gap:11px; justify-content:center; margin-bottom:26px; }
-  .brand .mark { width:52px; height:52px; border-radius:15px; background:linear-gradient(135deg,#6B46C1,#F59E0B); display:flex; align-items:center; justify-content:center; box-shadow:0 8px 22px rgba(245,158,11,.35); }
-  .brand .wm { font-size:24px; font-weight:800; letter-spacing:-.5px; line-height:1; }
-  .brand .wm .e { color:#fff; } .brand .wm .m { color:#FCD34D; }
-  .brand .wm small { display:block; font-size:10px; font-weight:600; letter-spacing:3px; opacity:.7; color:#fff; margin-top:3px; }
+  .brand { display:flex; flex-direction:column; align-items:center; gap:6px; justify-content:center; margin-bottom:22px; }
+  .logoimg { height:108px; width:auto; filter:drop-shadow(0 6px 18px rgba(0,0,0,.25)); }
+  .brand .seal { font-size:10px; font-weight:700; letter-spacing:3px; opacity:.8; color:#fff; }
+  /* fallback (caso o arquivo da logo ainda não exista) */
+  .lockup { display:flex; align-items:center; gap:11px; }
+  .lockup .mark { width:52px; height:52px; border-radius:15px; background:linear-gradient(135deg,#6B46C1,#F59E0B); display:flex; align-items:center; justify-content:center; box-shadow:0 8px 22px rgba(245,158,11,.35); }
+  .lockup .wm { font-size:24px; font-weight:800; letter-spacing:-.5px; line-height:1; }
+  .lockup .wm .e { color:#fff; } .lockup .wm .m { color:#FCD34D; }
 
   /* CENA 1 */
   #s1 { background:radial-gradient(circle at 50% 12%, #6B46C1 0%, #4C1D95 45%, #0F0A1E 100%); color:#fff; text-align:center; flex-direction:column; }
@@ -36,8 +39,16 @@
   @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(52,211,153,.6)} 70%{box-shadow:0 0 0 9px rgba(52,211,153,0)} 100%{box-shadow:0 0 0 0 rgba(52,211,153,0)} }
   .bar { height:9px; background:rgba(255,255,255,.15); border-radius:6px; overflow:hidden; margin:14px 0 6px; }
   .bar i { display:block; height:100%; background:linear-gradient(90deg,#F59E0B,#FCD34D); width:0; transition:width 1.6s ease; }
-  .plusone { position:absolute; color:#FCD34D; font-weight:800; font-size:15px; pointer-events:none; animation:floatup 2.2s ease-out forwards; }
-  @keyframes floatup { 0%{opacity:0; transform:translateY(8px) scale(.7)} 20%{opacity:1} 100%{opacity:0; transform:translateY(-56px) scale(1.15)} }
+  .plusone { position:absolute; color:#FCD34D; font-weight:800; font-size:15px; pointer-events:none; animation:floatup 4s ease-in-out forwards; }
+  @keyframes floatup {
+    0%   { opacity:0; transform:translate(0,10px) scale(.7); }
+    15%  { opacity:1; }
+    40%  { transform:translate(-12px,-24px) scale(1); }
+    70%  { transform:translate(10px,-44px) scale(1.05); }
+    100% { opacity:0; transform:translate(-5px,-66px) scale(1.1); }
+  }
+  .counter .big { animation:breathe 4.5s ease-in-out infinite; }
+  @keyframes breathe { 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.035); } }
   .videoBox { flex:1 1 360px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18); border-radius:18px; padding:16px; display:flex; flex-direction:column; }
   .videoBox .vlab { font-size:13px; opacity:.85; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:10px; }
   .vframe { position:relative; width:100%; padding-top:56.25%; border-radius:12px; overflow:hidden; background:#000; }
@@ -98,14 +109,19 @@
 <section id="s1">
   <div class="inner">
     <div class="brand">
-      <div class="mark">
-        <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true">
-          <path d="M5 9 C9 7,13 7,15 9 L15 23 C13 21,9 21,5 23 Z" fill="#fff" opacity=".95"/>
-          <path d="M25 9 C21 7,17 7,15 9 L15 23 C17 21,21 21,25 23 Z" fill="#fff" opacity=".78"/>
-          <path d="M15 1 l1.5 3 3.3.5 -2.4 2.3 .6 3.3 -3-1.6 -3 1.6 .6-3.3 -2.4-2.3 3.3-.5z" fill="#FCD34D"/>
-        </svg>
+      <img class="logoimg" src="../assets/logo.png" alt="Estante Mágica"
+           onerror="this.style.display='none';document.getElementById('logoFallback').style.display='flex';">
+      <div class="lockup" id="logoFallback" style="display:none">
+        <div class="mark">
+          <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true">
+            <path d="M5 9 C9 7,13 7,15 9 L15 23 C13 21,9 21,5 23 Z" fill="#fff" opacity=".95"/>
+            <path d="M25 9 C21 7,17 7,15 9 L15 23 C17 21,21 21,25 23 Z" fill="#fff" opacity=".78"/>
+            <path d="M15 1 l1.5 3 3.3.5 -2.4 2.3 .6 3.3 -3-1.6 -3 1.6 .6-3.3 -2.4-2.3 3.3-.5z" fill="#FCD34D"/>
+          </svg>
+        </div>
+        <div class="wm"><span class="e">Estante</span> <span class="m">Mágica</span></div>
       </div>
-      <div class="wm"><span class="e">Estante</span> <span class="m">Mágica</span><small>1 BILHÃO DE AUTORES ATÉ 2030</small></div>
+      <div class="seal">⭐ 1 BILHÃO DE AUTORES ATÉ 2030</div>
     </div>
 
     <h1>E se a sua escola fosse a escola que <span class="grad">forma autores</span>?</h1>
@@ -238,13 +254,13 @@ function countUp(){
   setTimeout(()=>{ elBar.style.width = Math.max(BASE_AUTORES/META*100, 1.5)+'%'; }, 200);
 }
 function liveTick(){
-  // a cada 2,5–5,5s nasce mais um autor: urgência lúdica
-  const wait = 2500 + Math.random()*3000;
+  // ritmo calmo: a cada 7–14s nasce mais um autor (urgência leve e lúdica)
+  const wait = 7000 + Math.random()*7000;
   setTimeout(()=>{
     current += 1; elCount.textContent = fmt(current);
     const p = document.createElement('div'); p.className='plusone'; p.textContent='+1 ⭐';
     p.style.right = (20 + Math.random()*120) + 'px'; p.style.bottom = '64px';
-    elCounter.appendChild(p); setTimeout(()=>p.remove(), 2200);
+    elCounter.appendChild(p); setTimeout(()=>p.remove(), 4000);
     liveTick();
   }, wait);
 }
