@@ -160,18 +160,24 @@ const NEXT_STAGE = "call.html";  // Momento 2
 /* Vídeo do fundador (YouTube). Cole só o ID do vídeo.
    Ex.: link https://youtu.be/AbCdEfGhIj  ->  YT_VIDEO_ID = "AbCdEfGhIj"
         link https://www.youtube.com/watch?v=AbCdEfGhIj  ->  "AbCdEfGhIj" */
-const YT_VIDEO_ID = "COLE_O_ID_AQUI";
-const YT_START = 0;              // segundo inicial do trecho (opcional)
-const FUNDADOR_NOME = "nosso fundador"; // ex.: "Felipe, fundador da Estante Mágica"
+const YT_VIDEO_ID = "tKlRk03Hn6E";
+const YT_START = 90;             // 1:30 — início do trecho
+const YT_END = 174;             // 2:54 — fim do trecho
+const FUNDADOR_NOME = "Robson Melo, cofundador da Estante Mágica";
 
 (function(){
   const frame = document.getElementById('vframe');
-  document.getElementById('vcap').textContent = 'Mensagem de ' + FUNDADOR_NOME;
+  const cap = document.getElementById('vcap');
   if (YT_VIDEO_ID && YT_VIDEO_ID !== "COLE_O_ID_AQUI") {
-    frame.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + YT_VIDEO_ID +
-      '?rel=0&modestbranding=1&start=' + YT_START +
+    let src = 'https://www.youtube-nocookie.com/embed/' + YT_VIDEO_ID + '?rel=0&modestbranding=1&start=' + YT_START;
+    if (YT_END) src += '&end=' + YT_END;
+    frame.innerHTML = '<iframe src="' + src +
       '" title="Mensagem do fundador" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+    cap.innerHTML = 'Mensagem de ' + FUNDADOR_NOME +
+      ' · <a href="https://www.youtube.com/watch?v=' + YT_VIDEO_ID +
+      '" target="_blank" rel="noopener" style="color:#FCD34D;font-style:normal;font-weight:600;text-decoration:none;white-space:nowrap;">▶ ver o vídeo completo: a mágica das histórias</a>';
   } else {
+    cap.textContent = 'Mensagem de ' + FUNDADOR_NOME;
     frame.innerHTML = '<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;opacity:.6;font-size:14px;text-align:center;padding:20px;gap:6px;"><span style="font-size:34px">▶</span>Vídeo do fundador<span style="font-size:12px">cole o ID do YouTube em <code>YT_VIDEO_ID</code></span></div>';
   }
 })();
