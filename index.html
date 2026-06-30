@@ -524,7 +524,7 @@
 </style>
 </head>
 <body>
-<div class="id-overlay" id="idOverlay">
+<div class="id-overlay" id="idOverlay" style="display:none">
   <div class="id-card">
     <h1>✨ Antes de começar</h1>
     <p class="subtitle">Para registrar sua conclusão e enviar seu aproveitamento, precisamos da sua identificação:</p>
@@ -601,7 +601,7 @@ window.SIMULATOR_SCENARIOS = [
             text: 'Marina, é um sistema novo de fidelidade que a EM lançou esse ano. Antes era diferente, agora tem pontos.',
             level: 'red',
             reaction: 'Hmm, fidelidade? E como era antes? Agora fiquei mais confusa…',
-            feedback: 'Erro grande: "sistema de fidelidade" rebaixa. E "antes era diferente" abre porta pra comparação com kits anteriores — o que dispara objeções. Foco no novo, sempre.'
+            feedback: 'Erro grande: "sistema de fidelidade" rebaixa. E "antes era diferente" abre porta pra comparação com combos anteriores — o que dispara objeções. Foco no novo, sempre.'
           }
         ]
       },
@@ -609,7 +609,7 @@ window.SIMULATOR_SCENARIOS = [
         school: 'Aaa que legal! E quantos pontos a gente já tem? Faz tempo que estamos com vocês esse ano.',
         choices: [
           {
-            text: 'Boa pergunta! Olhei aqui no nosso sistema: vocês já estão com 280 pts (cronograma, formato e tema do projeto já fechados) — faltam só 60 pts pra destravar o Kit Evento! E o cadastro de professoras também já dá +65 pts. Bora fechar isso essa semana?',
+            text: 'Boa pergunta! Olhei aqui no nosso sistema: vocês já estão com 280 pts (cronograma, formato e tema do projeto já fechados) — faltam só 60 pts pra destravar o Combo Evento! E o cadastro de professoras também já dá +65 pts. Bora fechar isso essa semana?',
             level: 'green',
             reaction: 'Aaa que demais! Já temos tudo isso? 🎉 Vamos sim, me ajuda a fechar.',
             feedback: 'Excelente! Você consultou o sistema na hora, celebrou o já conquistado, mostrou o próximo marco com clareza, e propôs ação concreta.'
@@ -638,7 +638,7 @@ window.SIMULATOR_SCENARIOS = [
             feedback: 'Erro: o Clube NÃO é desconto. É reconhecimento por meio de presentes reais. Falar "desconto" rebaixa o programa e cria expectativa errada.'
           },
           {
-            text: 'É tipo brindes que vão junto do kit.',
+            text: 'É tipo brindes que vão junto do combo.',
             level: 'yellow',
             reaction: 'Hmm, tá… brindes. Mas tipo o quê?',
             feedback: 'Funciona, mas "brindes" não captura o espírito de reconhecimento. Faltou conectar com pessoas (professoras, alunos) e com o evento.'
@@ -661,7 +661,7 @@ window.SIMULATOR_SCENARIOS = [
             feedback: 'Erro crítico: cria expectativa errada. O presente vai JUNTO com os livros — mesmo envio, sem espera adicional. "Entrega separada antes do evento" não existe.'
           },
           {
-            text: 'Mando junto com os livros — mesmo envio, sem espera adicional. Pra a gente fechar a composição do kit, vou te chamar logo depois do fechamento de compras pra escolhermos juntas, ok?',
+            text: 'Mando junto com os livros — mesmo envio, sem espera adicional. Pra a gente fechar a composição do combo, vou te chamar logo depois do fechamento de compras pra escolhermos juntas, ok?',
             level: 'green',
             reaction: 'Perfeito! Vai chegar tudo junto, sem stress. Combinado! 💜',
             feedback: 'Perfeito! Trouxe a informação central (mesmo envio dos livros, sem espera), explicou os marcos do envio e do fechamento de compras, e já agendou o próximo passo.'
@@ -679,22 +679,22 @@ window.SIMULATOR_SCENARIOS = [
 
   {
     id: 'sc2',
-    title: '"O Kit Mágico não existe mais?"',
+    title: '"O Combo Mágico não existe mais?"',
     description: 'Coordenadora Beatriz — já viveu ciclo anterior, ouviu falar do Clube e ficou na dúvida',
     avatar: 'B',
     contactName: 'Bia · Coord. Escola Bem-Te-Vi',
     turns: [
       {
-        school: 'Oi! Gostei muito desse Clube novo, mas confesso uma coisa: quando assumi a coordenação esse ano, ouvi de uma colega da rede que o Kit Mágico que vocês entregavam antes não existe mais. É isso mesmo? :(',
+        school: 'Oi! Gostei muito desse Clube novo, mas confesso uma coisa: quando assumi a coordenação esse ano, ouvi de uma colega da rede que o Combo Mágico que vocês entregavam antes não existe mais. É isso mesmo? :(',
         choices: [
           {
-            text: 'Não, Bia! O Kit Mágico continua existindo, prometo! O que mudou é a forma como ele é montado: agora vocês acumulam pontos no Clube ao longo do ano e escolhem o que vai dentro — pra deixar o evento ainda mais a cara da escola de vocês.',
+            text: 'Não, Bia! O Combo Mágico continua existindo, prometo! O que mudou é a forma como ele é montado: agora vocês acumulam pontos no Clube ao longo do ano e escolhem o que vai dentro — pra deixar o evento ainda mais a cara da escola de vocês.',
             level: 'green',
             reaction: 'Aaaaaa que alívio! 😍 Que bom saber que continua!',
             feedback: 'Perfeito! Reasseguração imediata + esclarecimento simples. Não comparou com nada, focou no que ela ganha agora (personalização).'
           },
           {
-            text: 'Olha, mudou bastante coisa. Saíram alguns itens do kit antigo, mas adicionamos um sistema de pontos.',
+            text: 'Olha, mudou bastante coisa. Saíram alguns itens do combo antigo, mas adicionamos um sistema de pontos.',
             level: 'red',
             reaction: 'Como assim saíram itens?? Aaah, fiquei triste agora… 😟',
             feedback: 'Erro grave: "saíram alguns itens" dispara exatamente a objeção que a Bia tava tentando confirmar. Você joga lenha na fogueira.'
@@ -720,10 +720,10 @@ window.SIMULATOR_SCENARIOS = [
             text: 'Continua, mas vocês podem trocar se quiserem agora com o Clube.',
             level: 'red',
             reaction: 'Espera, não quero trocar nada! Eu só quero saber se o que a gente amou continua…',
-            feedback: 'Erro: a Bia não pediu pra trocar, ela quer SABER se continua. Sugerir troca preventivamente confunde. E ainda incentiva troca do Kit Evento, que não é o que queremos.'
+            feedback: 'Erro: a Bia não pediu pra trocar, ela quer SABER se continua. Sugerir troca preventivamente confunde. E ainda incentiva troca do Combo Evento, que não é o que queremos.'
           },
           {
-            text: 'Tudo isso continua! Lambe-lambe, displays, certificado da educadora, plaquinha de foto, ponteira estrela — todos fazem parte do Kit Evento. E o Kit Evento é destravado automaticamente assim que vocês completam as primeiras ações do projeto (que vocês já fizeram). 💜',
+            text: 'Tudo isso continua! Lambe-lambe, displays, certificado da educadora, plaquinha de foto, ponteira estrela — todos fazem parte do Combo Evento. E o Combo Evento é destravado automaticamente assim que vocês completam as primeiras ações do projeto (que vocês já fizeram). 💜',
             level: 'green',
             reaction: 'Aaaaa que delícia! Já me sinto tranquila. Adorei. 💜',
             feedback: 'Excelente! Confirmou item por item (gerando alívio), explicou o "como" do destravamento, e celebrou o que ela já fez.'
@@ -734,13 +734,13 @@ window.SIMULATOR_SCENARIOS = [
         school: 'Aaaa que bom, fiquei muito feliz. E agora com o Clube, o que muda na prática pra escola?',
         choices: [
           {
-            text: 'Muda que vocês ganham mais coisas! Antes era só o kit padrão, agora vocês acumulam pontos extras pra adicionar itens.',
+            text: 'Muda que vocês ganham mais coisas! Antes era só o combo padrão, agora vocês acumulam pontos extras pra adicionar itens.',
             level: 'yellow',
             reaction: 'Hmm… mas o antigo era ruim? Não entendi essa comparação.',
             feedback: 'Comparativo desnecessário. A regra de ouro é foco no novo. Apresenta o Clube como ele é, não em comparação.'
           },
           {
-            text: 'O que muda é lindo: agora vocês têm visibilidade do progresso ao longo do ano. Cada cadastro de professora, cada ação de engajamento, cada meta de venda — vira pontos, vira reconhecimento concreto. E vocês escolhem o que vai dentro do kit pra personalizar a experiência do EA. É a nossa forma de dizer obrigada o ano inteiro, não só no evento.',
+            text: 'O que muda é lindo: agora vocês têm visibilidade do progresso ao longo do ano. Cada cadastro de professora, cada ação de engajamento, cada meta de venda — vira pontos, vira reconhecimento concreto. E vocês escolhem o que vai dentro do combo pra personalizar a experiência do EA. É a nossa forma de dizer obrigada o ano inteiro, não só no evento.',
             level: 'green',
             reaction: 'Que coisa mais bonita. Estou muito empolgada com isso! 💜',
             feedback: 'Perfeito! Linguagem emocional, foco no que ela ganha de NOVO (visibilidade, escolha, reconhecimento contínuo), sem comparação com o antigo.'
@@ -842,7 +842,7 @@ window.SIMULATOR_SCENARIOS = [
             feedback: 'OK mas perde a oportunidade de educar sobre o fluxo. Coordenadora nova precisa entender o "como" pra confiar. Detalhe.'
           },
           {
-            text: 'É exatamente isso. Quando a gente fechar a composição do kit no fim do ciclo (após o fechamento de compras), eu já registro a placa e ela vai junto com os livros, no mesmo envio, sem espera. Tá combinado?',
+            text: 'É exatamente isso. Quando a gente fechar a composição do combo no fim do ciclo (após o fechamento de compras), eu já registro a placa e ela vai junto com os livros, no mesmo envio, sem espera. Tá combinado?',
             level: 'green',
             reaction: 'Adorei, tudo certinho! 💜 Combinado!',
             feedback: 'Perfeito! Explicou o fluxo completo (composição pós-fechamento de compras, envio junto com os livros). Conduz com confiança e fecha o acordo.'
@@ -869,7 +869,7 @@ window.SIMULATOR_SCENARIOS = [
         school: '[Você está iniciando o contato — Carla não responde há 8 dias e a data limite pra fechar o pedido do Clube é em 3 dias]',
         choices: [
           {
-            text: 'Carla! Tudo bem por aí? 💜 Sumi tentando te encontrar essa semana. Você tá com 620 pts no Clube e a data limite pra fechar o pedido é em 3 dias — é a janela pra escolhermos a composição do kit. Tô com 3 sugestões já pensadas pra escola de vocês. Posso te ligar em 15 min hoje?',
+            text: 'Carla! Tudo bem por aí? 💜 Sumi tentando te encontrar essa semana. Você tá com 620 pts no Clube e a data limite pra fechar o pedido é em 3 dias — é a janela pra escolhermos a composição do combo. Tô com 3 sugestões já pensadas pra escola de vocês. Posso te ligar em 15 min hoje?',
             level: 'green',
             reaction: 'Aiii, que carinho! Pode sim, me liga sim por favor! 💜',
             feedback: 'Excelente! Postura de cuidado ("tudo bem por aí?"), mencionou o saldo (regra de ouro), explicou o porquê do prazo, ofereceu solução pronta, propôs ação concreta com janela curta.'
@@ -881,7 +881,7 @@ window.SIMULATOR_SCENARIOS = [
             feedback: 'Genérico demais pra urgência. Em 3 dias do prazo, você precisa puxar pra ação — sem agressividade, mas com clareza do que está em jogo.'
           },
           {
-            text: 'Carla, cadê vc?? Já são 8 dias sem resposta. A data limite tá em 3 dias. Se vc não responder, vai sem os extras do kit.',
+            text: 'Carla, cadê vc?? Já são 8 dias sem resposta. A data limite tá em 3 dias. Se vc não responder, vai sem os extras do combo.',
             level: 'red',
             reaction: 'Nossa… achei essa mensagem meio bruta. Tô numa loucura aqui, ó.',
             feedback: 'Erro grave: tom de cobrança e ameaça. Vai gerar resistência e dor na relação. Lembrar: postura de acolhimento e presença, não de cobrança.'
@@ -892,13 +892,13 @@ window.SIMULATOR_SCENARIOS = [
         school: 'Aiii desculpa Mariana, semana caótica aqui! Tô atrás de prof nova, é uma loucura. O que precisa de mim?',
         choices: [
           {
-            text: 'Precisa fechar o kit. Sem isso não dá pra mandar.',
+            text: 'Precisa fechar o combo. Sem isso não dá pra mandar.',
             level: 'yellow',
             reaction: 'Tá, ok… mas o que exatamente preciso fazer?',
             feedback: 'Curto demais e sem empatia. Carla acabou de te contar que tá numa correria — recebê-la com calor antes de avançar com a tarefa.'
           },
           {
-            text: 'Imagina, Carla! Vida de coordenadora é sempre uma corrida. Olha, o que precisa é simples: você confirmar a composição final do kit. Eu já montei uma sugestão considerando os 620 pts de vocês — Kit Evento garantido + Kit Professor pras 4 profs + placa de acrílico de parceria. Topa que eu te mando um print agora pra você confirmar?',
+            text: 'Imagina, Carla! Vida de coordenadora é sempre uma corrida. Olha, o que precisa é simples: você confirmar a composição final do combo. Eu já montei uma sugestão considerando os 620 pts de vocês — Combo Evento garantido + Combo Professor pras 4 profs + placa de acrílico de parceria. Topa que eu te mando um print agora pra você confirmar?',
             level: 'green',
             reaction: 'Aaaa que demais, manda sim por favor! Adorei vc já ter pensado pra mim.',
             feedback: 'Perfeito! Empatia com a situação dela, conexão humana, depois solução pronta (você já trabalhou pra ela), e proposta de ação fácil — só confirmar.'
@@ -939,22 +939,22 @@ window.SIMULATOR_SCENARIOS = [
 
   {
     id: 'sc5',
-    title: 'Escola pede pra trocar o Kit Evento',
-    description: 'Coordenadora Renata — quer trocar itens do Kit Evento por outros',
+    title: 'Escola pede pra trocar o Combo Evento',
+    description: 'Coordenadora Renata — quer trocar itens do Combo Evento por outros',
     avatar: 'R',
     contactName: 'Renata · Coord. Escola Aurora',
     turns: [
       {
-        school: 'Oi! Olhei aqui o Kit Evento e queria saber se a gente pode trocar o lambe-lambe e os displays por outras coisas equivalentes em pontos. Achei que outros itens combinam mais com a estética que a gente quer pro evento.',
+        school: 'Oi! Olhei aqui o Combo Evento e queria saber se a gente pode trocar o lambe-lambe e os displays por outras coisas equivalentes em pontos. Achei que outros itens combinam mais com a estética que a gente quer pro evento.',
         choices: [
           {
-            text: 'Não vamos incentivar essa troca, Renata, porque o Kit Evento foi pensado especificamente pra entregar uma experiência completa no dia do EA — cada item tem um papel emocional. Mas se for muito importante pra vocês, dá pra fazer: eu abro um chamado pro time de tecnologia e a gente ajusta. Antes, posso te explicar o que cada item do kit faz no dia do evento? Talvez você queira manter alguma coisa.',
+            text: 'Não vamos incentivar essa troca, Renata, porque o Combo Evento foi pensado especificamente pra entregar uma experiência completa no dia do EA — cada item tem um papel emocional. Mas se for muito importante pra vocês, dá pra fazer: eu abro um chamado pro time de tecnologia e a gente ajusta. Antes, posso te explicar o que cada item do combo faz no dia do evento? Talvez você queira manter alguma coisa.',
             level: 'green',
             reaction: 'Aaaa que interessante! Não sabia desse fluxo. Vou querer entender sim, conta!',
             feedback: 'Perfeito! Sincera sobre o "não incentivamos" + explicou o porquê + ofereceu o caminho oficial (fluxo de exceção) + tentou resgatar a escolha original com empatia. Domínio total.'
           },
           {
-            text: 'Olha, Renata, é proibido. Kit Evento é fixo, não tem como mudar.',
+            text: 'Olha, Renata, é proibido. Combo Evento é fixo, não tem como mudar.',
             level: 'red',
             reaction: 'Nossa, achei muito rígido isso… achei que tinha jeito.',
             feedback: 'Erro: não é proibido. É possível via fluxo de exceção. Negar de cara fecha a porta e perde a confiança.'
@@ -963,7 +963,7 @@ window.SIMULATOR_SCENARIOS = [
             text: 'Pode trocar tudo sim, sem problema! Te ajudo a escolher.',
             level: 'red',
             reaction: 'Aaa que ótimo! Mas espera, é mesmo? Sem critério nenhum? Quero entender.',
-            feedback: 'Erro: você está incentivando o que a gente NÃO quer incentivar. O Kit Evento foi pensado como experiência completa do dia. Trocar sem questionar tira a magia do evento.'
+            feedback: 'Erro: você está incentivando o que a gente NÃO quer incentivar. O Combo Evento foi pensado como experiência completa do dia. Trocar sem questionar tira a magia do evento.'
           }
         ]
       },
@@ -971,7 +971,7 @@ window.SIMULATOR_SCENARIOS = [
         school: 'Eu não sabia que tinha esse fluxo, achei que era impossível! Mas conta sim, o que cada item faz?',
         choices: [
           {
-            text: 'São só uns objetos do kit padrão, nada demais.',
+            text: 'São só uns objetos do combo padrão, nada demais.',
             level: 'red',
             reaction: 'Hmm… então não tem tanta importância assim? Tá, então quero trocar mesmo.',
             feedback: 'Erro catastrófico: você é o porta-voz do MaaS. Cada item tem propósito emocional e o seu trabalho é traduzir isso pra coordenadora.'
@@ -980,7 +980,7 @@ window.SIMULATOR_SCENARIOS = [
             text: 'Vou listar rapidinho! 📋 Lambe-lambe — vai na entrada, é a foto que toda família tira. Display de mesa — cada aluno tem o seu, com o nome dele. Plaquinha de foto — pra prof segurar nas fotos coletivas. Ponteira estrela — cada criança ganha uma pra levar pra casa. Certificado da educadora — entrega solene no fim do evento. Cada item gera um momento. É por isso a gente não incentiva trocar.',
             level: 'green',
             reaction: 'Aaaaa que lindo! Cada coisa tem propósito. Agora entendi. 💜',
-            feedback: 'Perfeito! Cada item com função emocional clara. Você humanizou cada peça do kit — agora a Renata vai pensar duas vezes antes de tirar algo. Você é curadora, não vendedora.'
+            feedback: 'Perfeito! Cada item com função emocional clara. Você humanizou cada peça do combo — agora a Renata vai pensar duas vezes antes de tirar algo. Você é curadora, não vendedora.'
           },
           {
             text: 'Te mando depois uma lista por escrito.',
@@ -991,7 +991,7 @@ window.SIMULATOR_SCENARIOS = [
         ]
       },
       {
-        school: 'Nossa, agora que vc explicou eu vejo como cada coisa importa. Acho que vou manter o Kit Evento original e usar os pontos extras pra adicionar mais coisas. O que vc sugere?',
+        school: 'Nossa, agora que vc explicou eu vejo como cada coisa importa. Acho que vou manter o Combo Evento original e usar os pontos extras pra adicionar mais coisas. O que vc sugere?',
         choices: [
           {
             text: 'Vc escolhe! Olha o catálogo e me fala.',
@@ -1000,7 +1000,7 @@ window.SIMULATOR_SCENARIOS = [
             feedback: 'Erro: você é a CS. Sua função é curar, não jogar a decisão de volta. Renata acabou de te confiar a escolha — receba isso com profissionalismo.'
           },
           {
-            text: 'Que ótima decisão! 💜 Olhando o saldo de vocês (720 pts, sobram 380 depois do Kit Evento), eu sugiro: Kit Professor pras 3 profs (excelente reconhecimento pessoal) + uma playlist personalizada da turma. Total: 320 pts. Sobram 60 pts pra um lambe-lambe extra ou um post no blog da Estante Mágica. O que faz mais sentido pra vocês?',
+            text: 'Que ótima decisão! 💜 Olhando o saldo de vocês (720 pts, sobram 380 depois do Combo Evento), eu sugiro: Combo Professor pras 3 profs (excelente reconhecimento pessoal) + uma playlist personalizada da turma. Total: 320 pts. Sobram 60 pts pra um lambe-lambe extra ou um post no blog da Estante Mágica. O que faz mais sentido pra vocês?',
             level: 'green',
             reaction: 'Aaaa adorei! Vou querer exatamente isso. Você é demais. 💜',
             feedback: 'Perfeito! Validou a decisão dela, ancorou no saldo, montou uma proposta concreta com explicação de cada escolha, deixou margem pra ela escolher os detalhes finais. Curadoria de verdade.'
@@ -1107,7 +1107,7 @@ const modules = [{
       <tbody>
         <tr><td><strong>Quem participa</strong></td><td>Escolas particulares parceiras com receita projetada acima de R$5k</td></tr>
         <tr><td><strong>Como pontuar</strong></td><td>Realizando 16 ações ao longo do ciclo, distribuídas em 5 pilares</td></tr>
-        <tr><td><strong>Mínimo pra destravar</strong></td><td>340 pontos (as 4 ações de kickoff destravam o Kit Evento)</td></tr>
+        <tr><td><strong>Mínimo pra destravar</strong></td><td>340 pontos (as 4 ações de kickoff destravam o Combo Evento)</td></tr>
         <tr><td><strong>Máximo no ciclo</strong></td><td>1.000 pontos</td></tr>
         <tr><td><strong>O que pode ganhar</strong></td><td>Produtos para o evento de autógrafos, alunos ou professores</td></tr>
         <tr><td><strong>Como chega</strong></td><td>Junto com os livros — sem espera adicional</td></tr>
@@ -1118,7 +1118,7 @@ const modules = [{
       <div class="icon">💡</div>
       <div class="content">
         <div class="label">Sabia que?</div>
-        <div class="text">As 4 ações de kickoff (cronograma, formato, tema e participação no kickoff) somam exatamente 340 pontos — e <strong>destravam automaticamente o Kit Evento</strong>. Ou seja: qualquer escola concluinte que faz o início do projeto direito já garante o kit completo do evento. O Clube começa generoso.</div>
+        <div class="text">As 4 ações de kickoff (cronograma, formato, tema e participação no kickoff) somam exatamente 340 pontos — e <strong>destravam automaticamente o Combo Evento</strong>. Ou seja: qualquer escola concluinte que faz o início do projeto direito já garante o combo completo do evento. O Clube começa generoso.</div>
       </div>
     </div>
 
@@ -1135,7 +1135,7 @@ const modules = [{
         <div class="quiz-feedback"></div>
       </div>
       <div class="quiz" data-quiz="m2q2" style="margin-top:24px">
-        <p class="quiz-question">2. Quantos pontos uma escola precisa pra destravar o Kit Evento?</p>
+        <p class="quiz-question">2. Quantos pontos uma escola precisa pra destravar o Combo Evento?</p>
         <ul class="quiz-options">
           <li class="quiz-option" data-correct="false">100 pts</li>
           <li class="quiz-option" data-correct="true">340 pts (as 4 ações de kickoff)</li>
@@ -1193,7 +1193,7 @@ const modules = [{
     <h3>Boa notícia: os produtos a serem resgatados são os mesmos para todas as escolas</h3>
     <div class="callout callout-success">
       <div class="callout-title">🎁 Regra "todos veem tudo"</div>
-      No Clube o cardápio de prêmios é o mesmo para todas as escolas. Os 4 kits + os itens avulsos cabem na hipótese de 1.000 pontos.
+      No Clube o cardápio de prêmios é o mesmo para todas as escolas. Os 4 combos + os itens avulsos cabem na hipótese de 1.000 pontos.
     </div>
 
     <div class="didyouknow">
@@ -1210,7 +1210,7 @@ const modules = [{
       <p style="font-size:14px;color:var(--text-soft)">Clique em cada cenário para revelar a resposta.</p>
       <div class="reveal-card">
         <div class="reveal-prompt">📚 Escola Vila Nova — particular nova, receita projetada R$8k. Faz parte do Clube? Em qual faixa?</div>
-        <div class="reveal-answer"><strong>Resposta:</strong> Sim, faz parte (acima de R$5k e particular). Faixa R$5k–10k. Pode ver todos os kits e itens.</div>
+        <div class="reveal-answer"><strong>Resposta:</strong> Sim, faz parte (acima de R$5k e particular). Faixa R$5k–10k. Pode ver todos os combos e itens.</div>
       </div>
       <div class="reveal-card">
         <div class="reveal-prompt">📚 Escola Estrela — particular renovação, fechou o ano anterior em R$22k. Em qual faixa entra esse ano?</div>
@@ -1221,11 +1221,11 @@ const modules = [{
         <div class="reveal-answer"><strong>Resposta:</strong> Não. Fica abaixo do mínimo de R$5k. <strong>Não menciona o Clube</strong> pra ela — pra evitar criar expectativa frustrante.</div>
       </div>
       <div class="quiz" data-quiz="m3q1" style="margin-top:24px">
-        <p class="quiz-question">1. Uma escola pequena pode ver o Kit Escola (com placa de acrílico)? Ou só vê os kits da sua faixa?</p>
+        <p class="quiz-question">1. Uma escola pequena pode ver o Combo Escola (com placa de acrílico)? Ou só vê os combos da sua faixa?</p>
         <ul class="quiz-options">
-          <li class="quiz-option" data-correct="true">Pode ver todos os kits — eles cabem em 1.000 pts pra qualquer faixa</li>
-          <li class="quiz-option" data-correct="false">Só vê os kits da faixa dela</li>
-          <li class="quiz-option" data-correct="false">Só vê o Kit Evento, os outros são surpresa</li>
+          <li class="quiz-option" data-correct="true">Pode ver todos os combos — eles cabem em 1.000 pts pra qualquer faixa</li>
+          <li class="quiz-option" data-correct="false">Só vê os combos da faixa dela</li>
+          <li class="quiz-option" data-correct="false">Só vê o Combo Evento, os outros são surpresa</li>
         </ul>
         <div class="quiz-feedback"></div>
       </div>
@@ -1333,7 +1333,7 @@ const modules = [{
         <div class="reveal-prompt">📊 Escola Sol — completou: todo o kickoff (340); cadastro de profs + 30% responsáveis + post no IG (R1+R2+R4); QR + ação engajamento alunos + ≥75% compradores; atingiu E5 (Faixa 2). Quantos pontos?</div>
         <div class="reveal-answer">
           <strong>Cálculo:</strong><br>
-          • Kickoff: <strong>340 pts</strong> (Kit Evento destravado ✓)<br>
+          • Kickoff: <strong>340 pts</strong> (Combo Evento destravado ✓)<br>
           • Retenção: R1 (65) + R2 (135) + R4 (70) = <strong>270 pts</strong><br>
           • Vendas: E1 (50) + E2 (70) + E3 (85) + E5 (155 — exclusiva) = <strong>360 pts</strong><br>
           <strong>Total: 970 pontos</strong> 🎯<br><br>
@@ -1372,29 +1372,29 @@ const modules = [{
   `
 },
 {
-  id: 'm5', section: 'PARTE I — ENTENDA O CLUBE', title: '5 · Os 4 kits do Clube', duration: '8 min',
+  id: 'm5', section: 'PARTE I — ENTENDA O CLUBE', title: '5 · Os 4 combos do Clube', duration: '8 min',
   html: `
     <div class="module-header">
       <span class="module-tag">MÓDULO 5 · ENTENDA</span>
-      <h2>Os 4 kits do Clube</h2>
-      <p class="lead">Como a escola escolhe seus presentes. Kit Evento (automático com 340 pts) + 3 kits adicionais + itens avulsos.</p>
+      <h2>Os 4 combos do Clube</h2>
+      <p class="lead">Como a escola escolhe seus presentes. Combo Evento (automático com 340 pts) + 3 kits adicionais + itens avulsos.</p>
     </div>
 
     <h3>Como funciona a escolha</h3>
-    <p>Após o Fecha Compra (FC), você apresenta os kits pra escola. Com base no saldo de pontos acumulado, ela escolhe a composição que faz mais sentido pro evento dela. Você é o curador da conversa, não o vendedor de itens.</p>
+    <p>Após o Fecha Compra (FC), você apresenta os combos pra escola. Com base no saldo de pontos acumulado, ela escolhe a composição que faz mais sentido pro evento dela. Você é o curador da conversa, não o vendedor de itens.</p>
 
     <div class="callout callout-success">
-      <div class="callout-title">🎁 Todos os kits estão disponíveis pra todas as escolas</div>
-      Não há "kit por faixa" — todos os 4 kits + os itens avulsos podem ser apresentados pra qualquer escola. O que muda é quanto cabe no saldo de pontos × câmbio dela.
+      <div class="callout-title">🎁 Todos os combos estão disponíveis pra todas as escolas</div>
+      Não há "combo por faixa" — todos os 4 combos + os itens avulsos podem ser apresentados pra qualquer escola. O que muda é quanto cabe no saldo de pontos × câmbio dela.
     </div>
 
-    <h3>Primeiro: o Kit Evento — automático pra todas as escolas</h3>
-    <p>Toda escola que conclui as 4 ações de kickoff (340 pts) destrava automaticamente o Kit Evento. Esse é o ponto de partida — antes mesmo de pensar nos kits opcionais, esse já está garantido.</p>
+    <h3>Primeiro: o Combo Evento — automático pra todas as escolas</h3>
+    <p>Toda escola que conclui as 4 ações de kickoff (340 pts) destrava automaticamente o Combo Evento. Esse é o ponto de partida — antes mesmo de pensar nos combos opcionais, esse já está garantido.</p>
     <div style="display:flex; justify-content:center; margin: 16px 0;">
       <div class="kit-card" style="border-color: var(--success); max-width: 460px; width: 100%; background: var(--success-light);">
         <div class="kit-tag" style="background: var(--success)">Automático para todas as escolas</div>
         <div class="kit-emoji">🎁</div>
-        <div class="kit-name">Kit Evento</div>
+        <div class="kit-name">Combo Evento</div>
         <div class="kit-rule">Destravado com 340 pts de kickoff · Descontado automaticamente</div>
         <ul>
           <li>Lambe-lambe</li>
@@ -1408,13 +1408,13 @@ const modules = [{
       </div>
     </div>
 
-    <h3>Depois: os 3 kits opcionais</h3>
-    <p>Com os pontos que sobram além dos 340, a escola pode escolher entre 3 kits opcionais — cada um com um propósito diferente:</p>
+    <h3>Depois: os 3 combos opcionais</h3>
+    <p>Com os pontos que sobram além dos 340, a escola pode escolher entre 3 combos opcionais — cada um com um propósito diferente:</p>
     <div class="kit-grid">
       <div class="kit-card">
         <div class="kit-tag">Opcional</div>
         <div class="kit-emoji">👩‍🏫</div>
-        <div class="kit-name">Kit Professor</div>
+        <div class="kit-name">Combo Professor</div>
         <div class="kit-rule">Por professora — usa pontos</div>
         <ul>
           <li>Cartela de adesivos (pack de 5)</li>
@@ -1427,7 +1427,7 @@ const modules = [{
       <div class="kit-card">
         <div class="kit-tag">Opcional</div>
         <div class="kit-emoji">🏫</div>
-        <div class="kit-name">Kit Escola</div>
+        <div class="kit-name">Combo Escola</div>
         <div class="kit-rule">Fixo por escola — usa pontos</div>
         <ul>
           <li>Placa acrílico parceria (1 por escola)</li>
@@ -1449,7 +1449,7 @@ const modules = [{
     </div>
 
     <h3>Itens avulsos digitais</h3>
-    <p>Além dos kits, existem itens avulsos que a escola pode adicionar à composição:</p>
+    <p>Além dos combos, existem itens avulsos que a escola pode adicionar à composição:</p>
     <ul>
       <li>🎵 Playlist personalizada</li>
       <li>🎤 Música personalizada</li>
@@ -1465,22 +1465,22 @@ const modules = [{
       </div>
     </div>
 
-    <h3>Trocas dentro do Kit Evento</h3>
+    <h3>Trocas dentro do Combo Evento</h3>
     <div class="callout callout-info">
       <div class="callout-title">🔄 Sobre ajustes na composição</div>
-      Se a escola quiser ajustar algum item dentro do <strong>Kit Evento</strong> (ex.: trocar uma ponteira estrela por uma plaquinha de foto), <strong>é possível</strong> — desde que a combinação final respeite o orçamento de pontos dela. <em>Os demais kits (Professor, Escola, Extras Evento) têm composição fixa — não dá pra ajustar item por item.</em>
+      Se a escola quiser ajustar algum item dentro do <strong>Combo Evento</strong> (ex.: trocar uma ponteira estrela por uma plaquinha de foto), <strong>é possível</strong> — desde que a combinação final respeite o orçamento de pontos dela. <em>Os demais kits (Professor, Escola, Extras Evento) têm composição fixa — não dá pra ajustar item por item.</em>
     </div>
 
     <div class="callout callout-warning">
-      <div class="callout-title">⚠️ Sobre trocar o Kit Evento por outra coisa</div>
-      Se a escola pedir pra trocar o Kit Evento (o automático) por algo equivalente em pontos, <strong>não vamos incentivar, mas é possível</strong>. Esse ajuste é feito direto na <strong>Rachel</strong>, mas precisa de <strong>permissão de acesso</strong>. Sua liderança define se você terá esse acesso ou se a ação fica só com supervisores.
+      <div class="callout-title">⚠️ Sobre trocar o Combo Evento por outra coisa</div>
+      Se a escola pedir pra trocar o Combo Evento (o automático) por algo equivalente em pontos, <strong>não vamos incentivar, mas é possível</strong>. Esse ajuste é feito direto na <strong>Rachel</strong>, mas precisa de <strong>permissão de acesso</strong>. Sua liderança define se você terá esse acesso ou se a ação fica só com supervisores.
     </div>
 
     <div class="validation-card">
       <span class="validation-tag">✓ Checkpoint — Quiz</span>
       <h3>Validando o que você aprendeu</h3>
       <div class="quiz" data-quiz="m5q1">
-        <p class="quiz-question">1. O que destrava o Kit Evento?</p>
+        <p class="quiz-question">1. O que destrava o Combo Evento?</p>
         <ul class="quiz-options">
           <li class="quiz-option" data-correct="false">A escola pagar uma taxa extra</li>
           <li class="quiz-option" data-correct="true">As 4 ações de kickoff (que somam 340 pts)</li>
@@ -1489,16 +1489,16 @@ const modules = [{
         <div class="quiz-feedback"></div>
       </div>
       <div class="quiz" data-quiz="m5q2" style="margin-top:24px">
-        <p class="quiz-question">2. Uma escola da faixa R$8k pode ver o Kit Escola (com placa de acrílico)?</p>
+        <p class="quiz-question">2. Uma escola da faixa R$8k pode ver o Combo Escola (com placa de acrílico)?</p>
         <ul class="quiz-options">
-          <li class="quiz-option" data-correct="false">Não — escola pequena só vê o Kit Evento</li>
-          <li class="quiz-option" data-correct="true">Sim — todos os 4 kits estão disponíveis pra todas as faixas</li>
+          <li class="quiz-option" data-correct="false">Não — escola pequena só vê o Combo Evento</li>
+          <li class="quiz-option" data-correct="true">Sim — todos os 4 combos estão disponíveis pra todas as faixas</li>
           <li class="quiz-option" data-correct="false">Só se ela pagar a diferença</li>
         </ul>
         <div class="quiz-feedback"></div>
       </div>
       <div class="quiz" data-quiz="m5q3" style="margin-top:24px">
-        <p class="quiz-question">3. A escola quer trocar 2 lápis por 1 caneta dentro do Kit Professor. Pode?</p>
+        <p class="quiz-question">3. A escola quer trocar 2 lápis por 1 caneta dentro do Combo Professor. Pode?</p>
         <ul class="quiz-options">
           <li class="quiz-option" data-correct="false">Não — kits são fixos</li>
           <li class="quiz-option" data-correct="true">Sim, desde que a combinação final respeite o orçamento de pontos</li>
@@ -1600,7 +1600,7 @@ const modules = [{
         </div>
       </div>
 
-      <h4 style="font-size:14px; margin-top:18px">Selecione itens adicionais (além do Kit Evento):</h4>
+      <h4 style="font-size:14px; margin-top:18px">Selecione itens adicionais (além do Combo Evento):</h4>
       <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:8px; margin:10px 0;">
         <label style="display:flex; align-items:center; gap:8px; font-size:14px;"><input type="checkbox" data-calc-item="cartela"> Cartela adesivos (por prof)</label>
         <label style="display:flex; align-items:center; gap:8px; font-size:14px;"><input type="checkbox" data-calc-item="bloco"> Bloco anotação (por prof)</label>
@@ -1709,8 +1709,8 @@ const modules = [{
     <h3>Aprovação da escola — checkbox obrigatório</h3>
     <p>Ao finalizar a montagem, o sistema exige um checkbox:</p>
     <ul>
-      <li>☐ <strong>Kit aprovado pela escola</strong> — você falou e ela validou</li>
-      <li>☐ <strong>Kit sem ok da escola</strong> — você não conseguiu validar</li>
+      <li>☐ <strong>Combo aprovado pela escola</strong> — você falou e ela validou</li>
+      <li>☐ <strong>Combo sem ok da escola</strong> — você não conseguiu validar</li>
     </ul>
     <div class="callout callout-warning">
       <div class="callout-title">📝 Histórico fica registrado</div>
@@ -1723,7 +1723,7 @@ const modules = [{
       Algumas situações fogem do fluxo padrão e precisam ser tratadas como <strong>exceção direta na Rachel</strong>, com <strong>permissão de acesso</strong>. Sua liderança define se você terá esse acesso ou se a ação fica só com supervisores:
       <ul style="margin:8px 0 0 24px">
         <li>Escola está fora do range (abaixo de R$5k) mas, por algum motivo, vai receber kit</li>
-        <li>Escola quer alterar o Kit Evento (o automático) por algo equivalente em pontos</li>
+        <li>Escola quer alterar o Combo Evento (o automático) por algo equivalente em pontos</li>
         <li>Resgatar itens não relacionados ao evento, usando crédito de pontos pós-EA</li>
       </ul>
       Sem permissão na Rachel, escale para sua liderança ou para o supervisor — não tente forçar pela operação informal.
@@ -1733,7 +1733,7 @@ const modules = [{
       <span class="validation-tag">✓ Checkpoint — Operação</span>
       <h3>Aplicando o fluxo</h3>
       <div class="reveal-card">
-        <div class="reveal-prompt">📦 Escola pediu pra trocar o Kit Evento (lambe-lambe + display + plaquinha...) por outros itens equivalentes em pontos. O que faço?</div>
+        <div class="reveal-prompt">📦 Escola pediu pra trocar o Combo Evento (lambe-lambe + display + plaquinha...) por outros itens equivalentes em pontos. O que faço?</div>
         <div class="reveal-answer"><strong>Resposta:</strong> Não vamos incentivar a troca — mas <strong>é possível</strong>. O ajuste é feito direto na <strong>Rachel</strong>, mas exige permissão de acesso. Se você tem o acesso, faz; se não tem, escala pro supervisor.</div>
       </div>
       <div class="reveal-card">
@@ -1759,7 +1759,7 @@ const modules = [{
         <div class="quiz-feedback"></div>
       </div>
       <div class="quiz" data-quiz="m7q3" style="margin-top:24px">
-        <p class="quiz-question">3. Como tratar pedido de troca do Kit Evento?</p>
+        <p class="quiz-question">3. Como tratar pedido de troca do Combo Evento?</p>
         <ul class="quiz-options">
           <li class="quiz-option" data-correct="false">É proibido — recusar de cara</li>
           <li class="quiz-option" data-correct="true">Não vamos incentivar, mas é possível via fluxo de exceção direto na Rachel (com permissão de acesso). Se não tem permissão, escalar pro supervisor</li>
@@ -2006,11 +2006,11 @@ const modules = [{
     </div>
     <p style="font-size:13px; color:var(--text-soft); font-style:italic;">↑ Por que funciona: ancora no saldo, lista benefícios concretos, devolve a escolha pra ela.</p>
 
-    <h3>Script 4 — Conversa de escolha do kit (após FC)</h3>
+    <h3>Script 4 — Conversa de escolha do combo (após FC)</h3>
     <div class="roleplay-card">
       <div class="role-tag">QUANDO USAR</div>
       <p style="font-size:14px; color:#1E3A8A; margin-bottom: 8px;">Após o Fecha Compra, quando você for fechar a composição com a escola.</p>
-      <div class="roleplay-line">"Marina, fechamos o ciclo de vocês com 720 pts. Que jornada linda! 💜 O Kit Evento já está garantido — com lambe-lambe, displays, ponteiras estrela e o certificado pra cada professora. Sobraram 380 pts pra gente personalizar. Eu trouxe 3 sugestões pensando no perfil da escola de vocês. Posso te mostrar?"</div>
+      <div class="roleplay-line">"Marina, fechamos o ciclo de vocês com 720 pts. Que jornada linda! 💜 O Combo Evento já está garantido — com lambe-lambe, displays, ponteiras estrela e o certificado pra cada professora. Sobraram 380 pts pra gente personalizar. Eu trouxe 3 sugestões pensando no perfil da escola de vocês. Posso te mostrar?"</div>
     </div>
     <p style="font-size:13px; color:var(--text-soft); font-style:italic;">↑ Por que funciona: emoção genuína no início, confirma o garantido, mostra o "extra" como personalização, vem com sugestões (mas deixa a escolha aberta).</p>
 
@@ -2028,7 +2028,7 @@ const modules = [{
         <li>"Cada ponto é um obrigada nosso por algo que vocês fizeram."</li>
         <li>"O Clube reconhece o que vocês já fazem, sem pedir nada extra."</li>
         <li>"Vocês são parte de uma operação líder de mercado — isso é pioneiro."</li>
-        <li>"O Kit Mágico continua chegando junto com os livros. O Clube é a forma nova de montar ele."</li>
+        <li>"O Combo Mágico continua chegando junto com os livros. O Clube é a forma nova de montar ele."</li>
         <li>"Quanto mais a escola se engaja, mais bonito fica o evento — é só isso."</li>
       </ul>
     </div>
@@ -2055,10 +2055,10 @@ const modules = [{
         <div class="quiz-feedback"></div>
       </div>
       <div class="quiz" data-quiz="m10q3" style="margin-top:24px">
-        <p class="quiz-question">3. Na conversa de escolha do kit (pós-FC), qual a melhor abertura?</p>
+        <p class="quiz-question">3. Na conversa de escolha do combo (pós-FC), qual a melhor abertura?</p>
         <ul class="quiz-options">
           <li class="quiz-option" data-correct="false">"Coordenadora, vamos fechar logo o pedido que tá atrasando"</li>
-          <li class="quiz-option" data-correct="true">"Marina, fechamos o ciclo com X pts. Que jornada linda! O Kit Evento já está garantido. Vamos personalizar o que sobrou juntas?"</li>
+          <li class="quiz-option" data-correct="true">"Marina, fechamos o ciclo com X pts. Que jornada linda! O Combo Evento já está garantido. Vamos personalizar o que sobrou juntas?"</li>
           <li class="quiz-option" data-correct="false">"Olha as opções do catálogo do Clube"</li>
         </ul>
         <div class="quiz-feedback"></div>
@@ -2071,19 +2071,19 @@ const modules = [{
   html: `
     <div class="module-header">
       <span class="module-tag">MÓDULO 11 · DOMINE</span>
-      <h2>Objeções, dúvidas e o "Kit Mágico continua"</h2>
+      <h2>Objeções, dúvidas e o "Combo Mágico continua"</h2>
       <p class="lead">Agora que você sabe vender o Clube, vamos cobrir o que a escola pode perguntar — e você sai sabendo responder.</p>
     </div>
 
-    <h3>"O Kit Mágico não existe mais?" — a pergunta mais comum</h3>
+    <h3>"O Combo Mágico não existe mais?" — a pergunta mais comum</h3>
     <div class="callout callout-info">
       <div class="callout-title">💡 A verdade simples</div>
-      O Kit Mágico <strong>continua existindo</strong>. O que mudou é a <strong>forma de montar</strong> ele: agora, ao longo do ciclo, a escola acumula pontos no Clube. Esses pontos viram os presentes que vão no Kit Mágico. <strong>O destino é o mesmo. A jornada ficou mais reconhecida.</strong>
+      O Combo Mágico <strong>continua existindo</strong>. O que mudou é a <strong>forma de montar</strong> ele: agora, ao longo do ciclo, a escola acumula pontos no Clube. Esses pontos viram os presentes que vão no Combo Mágico. <strong>O destino é o mesmo. A jornada ficou mais reconhecida.</strong>
     </div>
 
     <h4>Resposta-padrão</h4>
     <div class="roleplay-card">
-      <div class="roleplay-line">"Existe sim, Marina! O Kit Mágico continua chegando junto com os livros. O que mudou é que agora vocês acumulam pontos no Clube ao longo do ano e escolhem o que vai dentro — pra personalizar o evento e reconhecer quem fez acontecer."</div>
+      <div class="roleplay-line">"Existe sim, Marina! O Combo Mágico continua chegando junto com os livros. O que mudou é que agora vocês acumulam pontos no Clube ao longo do ano e escolhem o que vai dentro — pra personalizar o evento e reconhecer quem fez acontecer."</div>
     </div>
 
     <h3>Tratamento das objeções mais comuns</h3>
@@ -2101,8 +2101,8 @@ const modules = [{
       <div class="reveal-prompt">💬 "E se a gente não atingir muitos pontos? Vamos ficar sem nada?"</div>
       <div class="reveal-answer">
         <strong>Como responder:</strong><br>
-        "Fica tranquila. Toda escola concluinte que completa as ações de kickoff já destrava o Kit Evento — com display, ponteira, lambe-lambe, certificado das professoras. A base do EA está garantida. Os pontos extras servem pra personalizar e adicionar mais itens."<br><br>
-        <em>Por que funciona:</em> reduz a ansiedade, mostra que o Kit Evento é garantido com kickoff (a parte mais simples), e posiciona os extras como bonus.
+        "Fica tranquila. Toda escola concluinte que completa as ações de kickoff já destrava o Combo Evento — com display, ponteira, lambe-lambe, certificado das professoras. A base do EA está garantida. Os pontos extras servem pra personalizar e adicionar mais itens."<br><br>
+        <em>Por que funciona:</em> reduz a ansiedade, mostra que o Combo Evento é garantido com kickoff (a parte mais simples), e posiciona os extras como bonus.
       </div>
     </div>
 
@@ -2116,10 +2116,10 @@ const modules = [{
     </div>
 
     <div class="reveal-card">
-      <div class="reveal-prompt">💬 "Posso trocar os itens do Kit Evento por outros equivalentes?"</div>
+      <div class="reveal-prompt">💬 "Posso trocar os itens do Combo Evento por outros equivalentes?"</div>
       <div class="reveal-answer">
         <strong>Como responder:</strong><br>
-        "Olha, a gente não costuma incentivar essa troca porque o Kit Evento foi pensado pra entregar uma experiência completa no dia do EA. Mas se for muito importante pra vocês, dá pra fazer — eu abro um chamado pro time de tecnologia e a gente ajusta. Quer que eu encaminhe? Antes, posso te explicar o que cada item do kit faz?"<br><br>
+        "Olha, a gente não costuma incentivar essa troca porque o Combo Evento foi pensado pra entregar uma experiência completa no dia do EA. Mas se for muito importante pra vocês, dá pra fazer — eu abro um chamado pro time de tecnologia e a gente ajusta. Quer que eu encaminhe? Antes, posso te explicar o que cada item do combo faz?"<br><br>
         <em>Por que funciona:</em> não diz "não" de cara, explica o porquê do padrão, oferece o caminho oficial (chamado), e tenta resgatar a escolha original.
       </div>
     </div>
@@ -2138,7 +2138,7 @@ const modules = [{
     <div class="mistake-card">
       <div class="wrong">❌ "Esse ano tiramos vários itens, mas adicionamos pontos."</div>
       <p>Dispara objeção desnecessária. Foca no que perdeu, não no que ganhou.</p>
-      <div class="right">✅ Substitua por: "O Clube é a forma nova de montar o Kit Mágico, com mais reconhecimento ao longo do ano."</div>
+      <div class="right">✅ Substitua por: "O Clube é a forma nova de montar o Combo Mágico, com mais reconhecimento ao longo do ano."</div>
     </div>
 
     <div class="mistake-card">
@@ -2154,8 +2154,8 @@ const modules = [{
     </div>
 
     <div class="mistake-card">
-      <div class="wrong">❌ "O Kit Mágico não existe mais — agora é só o Clube."</div>
-      <p>Resposta errada que confunde a escola. O Kit Mágico continua existindo.</p>
+      <div class="wrong">❌ "O Combo Mágico não existe mais — agora é só o Clube."</div>
+      <p>Resposta errada que confunde a escola. O Combo Mágico continua existindo.</p>
       <div class="right">✅ Substitua por: "Existe sim! Continua chegando junto com os livros. O Clube é a forma nova de montar ele."</div>
     </div>
 
@@ -2167,14 +2167,14 @@ const modules = [{
 
     <div class="callout callout-pink">
       <div class="callout-title">💜 Lembrete: o Clube não veio substituir nada</div>
-      Ele veio <strong>somar</strong> — tangibilizar tudo que a gente sempre entregou, mas que ficava implícito. <strong>O Kit Mágico está mais bonito do que nunca. E o seu trabalho de relacionamento é o que faz ele chegar com magia.</strong>
+      Ele veio <strong>somar</strong> — tangibilizar tudo que a gente sempre entregou, mas que ficava implícito. <strong>O Combo Mágico está mais bonito do que nunca. E o seu trabalho de relacionamento é o que faz ele chegar com magia.</strong>
     </div>
 
     <div class="validation-card">
       <span class="validation-tag">✓ Checkpoint — Domínio das objeções</span>
       <h3>Como você responde?</h3>
       <div class="quiz" data-quiz="m11q1">
-        <p class="quiz-question">1. Escola pergunta "O Kit Mágico não existe mais?" Qual a melhor resposta?</p>
+        <p class="quiz-question">1. Escola pergunta "O Combo Mágico não existe mais?" Qual a melhor resposta?</p>
         <ul class="quiz-options">
           <li class="quiz-option" data-correct="false">"Não, foi substituído pelo Clube"</li>
           <li class="quiz-option" data-correct="true">"Existe sim! Continua chegando junto com os livros. O Clube é a forma nova de montar ele."</li>
@@ -2192,10 +2192,10 @@ const modules = [{
         <div class="quiz-feedback"></div>
       </div>
       <div class="quiz" data-quiz="m11q3" style="margin-top:24px">
-        <p class="quiz-question">3. Escola quer trocar itens do Kit Evento. Como conduzir?</p>
+        <p class="quiz-question">3. Escola quer trocar itens do Combo Evento. Como conduzir?</p>
         <ul class="quiz-options">
           <li class="quiz-option" data-correct="false">"Não pode, é fixo"</li>
-          <li class="quiz-option" data-correct="true">"Não incentivamos, mas dá. Vou abrir chamado pro time de tec ajustar — antes, posso explicar o que cada item do kit faz?"</li>
+          <li class="quiz-option" data-correct="true">"Não incentivamos, mas dá. Vou abrir chamado pro time de tec ajustar — antes, posso explicar o que cada item do combo faz?"</li>
           <li class="quiz-option" data-correct="false">"Eu troco direto no sistema sem registrar"</li>
         </ul>
         <div class="quiz-feedback"></div>
@@ -2257,17 +2257,17 @@ const modules = [{
     </div>
 
     <div class="quiz" data-quiz="f2" data-final="true" style="margin-top:24px">
-      <p class="quiz-question">2. O Kit Mágico foi substituído pelo Clube?</p>
+      <p class="quiz-question">2. O Combo Mágico foi substituído pelo Clube?</p>
       <ul class="quiz-options">
         <li class="quiz-option" data-correct="false">Sim — agora só existe o Clube</li>
-        <li class="quiz-option" data-correct="true">Não — o Kit Mágico continua existindo. O Clube é a forma nova de montá-lo, com reconhecimento ao longo do ano</li>
+        <li class="quiz-option" data-correct="true">Não — o Combo Mágico continua existindo. O Clube é a forma nova de montá-lo, com reconhecimento ao longo do ano</li>
         <li class="quiz-option" data-correct="false">Sim, mas só pra escolas R$40k+</li>
       </ul>
       <div class="quiz-feedback"></div>
     </div>
 
     <div class="quiz" data-quiz="f3" data-final="true" style="margin-top:24px">
-      <p class="quiz-question">3. Quantos pontos uma escola precisa pra destravar o Kit Evento?</p>
+      <p class="quiz-question">3. Quantos pontos uma escola precisa pra destravar o Combo Evento?</p>
       <ul class="quiz-options">
         <li class="quiz-option" data-correct="false">100 pts</li>
         <li class="quiz-option" data-correct="true">340 pts (as 4 ações de kickoff)</li>
@@ -2277,10 +2277,10 @@ const modules = [{
     </div>
 
     <div class="quiz" data-quiz="f4" data-final="true" style="margin-top:24px">
-      <p class="quiz-question">4. Uma escola da faixa R$5k–10k pode ver a placa de acrílico (do Kit Escola)?</p>
+      <p class="quiz-question">4. Uma escola da faixa R$5k–10k pode ver a placa de acrílico (do Combo Escola)?</p>
       <ul class="quiz-options">
         <li class="quiz-option" data-correct="false">Não — só escolas R$10k+ veem a placa</li>
-        <li class="quiz-option" data-correct="true">Sim — todos os kits e itens estão disponíveis pra todas as faixas. O que muda é o quanto cabe no saldo</li>
+        <li class="quiz-option" data-correct="true">Sim — todos os combos e itens estão disponíveis pra todas as faixas. O que muda é o quanto cabe no saldo</li>
         <li class="quiz-option" data-correct="false">Só se pagar diferença</li>
       </ul>
       <div class="quiz-feedback"></div>
@@ -2337,7 +2337,7 @@ const modules = [{
     </div>
 
     <div class="quiz" data-quiz="f10" data-final="true" style="margin-top:24px">
-      <p class="quiz-question">10. Escola pergunta "O Kit Mágico não existe mais?" Qual a melhor resposta?</p>
+      <p class="quiz-question">10. Escola pergunta "O Combo Mágico não existe mais?" Qual a melhor resposta?</p>
       <ul class="quiz-options">
         <li class="quiz-option" data-correct="false">"Não, foi substituído pelo Clube"</li>
         <li class="quiz-option" data-correct="true">"Existe sim! Continua chegando junto com os livros. O Clube é a forma nova de montar ele, com reconhecimento ao longo do ano"</li>
@@ -2347,10 +2347,10 @@ const modules = [{
     </div>
 
     <div class="quiz" data-quiz="f11" data-final="true" style="margin-top:24px">
-      <p class="quiz-question">11. Escola pede pra trocar itens do Kit Evento. Como conduzir?</p>
+      <p class="quiz-question">11. Escola pede pra trocar itens do Combo Evento. Como conduzir?</p>
       <ul class="quiz-options">
-        <li class="quiz-option" data-correct="false">"É proibido, kit é fixo"</li>
-        <li class="quiz-option" data-correct="true">Não incentivar, mas é possível via fluxo de exceção direto na Rachel (com permissão de acesso). Antes, explicar o papel emocional de cada item do kit</li>
+        <li class="quiz-option" data-correct="false">"É proibido, combo é fixo"</li>
+        <li class="quiz-option" data-correct="true">Não incentivar, mas é possível via fluxo de exceção direto na Rachel (com permissão de acesso). Antes, explicar o papel emocional de cada item do combo</li>
         <li class="quiz-option" data-correct="false">Trocar direto no sistema sem registrar</li>
       </ul>
       <div class="quiz-feedback"></div>
@@ -2993,7 +2993,7 @@ function calculateFinalScore() {
         '<li>Apresentar o Clube como novidade — com calor, generosidade e os 3 pilares do discurso</li>' +
         '<li>Mencionar o saldo de pontos em todo contato com a escola (regra de ouro)</li>' +
         '<li>Provocar as 7 ações manuais e celebrar cada ação automática no mesmo dia</li>' +
-        '<li>Conduzir conversas difíceis (Kit Mágico continua, pedidos de exceção, escolas sumidas)</li>' +
+        '<li>Conduzir conversas difíceis (Combo Mágico continua, pedidos de exceção, escolas sumidas)</li>' +
         '<li>Ser o agente do MaaS — cada decisão sua chegando na criança</li>' +
       '</ul>' +
     '</div>';
@@ -3013,7 +3013,8 @@ function calculateFinalScore() {
 }
 
 // Init
-setupIdForm();
+/* setupIdForm(); — registro desativado */
+  state.startedAt = new Date();
 renderNav();
 renderModule();
 </script>
