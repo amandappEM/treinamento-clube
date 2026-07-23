@@ -102,6 +102,24 @@ Tudo num arquivo só, autocontido. Sem dependências externas.
 
 ---
 
+## 🎁 Treinamento de Vendas 2026 (novo espaço dedicado)
+
+Pasta **`vendas-2026/`** — um treinamento interativo próprio, com o **Kit 2026 no centro do discurso**. Autocontido, mesmo padrão visual do treinamento do Clube.
+
+**URL (depois de publicado):** `https://[seu-usuario].github.io/treinamento-clube/vendas-2026/`
+
+O que tem dentro:
+
+- **Parte I — A Estratégia (para o líder apresentar ao time):** abertura + módulo **⭐ Estratégia Kits 2026** (regra de ouro "só kit até 15 dias pré-FC", âncora do porquê, sucesso de 2025, virada de lote e política de preço com as tags do AX).
+- **Parte II — O Discurso:** a **cadência de 20 contatos reescrita com o kit no centro** (contatos 1–9 kit-cêntricos) + o **discurso de kit no D-zero**.
+- **Parte III — Treino:** **simulador de objeção de preço** (virada de lote), **árvore de decisão de preço do AX** (com o aviso do **acelerador 3×** por manter o preço padrão) e **simulador de conversas** estilo WhatsApp.
+- **Avaliação final** (8 questões) com nota, status e **envio do registro por e-mail** para `amanda.pimentel@estantemagica.com.br`.
+- **Apêndice:** **cola D-zero imprimível** (botão de imprimir / salvar em PDF).
+
+Para publicar junto: o GitHub Pages já serve subpastas automaticamente — depois do deploy, o link acima funciona sem configuração extra.
+
+---
+
 ## 💜 Créditos
 
 Treinamento criado pelo time de Habilitação · Estante Mágica · Ciclo 2026

@@ -1,0 +1,2075 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Treinamento de Vendas de Kits 2026 · Time CS · Estante Mágica</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --primary: #6B46C1;
+    --primary-dark: #4C1D95;
+    --primary-light: #EDE5FA;
+    --accent: #F59E0B;
+    --accent-light: #FEF3C7;
+    --gold: #D97706;
+    --gold-light: #FEF3C7;
+    --success: #10B981;
+    --success-light: #D1FAE5;
+    --danger: #EF4444;
+    --danger-light: #FEE2E2;
+    --info: #3B82F6;
+    --info-light: #DBEAFE;
+    --pink: #EC4899;
+    --pink-light: #FCE7F3;
+    --text: #1F2937;
+    --text-soft: #6B7280;
+    --bg: #FAF7FF;
+    --card: #FFFFFF;
+    --border: #E5E7EB;
+    /* WhatsApp colors */
+    --wpp-bg: #ECE5DD;
+    --wpp-header: #075E54;
+    --wpp-school-bubble: #FFFFFF;
+    --wpp-cs-bubble: #DCF8C6;
+    --wpp-input: #F0F0F0;
+    --wpp-time: #667781;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.6;
+    min-height: 100vh; display: flex;
+  }
+  .sidebar {
+    width: 310px; background: var(--card);
+    border-right: 1px solid var(--border);
+    padding: 24px 0; position: sticky; top: 0;
+    height: 100vh; overflow-y: auto; flex-shrink: 0;
+  }
+  .sidebar-header { padding: 0 24px 20px; border-bottom: 1px solid var(--border); }
+  .sidebar-header h1 { font-size: 18px; color: var(--primary); margin-bottom: 4px; }
+  .sidebar-header p { font-size: 12px; color: var(--text-soft); }
+  .user-badge {
+    padding: 12px 24px; background: var(--primary-light);
+    border-bottom: 1px solid var(--border); font-size: 13px;
+  }
+  .user-badge strong { color: var(--primary-dark); display: block; }
+  .user-badge .small { color: var(--text-soft); font-size: 12px; }
+  .progress-container { padding: 16px 24px; border-bottom: 1px solid var(--border); }
+  .progress-label { font-size: 12px; color: var(--text-soft); margin-bottom: 6px; display: flex; justify-content: space-between; }
+  .progress-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); width: 0%; transition: width 0.4s ease; }
+  .nav-section {
+    font-size: 11px; font-weight: 700; color: var(--primary-dark);
+    text-transform: uppercase; letter-spacing: 1px;
+    padding: 14px 24px 6px; background: #FAFAFA;
+  }
+  .nav-list { list-style: none; padding: 0 0 12px; }
+  .nav-item {
+    padding: 10px 24px; cursor: pointer;
+    border-left: 3px solid transparent;
+    font-size: 13.5px; transition: all 0.2s;
+    display: flex; align-items: center; gap: 10px;
+    color: var(--text);
+  }
+  .nav-item:hover { background: var(--primary-light); }
+  .nav-item.active { background: var(--primary-light); border-left-color: var(--primary); color: var(--primary); font-weight: 600; }
+  .nav-item.completed::before { content: '✓'; color: var(--success); font-weight: 700; }
+  .nav-num { color: var(--text-soft); font-size: 12px; margin-right: 4px; }
+
+  .main { flex: 1; padding: 40px 56px; max-width: 960px; margin: 0 auto; }
+  .module { display: none; }
+  .module.active { display: block; }
+  .module-header { margin-bottom: 28px; }
+  .module-tag {
+    display: inline-block; background: var(--primary-light); color: var(--primary);
+    font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 4px;
+    letter-spacing: 0.5px; text-transform: uppercase;
+  }
+  .module-tag.simulator {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white;
+  }
+  .module h2 { font-size: 32px; color: var(--primary-dark); margin-top: 8px; }
+  .module h3 { font-size: 22px; color: var(--primary-dark); margin-top: 28px; margin-bottom: 12px; }
+  .module h4 { font-size: 18px; color: var(--text); margin-top: 22px; margin-bottom: 8px; }
+  .module .lead { color: var(--text-soft); font-size: 16px; margin-top: 6px; }
+  .module p { margin-bottom: 14px; font-size: 16px; }
+  .module ul, .module ol { margin: 0 0 16px 24px; }
+  .module li { margin-bottom: 8px; font-size: 16px; }
+
+  /* Manifesto / Hero */
+  .welcome-hero {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white; padding: 40px; border-radius: 14px; margin-bottom: 28px;
+  }
+  .welcome-hero h1 { font-size: 34px; margin-bottom: 12px; }
+  .welcome-hero p { font-size: 17px; opacity: 0.95; line-height: 1.6; }
+
+  .manifesto {
+    background: linear-gradient(135deg, #4C1D95 0%, #6B46C1 50%, #D97706 100%);
+    color: white; padding: 32px; border-radius: 14px;
+    margin: 22px 0; box-shadow: 0 4px 16px rgba(76, 29, 149, 0.25);
+  }
+  .manifesto .quote { font-size: 22px; line-height: 1.5; font-weight: 300; font-style: italic; }
+  .manifesto .signature { font-size: 13px; opacity: 0.9; margin-top: 14px; letter-spacing: 1px; text-transform: uppercase; }
+
+  .capsule {
+    background: var(--primary-light);
+    border-left: 4px solid var(--primary);
+    padding: 16px 20px; border-radius: 8px; margin: 16px 0;
+    font-style: italic; font-size: 16px; color: var(--primary-dark);
+  }
+  .capsule strong { font-style: normal; color: var(--primary-dark); }
+
+  /* Objectives */
+  .objectives { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin: 16px 0 8px; }
+  .objective { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .objective-num {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--primary); color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; margin-bottom: 8px;
+  }
+
+  /* Pillars */
+  .pillar-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin: 16px 0; }
+  .pillar { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 16px; text-align: center; transition: transform 0.2s; }
+  .pillar:hover { transform: translateY(-2px); border-color: var(--primary); }
+  .pillar-emoji { font-size: 32px; margin-bottom: 6px; }
+  .pillar-name { font-weight: 700; font-size: 14px; color: var(--primary-dark); }
+  .pillar-pts { font-size: 12px; color: var(--text-soft); margin-top: 4px; }
+
+  /* Callouts */
+  .callout { padding: 14px 18px; border-radius: 8px; margin: 16px 0; border-left: 4px solid; }
+  .callout-title { font-weight: 700; margin-bottom: 6px; }
+  .callout-info { background: var(--info-light); border-color: var(--info); color: #1E3A8A; }
+  .callout-success { background: var(--success-light); border-color: var(--success); color: #065F46; }
+  .callout-warning { background: var(--accent-light); border-color: var(--accent); color: #78350F; }
+  .callout-error { background: var(--danger-light); border-color: var(--danger); color: #991B1B; }
+  .callout-pink { background: var(--pink-light); border-color: var(--pink); color: #831843; }
+  .callout-gold { background: var(--gold-light); border-color: var(--gold); color: #78350F; }
+
+  /* Sabia que cards */
+  .didyouknow {
+    background: linear-gradient(135deg, #FFF9E6, #FEF3C7);
+    border: 2px solid var(--accent);
+    border-radius: 12px; padding: 16px 20px; margin: 18px 0;
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .didyouknow .icon { font-size: 28px; flex-shrink: 0; }
+  .didyouknow .content { flex: 1; }
+  .didyouknow .label { font-size: 11px; font-weight: 700; color: var(--gold); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+  .didyouknow .text { font-size: 15px; color: #78350F; }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
+  th { background: var(--primary); color: white; padding: 10px; text-align: left; font-weight: 600; }
+  td { padding: 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:nth-child(even) td { background: #FAFAFA; }
+  .actions-table td.pts { font-weight: 700; color: var(--primary-dark); text-align: center; }
+
+  /* Persona */
+  .persona-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin: 16px 0; }
+  .persona-card {
+    background: white; border-radius: 12px; padding: 18px;
+    border-top: 4px solid var(--primary);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .persona-card .emoji { font-size: 36px; }
+  .persona-card .role { font-weight: 700; color: var(--primary-dark); font-size: 16px; margin-top: 4px; }
+  .persona-card .impact { font-size: 14px; color: var(--text-soft); margin-top: 8px; }
+
+  /* Kit cards */
+  .kit-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin: 16px 0; }
+  .kit-card {
+    background: white; border-radius: 12px; padding: 18px;
+    border: 2px solid var(--border);
+    transition: all 0.2s;
+  }
+  .kit-card:hover { border-color: var(--primary); transform: translateY(-2px); }
+  .kit-card .kit-tag {
+    display: inline-block; background: var(--primary); color: white;
+    padding: 3px 10px; border-radius: 4px; font-size: 11px;
+    font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .kit-card .kit-emoji { font-size: 32px; margin-bottom: 6px; }
+  .kit-card .kit-name { font-weight: 700; font-size: 16px; color: var(--primary-dark); margin-bottom: 6px; }
+  .kit-card .kit-rule { font-size: 13px; color: var(--text-soft); margin-bottom: 10px; font-style: italic; }
+  .kit-card ul { margin: 0 0 0 18px; }
+  .kit-card li { font-size: 13px; margin-bottom: 4px; }
+
+  /* Validation / quiz */
+  .validation-card {
+    background: var(--accent-light);
+    border: 2px solid var(--accent);
+    border-radius: 12px; padding: 24px; margin-top: 28px;
+  }
+  .validation-tag {
+    display: inline-block; background: var(--accent); color: white;
+    padding: 4px 10px; border-radius: 4px;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 0.4px; text-transform: uppercase;
+  }
+  .validation-card h3 { color: #78350F; margin-top: 8px !important; }
+  .quiz { margin-top: 16px; }
+  .quiz-question { font-weight: 600; margin-bottom: 12px; font-size: 16px; }
+  .quiz-options { list-style: none; margin: 0 !important; padding: 0; }
+  .quiz-option {
+    background: white; border: 2px solid var(--border);
+    border-radius: 8px; padding: 12px 16px; margin-bottom: 8px;
+    cursor: pointer; transition: all 0.2s; font-size: 15px;
+  }
+  .quiz-option:hover { border-color: var(--primary); background: var(--primary-light); }
+  .quiz-option.selected { border-color: var(--primary); background: var(--primary-light); }
+  .quiz-option.correct { border-color: var(--success); background: var(--success-light); }
+  .quiz-option.incorrect { border-color: var(--danger); background: var(--danger-light); }
+  .quiz-option.disabled { pointer-events: none; opacity: 0.85; }
+  .quiz-feedback { display: none; margin-top: 10px; padding: 10px 14px; border-radius: 6px; font-size: 14px; }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.correct { background: var(--success-light); color: #065F46; }
+  .quiz-feedback.incorrect { background: var(--danger-light); color: #991B1B; }
+
+  /* Mini-quiz (entre conceitos) */
+  .mini-quiz {
+    background: white; border: 2px dashed var(--primary);
+    border-radius: 10px; padding: 14px 18px; margin: 16px 0;
+  }
+  .mini-quiz .mini-tag {
+    display: inline-block; background: var(--primary); color: white;
+    padding: 2px 8px; border-radius: 4px; font-size: 10px;
+    font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  /* Reveal cards */
+  .reveal-card {
+    background: white; border: 2px dashed var(--primary);
+    border-radius: 10px; padding: 16px; margin-bottom: 12px;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .reveal-card .reveal-prompt { color: var(--primary-dark); font-weight: 600; font-size: 15px; }
+  .reveal-card .reveal-answer { display: none; margin-top: 12px; font-size: 14px; padding-top: 12px; border-top: 1px solid var(--border); }
+  .reveal-card.revealed { background: var(--primary-light); border-style: solid; }
+  .reveal-card.revealed .reveal-answer { display: block; }
+
+  /* Mistake card */
+  .mistake-card {
+    background: white; border-left: 4px solid var(--danger);
+    border-radius: 8px; padding: 14px 18px; margin: 12px 0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  }
+  .mistake-card .wrong { color: var(--danger); font-weight: 700; margin-bottom: 6px; }
+  .mistake-card .right { color: var(--success); font-weight: 700; margin-top: 8px; }
+
+  /* Roleplay card */
+  .roleplay-card {
+    background: var(--info-light); border-left: 4px solid var(--info);
+    border-radius: 8px; padding: 14px 18px; margin: 12px 0;
+  }
+  .roleplay-line { font-style: italic; color: #1E3A8A; }
+  .role-tag {
+    display: inline-block; background: var(--info); color: white;
+    padding: 3px 8px; border-radius: 4px; font-size: 11px;
+    font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  /* Calculator */
+  .calculator {
+    background: white; border: 2px solid var(--primary);
+    border-radius: 12px; padding: 22px; margin: 18px 0;
+  }
+  .calculator h4 { color: var(--primary-dark); margin-top: 0 !important; }
+  .calc-inputs { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin: 14px 0; }
+  .calc-input { display: flex; flex-direction: column; }
+  .calc-input label { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .calc-input input, .calc-input select {
+    padding: 10px 12px; border: 2px solid var(--border);
+    border-radius: 6px; font-size: 14px; font-family: inherit;
+  }
+  .calc-input input:focus, .calc-input select:focus { outline: none; border-color: var(--primary); }
+  .calc-output {
+    background: var(--primary-light); border-radius: 8px;
+    padding: 14px 16px; margin-top: 12px; font-size: 14px;
+  }
+  .calc-output strong { color: var(--primary-dark); font-size: 16px; }
+  .calc-output .row { display: flex; justify-content: space-between; padding: 4px 0; }
+
+  /* Buttons */
+  .btn {
+    background: var(--primary); color: white; border: none;
+    padding: 12px 22px; border-radius: 8px;
+    font-size: 15px; font-weight: 600; cursor: pointer;
+    transition: background 0.2s; display: inline-block;
+    text-decoration: none; font-family: inherit;
+  }
+  .btn:hover { background: var(--primary-dark); }
+  .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+  .btn-secondary { background: white; color: var(--primary); border: 2px solid var(--primary); }
+  .btn-secondary:hover { background: var(--primary-light); }
+  .nav-buttons { display: flex; justify-content: space-between; margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .nav-buttons .btn { min-width: 140px; }
+
+  /* Final score */
+  .score-display {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white; padding: 36px; border-radius: 14px;
+    text-align: center; margin-top: 28px;
+  }
+  .score-number { font-size: 72px; font-weight: 700; line-height: 1; }
+  .score-label { font-size: 18px; opacity: 0.95; margin-top: 8px; }
+  .result-actions { display: flex; gap: 12px; margin-top: 18px; flex-wrap: wrap; }
+  .result-actions .btn { flex: 1; min-width: 220px; }
+
+  /* ID overlay */
+  .id-overlay {
+    position: fixed; inset: 0;
+    background: rgba(76, 29, 149, 0.85); z-index: 9999;
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .id-card {
+    background: white; border-radius: 16px;
+    max-width: 480px; width: 100%; padding: 32px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  }
+  .id-card h1 { color: var(--primary); font-size: 24px; margin-bottom: 8px; }
+  .id-card .subtitle { color: var(--text-soft); font-size: 14px; margin-bottom: 22px; }
+  .id-field { margin-bottom: 14px; }
+  .id-field label { display: block; font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .id-field input {
+    width: 100%; padding: 12px 14px;
+    border: 2px solid var(--border); border-radius: 8px;
+    font-size: 15px; font-family: inherit; transition: border-color 0.2s;
+  }
+  .id-field input:focus { outline: none; border-color: var(--primary); }
+  .id-field .error-msg { color: var(--danger); font-size: 12px; margin-top: 4px; display: none; }
+  .id-field.has-error input { border-color: var(--danger); }
+  .id-field.has-error .error-msg { display: block; }
+  #idStartBtn { width: 100%; margin-top: 8px; padding: 14px; font-size: 16px; }
+
+  /* ============================================================ */
+  /* SIMULADOR WHATSAPP */
+  /* ============================================================ */
+  .simulator-intro {
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+    color: white; padding: 24px; border-radius: 14px;
+    margin-bottom: 18px;
+  }
+  .simulator-intro h3 { color: white !important; margin-top: 0 !important; }
+  .simulator-intro p { font-size: 15px; opacity: 0.95; margin-bottom: 0; }
+
+  .scenario-selector { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; margin: 18px 0; }
+  .scenario-card {
+    background: white; border: 2px solid var(--border);
+    border-radius: 10px; padding: 16px;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .scenario-card:hover { border-color: var(--primary); transform: translateY(-2px); }
+  .scenario-card.completed { background: var(--success-light); border-color: var(--success); }
+  .scenario-card.interrupted { background: var(--danger-light); border-color: var(--danger); }
+  .scenario-card.interrupted .scenario-status { color: var(--danger) !important; }
+  .scenario-card .scenario-num { font-size: 11px; color: var(--text-soft); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+  .scenario-card .scenario-title { font-weight: 700; color: var(--primary-dark); margin: 4px 0; font-size: 15px; }
+  .scenario-card .scenario-desc { font-size: 13px; color: var(--text-soft); }
+  .scenario-card .scenario-status { font-size: 12px; margin-top: 6px; font-weight: 600; }
+  .scenario-card.completed .scenario-status { color: var(--success); }
+
+  .wpp-frame {
+    max-width: 420px; margin: 18px auto;
+    background: #111; border-radius: 32px; padding: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
+  .wpp-screen {
+    background: var(--wpp-bg);
+    border-radius: 22px; overflow: hidden;
+    height: 580px; display: flex; flex-direction: column;
+    background-image:
+      radial-gradient(circle at 25% 25%, rgba(255,255,255,0.15) 1px, transparent 1px),
+      radial-gradient(circle at 75% 75%, rgba(0,0,0,0.04) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  .wpp-header {
+    background: var(--wpp-header);
+    color: white; padding: 10px 14px;
+    display: flex; align-items: center; gap: 10px;
+    flex-shrink: 0;
+  }
+  .wpp-back { font-size: 20px; opacity: 0.8; }
+  .wpp-avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .wpp-contact { flex: 1; min-width: 0; }
+  .wpp-contact-name { font-size: 15px; font-weight: 500; line-height: 1.2; }
+  .wpp-contact-status { font-size: 12px; opacity: 0.85; }
+  .wpp-actions { display: flex; gap: 16px; opacity: 0.9; font-size: 16px; }
+
+  .wpp-messages {
+    flex: 1; overflow-y: auto;
+    padding: 12px; display: flex; flex-direction: column; gap: 4px;
+  }
+  .wpp-msg {
+    max-width: 78%; padding: 7px 10px 5px;
+    border-radius: 8px; font-size: 14px; line-height: 1.4;
+    box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
+    position: relative;
+    animation: msgIn 0.3s ease-out;
+  }
+  @keyframes msgIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .wpp-msg.school {
+    background: var(--wpp-school-bubble);
+    align-self: flex-start;
+    border-top-left-radius: 0;
+  }
+  .wpp-msg.cs {
+    background: var(--wpp-cs-bubble);
+    align-self: flex-end;
+    border-top-right-radius: 0;
+  }
+  .wpp-msg-time {
+    font-size: 10px; color: var(--wpp-time);
+    text-align: right; margin-top: 2px;
+    display: flex; align-items: center; justify-content: flex-end; gap: 3px;
+  }
+  .wpp-msg.cs .wpp-msg-time::after { content: '✓✓'; color: #4FC3F7; }
+  .wpp-typing {
+    background: var(--wpp-school-bubble);
+    align-self: flex-start;
+    padding: 10px 14px; border-radius: 8px;
+    border-top-left-radius: 0;
+    box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
+  }
+  .wpp-typing-dots {
+    display: inline-flex; gap: 3px;
+  }
+  .wpp-typing-dots span {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--wpp-time);
+    animation: typing 1.4s infinite;
+  }
+  .wpp-typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .wpp-typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes typing { 0%, 60%, 100% { opacity: 0.3; transform: scale(0.8); } 30% { opacity: 1; transform: scale(1); } }
+
+  .wpp-input-area {
+    background: #F0F2F5; padding: 8px 10px;
+    display: flex; gap: 8px; align-items: center;
+    flex-shrink: 0;
+  }
+  .wpp-input-fake {
+    flex: 1; background: white; border-radius: 22px;
+    padding: 9px 14px; font-size: 14px; color: var(--text-soft);
+    font-style: italic;
+  }
+  .wpp-send {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: var(--wpp-header);
+    color: white; display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+
+  .choices-panel {
+    margin: 16px 0; padding: 20px;
+    background: white; border: 2px solid var(--primary);
+    border-radius: 12px;
+  }
+  .choices-panel .choices-label {
+    font-weight: 700; color: var(--primary-dark); margin-bottom: 10px;
+    font-size: 14px;
+  }
+  .choice-btn {
+    display: block; width: 100%; text-align: left;
+    background: white; border: 2px solid var(--border);
+    border-radius: 10px; padding: 12px 16px; margin-bottom: 10px;
+    font-size: 14.5px; cursor: pointer;
+    transition: all 0.2s; font-family: inherit; color: var(--text);
+    line-height: 1.4;
+  }
+  .choice-btn:hover { border-color: var(--primary); background: var(--primary-light); }
+  .choice-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .turn-feedback {
+    margin-top: 12px; padding: 14px 18px; border-radius: 10px;
+    border-left: 4px solid;
+    animation: msgIn 0.4s ease-out;
+  }
+  .turn-feedback.green { background: var(--success-light); border-color: var(--success); color: #065F46; }
+  .turn-feedback.yellow { background: var(--accent-light); border-color: var(--accent); color: #78350F; }
+  .turn-feedback.red { background: var(--danger-light); border-color: var(--danger); color: #991B1B; }
+  .turn-feedback-label { font-weight: 700; font-size: 13px; margin-bottom: 4px; letter-spacing: 0.5px; text-transform: uppercase; }
+  .turn-feedback-text { font-size: 14.5px; }
+
+  .scenario-result {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white; padding: 28px; border-radius: 14px;
+    text-align: center; margin: 18px auto;
+    max-width: 480px;
+  }
+  .scenario-result .result-stars { font-size: 36px; margin-bottom: 8px; }
+  .scenario-result .result-title { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  .scenario-result .result-pct { font-size: 16px; opacity: 0.95; margin-bottom: 14px; }
+  .scenario-result .btn { background: white; color: var(--primary); }
+  .scenario-result .btn:hover { background: rgba(255,255,255,0.9); }
+
+  @media (max-width: 760px) {
+    body { flex-direction: column; }
+    .sidebar { width: 100%; height: auto; position: relative; border-right: none; border-bottom: 1px solid var(--border); }
+    .main { padding: 24px; }
+  }
+</style>
+</head>
+<body>
+<style>
+  /* ===== Extras exclusivos do Treinamento de Vendas 2026 ===== */
+  .lead-banner {
+    background: linear-gradient(135deg, var(--gold), var(--accent));
+    color: #4a2c00; padding: 14px 18px; border-radius: 10px;
+    margin: 16px 0; font-weight: 600; display: flex; gap: 12px; align-items: flex-start;
+  }
+  .lead-banner .ic { font-size: 22px; }
+  .goldrule {
+    background: linear-gradient(135deg, #4C1D95 0%, #6B46C1 55%, #D97706 100%);
+    color: white; padding: 26px 28px; border-radius: 14px; margin: 20px 0;
+    box-shadow: 0 6px 20px rgba(76,29,149,0.25);
+  }
+  .goldrule .rk { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.85; }
+  .goldrule .rt { font-size: 24px; font-weight: 700; line-height: 1.35; margin-top: 6px; }
+  .goldrule .rs { font-size: 15px; opacity: 0.95; margin-top: 10px; }
+
+  /* Timeline de fases da cadência */
+  .phaseline { display: flex; flex-direction: column; gap: 0; margin: 18px 0; }
+  .phase-row { display: flex; gap: 14px; align-items: stretch; }
+  .phase-rail { display: flex; flex-direction: column; align-items: center; }
+  .phase-dot { width: 16px; height: 16px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+  .phase-line { width: 3px; flex: 1; background: var(--border); }
+  .phase-body { padding-bottom: 18px; }
+  .phase-body .pf-name { font-weight: 700; color: var(--primary-dark); font-size: 16px; }
+  .phase-body .pf-when { font-size: 12px; color: var(--text-soft); text-transform: uppercase; letter-spacing: 0.5px; }
+  .phase-body .pf-desc { font-size: 14px; margin-top: 4px; }
+  .pf1 { background: #A78BFA; } .pf2 { background: #8B5CF6; } .pf3 { background: #7C3AED; }
+  .pf4 { background: #F59E0B; } .pf5 { background: #EF4444; }
+
+  /* Cartão de contato (pílula) */
+  .contact-card {
+    background: white; border: 1px solid var(--border); border-left: 5px solid var(--primary);
+    border-radius: 10px; padding: 18px 20px; margin: 14px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+  .contact-card.kitfocus { border-left-color: var(--gold); background: linear-gradient(180deg,#FFFDF7,#FFFFFF); }
+  .contact-card .cc-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 6px; }
+  .contact-card .cc-num { font-weight: 800; color: var(--primary-dark); font-size: 15px; }
+  .contact-card .cc-phase { font-size: 10px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; background: var(--primary-light); color: var(--primary); }
+  .contact-card .cc-phase.kit { background: var(--gold-light); color: var(--gold); }
+  .contact-card .cc-obj { font-size: 14px; margin: 8px 0; }
+  .contact-card .cc-label { font-size: 11px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-soft); margin-top: 10px; }
+  .contact-card .cc-speech { background: var(--primary-light); border-radius: 8px; padding: 12px 14px; font-size: 14px; font-style: italic; color: var(--primary-dark); margin-top: 4px; }
+  .contact-card .cc-speech.kit { background: var(--gold-light); color: #78350F; }
+
+  /* AX tree */
+  .axtree { background: white; border: 2px solid var(--primary); border-radius: 14px; padding: 22px; margin: 18px 0; }
+  .ax-step-tag { display:inline-block; background: var(--primary); color:white; font-size:11px; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; padding:3px 10px; border-radius:4px; }
+  .ax-q { font-size: 18px; font-weight: 700; color: var(--primary-dark); margin: 12px 0 14px; }
+  .ax-opt { display:block; width:100%; text-align:left; background:white; border:2px solid var(--border); border-radius:10px; padding:13px 16px; margin-bottom:10px; font-size:15px; cursor:pointer; font-family:inherit; color:var(--text); transition:all 0.2s; }
+  .ax-opt:hover { border-color: var(--primary); background: var(--primary-light); }
+  .ax-result { border-radius:12px; padding:20px; margin-top:6px; animation: msgIn 0.4s ease-out; }
+  .ax-result.keep { background: linear-gradient(135deg,#065F46,#10B981); color:white; }
+  .ax-result.exc { background: var(--accent-light); border:2px solid var(--accent); color:#78350F; }
+  .ax-result.block { background: var(--danger-light); border:2px solid var(--danger); color:#991B1B; }
+  .ax-result.back { background: var(--info-light); border:2px solid var(--info); color:#1E3A8A; }
+  .ax-result .art { font-size:19px; font-weight:700; margin-bottom:8px; }
+  .ax-tag-chip { display:inline-block; font-family: ui-monospace, Menlo, Consolas, monospace; background: rgba(0,0,0,0.15); padding:2px 8px; border-radius:5px; font-weight:700; }
+  .accelerator {
+    background: linear-gradient(135deg, #D97706, #F59E0B); color:#3d2200;
+    border-radius: 12px; padding: 18px 20px; margin: 16px 0;
+    display:flex; gap:14px; align-items:flex-start; box-shadow:0 4px 14px rgba(217,119,6,0.3);
+  }
+  .accelerator .abig { font-size: 34px; font-weight: 800; line-height:1; }
+  .accelerator .atxt { flex:1; }
+  .accelerator .atxt strong { font-size:16px; }
+
+  /* Price tiers */
+  .tier-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap:14px; margin:16px 0; }
+  .tier { background:white; border:2px solid var(--border); border-radius:12px; padding:18px; text-align:center; }
+  .tier.default { border-color: var(--gold); background: var(--gold-light); }
+  .tier .tt { font-family: ui-monospace, Menlo, Consolas, monospace; font-size:13px; color:var(--text-soft); }
+  .tier .tp { font-size:28px; font-weight:800; color:var(--primary-dark); margin:6px 0; }
+  .tier .tu { font-size:12px; color:var(--text-soft); }
+  .tier .tbadge { display:inline-block; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; padding:2px 8px; border-radius:4px; margin-top:8px; }
+  .tier.default .tbadge { background: var(--gold); color:white; }
+  .tier .tbadge.exc { background: var(--accent-light); color:#78350F; }
+
+  /* Print (cola D-zero) */
+  .print-btn-area { margin: 16px 0; }
+  .cola-sheet {
+    background:white; border:2px dashed var(--primary); border-radius:12px; padding:24px; margin:16px 0;
+  }
+  .cola-sheet h4 { color: var(--primary-dark); margin-top: 18px; }
+  .cola-sheet h4:first-child { margin-top: 0; }
+  @media print {
+    body { display:block; background:white; }
+    .sidebar, .nav-buttons, .print-btn-area, .module-tag, #printHideAll { display:none !important; }
+    .main { max-width:100%; padding:0; }
+    .module { display:block !important; }
+    .cola-sheet { border:1px solid #999; box-shadow:none; }
+    a[href]:after { content:""; }
+  }
+</style>
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>🎁 Vendas de Kits 2026</h1>
+    <p>Treinamento de Vendas · Time CS · Estante Mágica</p>
+  </div>
+  <div class="progress-container">
+    <div class="progress-label">
+      <span>Seu progresso</span>
+      <span id="progressPercent">0%</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+  <ul class="nav-list" id="navList"></ul>
+</aside>
+<main class="main" id="main"></main>
+
+<script>
+const ADMIN_EMAIL = 'amanda.pimentel@estantemagica.com.br';
+
+/* ============================================================
+   BANCO DE CENÁRIOS — SIMULADOR DE OBJEÇÃO DE PREÇO
+   ============================================================ */
+window.PRICE_SCENARIOS = [
+  {
+    id: 'p1',
+    title: '"Por que subiu de preço?"',
+    description: 'Coord. Renata viu o kit por R$ 189,90 no lançamento e agora vê R$ 239,90 — quer entender a mudança',
+    avatar: 'R',
+    contactName: 'Renata · Coord. Escola Girassol',
+    turns: [
+      {
+        school: 'Oi! Uma dúvida: mês passado eu vi o Kit 2026 por 189,90 na lojinha, e hoje tá 239,90. Subiu? As famílias vão perguntar…',
+        choices: [
+          {
+            text: 'Oi Renata! Então, os preços mudam mesmo de vez em quando, é da empresa.',
+            level: 'red',
+            reaction: 'Hmm… "muda de vez em quando" me deixou insegura pra explicar isso pras famílias.',
+            feedback: 'Erro: resposta vaga e sem dono. Você não explica NADA — deixa a escola sem argumento e passa a sensação de aumento arbitrário. A virada de lote tem uma história: conte-a.'
+          },
+          {
+            text: 'Oi Renata! 💜 Ótima pergunta. Aquele valor de 189,90 era a nossa oferta de lançamento do Kit 2026 — um preço promocional pra quem chegou primeiro. Essa fase encerrou e o kit entrou no preço final da lojinha (239,90). Não foi aumento: foi a virada de lote, igual a pré-venda que fecha e vira preço cheio. Posso te passar como explicar isso pras famílias numa frase?',
+            level: 'green',
+            reaction: 'Aaah, agora fez todo sentido! Era promoção de lançamento. Isso eu consigo explicar tranquila. Manda a frase! 💜',
+            feedback: 'Perfeito! Você nomeou a oferta de lançamento, explicou a virada de lote com uma analogia clara (pré-venda), tirou a palavra "aumento" da mesa e já ofereceu munição pra escola.'
+          },
+          {
+            text: 'Subiu sim, Renata, infelizmente. Mas se quiser eu já coloco num valor menor pra você.',
+            level: 'yellow',
+            reaction: 'Ah… então dá pra abaixar? Então me coloca no menor, né?',
+            feedback: 'Cuidado! Você pulou direto pra exceção de preço SEM explicar a oferta de lançamento. Isso queima sua autonomia à toa e ensina a escola a pedir desconto. Primeiro explique a virada de lote; a exceção é a última carta.'
+          }
+        ]
+      },
+      {
+        school: 'Entendi a promoção. Mas e quem comprou por 189,90 e quem vai comprar por 239,90 na mesma escola? Não fica estranho?',
+        choices: [
+          {
+            text: 'Fica sim, é injusto mesmo. Vou ver se consigo o preço antigo pra todo mundo.',
+            level: 'red',
+            reaction: 'Ué, então vou esperar você conseguir o preço antigo pra todos…',
+            feedback: 'Erro: você validou uma "injustiça" que não existe e criou uma expectativa que provavelmente não vai cumprir. Quem comprou no lançamento aproveitou o benefício de decidir cedo — isso é justo e é exatamente o que queremos incentivar.'
+          },
+          {
+            text: 'Nada estranho! Quem comprou por 189,90 aproveitou o benefício de decidir cedo — é o prêmio de quem confiou primeiro. É o mesmo espírito de qualquer lançamento: chegou antes, pagou menos. E o kit continua valendo cada centavo pela experiência que entrega. Isso até vira argumento pra estimular quem ainda está pensando a não deixar passar a próxima janela.',
+            level: 'green',
+            reaction: 'Verdade! Quem antecipou foi premiado. Vou usar isso pra animar os que ainda estão em cima do muro. 😍',
+            feedback: 'Excelente! Você transformou a objeção em argumento: o preço de lançamento vira reconhecimento de quem decidiu cedo, e o preço atual vira gatilho de antecipação pra próxima decisão. Ancorou no valor do kit, não no custo.'
+          },
+          {
+            text: 'Pode falar pras famílias que foi erro de sistema o preço antigo.',
+            level: 'red',
+            reaction: 'Erro de sistema? Mas eu vi na loja divulgado como promoção…',
+            feedback: 'Erro grave: mentir sobre "erro de sistema" destrói credibilidade e te contradiz (era promoção divulgada). Nunca invente. A verdade — oferta de lançamento que virou lote — é simples e honesta.'
+          }
+        ]
+      },
+      {
+        school: 'Faz sentido. Mas tenho uma família da APAE que realmente não consegue esse valor. Como faço?',
+        choices: [
+          {
+            text: 'Sem problema, já abaixo o preço de toda a escola pra 189,90.',
+            level: 'yellow',
+            reaction: 'Ah tá, então toda a escola vai pra 189,90?',
+            feedback: 'Exagerou. Um caso pontual não justifica rebaixar a escola inteira — isso zera o valor pra quem pagaria o preço cheio e faz você perder o acelerador de pontos. A faixa de exceção é para situações específicas e liberadas, não como padrão.'
+          },
+          {
+            text: 'Entendo, Renata. Situações específicas como essa existem mesmo. O caminho certo é eu levar esse caso pra liderança avaliar a liberação de uma faixa de exceção. Enquanto isso, vale lembrar do parcelamento em até 6x sem juros e sem valor mínimo — às vezes já resolve. Deixa eu alinhar internamente e te dou o retorno?',
+            level: 'green',
+            reaction: 'Perfeito, super compreensível. Fico no aguardo do retorno então. Obrigada! 💜',
+            feedback: 'Perfeito! Você acolheu o caso real, não prometeu o que não pode liberar sozinha, ofereceu o parcelamento como primeira solução e seguiu o processo (liderança libera a exceção). É assim que se usa a autonomia com responsabilidade.'
+          },
+          {
+            text: 'Infelizmente o preço é esse e não tem o que fazer, é regra.',
+            level: 'red',
+            reaction: 'Nossa… nem uma alternativa pra uma família da APAE? Fiquei decepcionada.',
+            feedback: 'Erro: frieza. Existe caminho (parcelamento + avaliação de exceção pela liderança). Fechar a porta sem oferecer alternativa quebra o vínculo e vai contra o nosso jeito de cuidar.'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'p2',
+    title: '"Tá caro, não vou conseguir vender"',
+    description: 'Diretora Sônia acha o kit caro para a realidade da escola e resiste antes mesmo de divulgar',
+    avatar: 'S',
+    contactName: 'Sônia · Diretora Escola Aurora',
+    turns: [
+      {
+        school: 'Olha, vou ser sincera: achei esse kit caro pra realidade das nossas famílias. Acho que não vou nem divulgar pra não criar problema.',
+        choices: [
+          {
+            text: 'Imagina, Sônia! Não é caro não, é super acessível.',
+            level: 'red',
+            reaction: 'Pra você é fácil falar… você não conhece a realidade daqui.',
+            feedback: 'Erro: você invalidou o sentimento dela de cara. "Não é caro" é uma disputa que você não vai ganhar. A técnica é Sentir–Sentiu–Descobriu: valide primeiro, depois traga o argumento.'
+          },
+          {
+            text: 'Entendo perfeitamente sua preocupação, Sônia — outras escolas sentiram exatamente isso no começo. E o que elas descobriram foi que, quando as famílias entendem que o kit é a história do próprio filho virando livro, áudio e memória pra guardar a vida toda, o valor deixa de ser "caro" e vira "vale a pena". Além disso, ninguém precisa levar tudo: tem opção pra cada bolso e o parcelamento em 6x sem juros. Que tal a gente divulgar e deixar a família escolher?',
+            level: 'green',
+            reaction: 'Hmm… colocando assim, faz sentido deixar a família decidir. Não tinha pensado que tem opção pra cada bolso.',
+            feedback: 'Perfeito! Sentir–Sentiu–Descobriu completo: validou o sentimento, trouxe a experiência de outras escolas e reposicionou o kit como valor (a história da criança), não como custo. E devolveu a decisão à família em vez de a escola decidir por ela.'
+          },
+          {
+            text: 'Tudo bem, se você acha melhor não divulgar, respeito sua decisão.',
+            level: 'red',
+            reaction: 'Ah, que bom que entende. Então deixa pra lá mesmo.',
+            feedback: 'Erro: você desistiu na primeira objeção e deixou a escola tomar a decisão de não oferecer nada às famílias. Nosso papel é gerar valor pra que a família tenha a chance de escolher — não decidir por ela que não pode.'
+          }
+        ]
+      },
+      {
+        school: 'Mas e se as famílias reclamarem do preço comigo? Não quero passar vergonha.',
+        choices: [
+          {
+            text: 'Relaxa, não vão reclamar não.',
+            level: 'yellow',
+            reaction: 'Você não pode garantir isso…',
+            feedback: 'Frágil. Você não pode prometer que ninguém vai reclamar, e isso não a prepara. Melhor armá-la com o argumento da virada de lote e do valor, pra ela responder com segurança.'
+          },
+          {
+            text: 'Você não vai passar vergonha nenhuma, Sônia — eu te dou o roteiro. Se alguém perguntar do preço, a resposta é simples: o kit teve um preço de lançamento e agora está no valor final da lojinha, com opções pra cada família e parcelamento sem juros. Você não está "vendendo caro", está oferecendo a chance de eternizar um momento único. E eu fico do seu lado o tempo todo pra qualquer dúvida que aparecer.',
+            level: 'green',
+            reaction: 'Assim eu me sinto mais segura pra divulgar. Pode me mandar esse roteirinho? 💜',
+            feedback: 'Perfeito! Você tirou o medo da exposição dando um roteiro pronto, reforçou a virada de lote, reposicionou "vender caro" como "oferecer uma chance" e ofereceu suporte contínuo. A escola sai armada e confiante.'
+          },
+          {
+            text: 'Se reclamarem, manda eu abaixar que eu abaixo na hora.',
+            level: 'red',
+            reaction: 'Ah, então é só reclamar que abaixa? Vou avisar as famílias então.',
+            feedback: 'Erro clássico: você ensinou a escola (e as famílias) que reclamar = desconto. Isso destrói o valor do kit, vira bola de neve e queima sua autonomia. A exceção é rara, avaliada pela liderança — nunca a primeira resposta.'
+          }
+        ]
+      }
+    ]
+  }
+];
+
+/* ============================================================
+   BANCO DE CENÁRIOS — SIMULADOR DE CONVERSAS (KIT NO D-ZERO)
+   ============================================================ */
+window.CONVERSA_SCENARIOS = [
+  {
+    id: 'c1',
+    title: 'D-zero: apresentando o Kit 2026',
+    description: 'Coord. Paula, escola de renovação (aplica há 4 anos). Primeiro contato do ciclo — a hora de plantar o kit',
+    avatar: 'P',
+    contactName: 'Paula · Coord. Colégio Recanto',
+    turns: [
+      {
+        school: 'Oi! Que bom começar mais um ano com vocês. A gente já conhece bem a Estante Mágica, aplica desde 2022. O que tem de novo esse ano?',
+        choices: [
+          {
+            text: 'Oi Paula! Esse ano tá tudo igual, mesma coisa de sempre, pode ficar tranquila.',
+            level: 'red',
+            reaction: 'Ah… tudo igual? Que pena, esperava alguma novidade depois de tantos anos.',
+            feedback: 'Erro grave: "tudo igual" mata o engajamento de uma escola de renovação. Escolas que aplicam há anos ANSEIAM por novidade — é exatamente o gancho do Kit 2026. Você jogou fora a melhor abertura possível.'
+          },
+          {
+            text: 'Oi Paula! 💜 Que orgulho ter vocês desde 2022! E é justamente por escolas como a de vocês, que já dominam o projeto, que a gente preparou a grande novidade de 2026: o novo Kit. Em 2025 as famílias mostraram que a autoria das crianças gera orgulho e desejo de guardar memória — então em 2026 a gente organizou tudo isso numa experiência mais completa e plural. É a nossa aposta pra dar ainda mais vida ao projeto das crianças. Posso te mostrar?',
+            level: 'green',
+            reaction: 'Aaah adorei! Novidade é o que a gente queria mesmo. Mostra sim! 😍',
+            feedback: 'Perfeito! Você ancorou na história da escola, transformou a "veterania" em motivo pra novidade, citou o sucesso de 2025 e posicionou o Kit 2026 como experiência plural — exatamente a estratégia. E fechou pedindo o próximo passo.'
+          },
+          {
+            text: 'Oi Paula! Tem novidade sim, mas a gente vê isso mais pra frente, perto do Fecha Compras. Por enquanto foca na aplicação.',
+            level: 'yellow',
+            reaction: 'Tá… mas fiquei curiosa. Por que só lá na frente?',
+            feedback: 'Perdeu o timing. A estratégia é falar de kit desde o D-zero — até 15 dias antes do FC, o kit é o centro da conversa. Adiar a novidade esfria o engajamento e desperdiça a curiosidade que ela mesma trouxe.'
+          }
+        ]
+      },
+      {
+        school: 'Que experiência é essa? Me explica o que muda no kit.',
+        choices: [
+          {
+            text: 'São vários produtos que a gente vende junto, tipo um combo com desconto.',
+            level: 'red',
+            reaction: 'Ah, então é só um combo de produtos pra vender mais…',
+            feedback: 'Erro: "combo pra vender mais" rebaixa o kit a uma transação. O Kit 2026 é uma experiência — ler, ouvir, presentear, brincar, guardar. Fale da experiência da criança, não do carrinho de compras.'
+          },
+          {
+            text: 'O Kit 2026 dá vida à história da criança de várias formas: o livro pra ler, o audiolivro com a voz dela contando a própria história, itens pra presentear quem ama, o jogo e o livro de colorir pra brincar, e lembranças pra guardar essa fase pra sempre. É a mesma história, vivida de um jeito plural — em casa, com a família toda. Faz sentido pra realidade de vocês?',
+            level: 'green',
+            reaction: 'Nossa, o audiolivro com a voz da criança é lindo demais! Faz total sentido. 💜',
+            feedback: 'Perfeito! Você traduziu o kit em experiências concretas e emocionais (ler/ouvir/presentear/brincar/guardar), sem falar em preço, e conectou com a família. Isso é vender valor.'
+          },
+          {
+            text: 'Muda que agora tá mais caro, mas vale a pena.',
+            level: 'red',
+            reaction: 'Começou falando de preço já me deixou com o pé atrás…',
+            feedback: 'Erro: introduzir preço antes do valor liga o alerta de custo. No D-zero, a conversa é 100% experiência do kit. Preço só entra depois que o valor está construído — e mesmo assim, ancorado no que a criança vive.'
+          }
+        ]
+      },
+      {
+        school: 'Gostei muito! Como a gente começa a apresentar isso pras famílias?',
+        choices: [
+          {
+            text: 'Depois eu vejo isso com você, agora não dá.',
+            level: 'red',
+            reaction: 'Ah… achei que a gente ia aproveitar o embalo.',
+            feedback: 'Erro: você matou o momento de maior interesse. Quando a escola pede o próximo passo, é hora de combinar ação concreta — nunca adiar. "Pedir o próximo passo" é um dos três movimentos do consultor de valor.'
+          },
+          {
+            text: 'Que ótimo esse embalo, Paula! Eu já te mando hoje um material de apresentação do Kit 2026 pras famílias e a gente combina um lançamento na próxima semana — pode ser junto de uma comunicação no grupo da escola. Semana que vem eu te ligo pra ver a reação e já pensamos nos próximos passos. Combinado?',
+            level: 'green',
+            reaction: 'Combinadíssimo! Manda o material que já adianto no grupo. 💜',
+            feedback: 'Perfeito! Você aproveitou o pico de interesse, nomeou uma ação concreta (material + lançamento), e agendou o próximo contato com data. Ação + próximo passo combinado = venda que anda.'
+          },
+          {
+            text: 'É só falar pras famílias comprarem na lojinha, elas se viram.',
+            level: 'yellow',
+            reaction: 'Hmm, assim solto? Achei que teria um apoio maior de vocês.',
+            feedback: 'Fraco. "Elas se viram" transfere todo o trabalho pra escola e não gera engajamento. Nosso papel é dar material, roteiro e acompanhamento — a escola precisa se sentir apoiada, não sozinha.'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'c2',
+    title: 'Semente de kit na semana 4',
+    description: 'Prof. Márcia comenta a correria do ano — a brecha perfeita pra plantar o kit sem forçar',
+    avatar: 'M',
+    contactName: 'Márcia · Coord. Escola Bem-Querer',
+    turns: [
+      {
+        school: 'Ai, esse ano espero que a correria seja mais tranquila que a do ano passado…',
+        choices: [
+          {
+            text: 'Prof, é justamente pra isso que estamos aqui — pra ajudar com antecedência. E olha que legal: já dá pra começar a mostrar pras famílias o Kit 2026, aquela experiência nova que dá vida à história da criança em casa. Antecipar isso agora deixa tudo mais leve lá na frente. Quer que eu prepare um matinho pra você já ir plantando?',
+            level: 'green',
+            reaction: 'Adorei! Se já for adiantando fica bem melhor. Prepara sim! 💜',
+            feedback: 'Perfeito! Você pegou a brecha que a escola trouxe (a correria), transformou em motivo pra antecipar, plantou o Kit 2026 como experiência e propôs ação. Vender aproveitando o gancho real é a essência da fase Sementes de Venda.'
+          },
+          {
+            text: 'Pois é, Prof, ano passado foi corrido mesmo. Vamos torcer pra esse ser melhor!',
+            level: 'yellow',
+            reaction: 'É, vamos torcer… (a conversa esfria)',
+            feedback: 'Oportunidade perdida. Você concordou e encerrou sem aproveitar a brecha. Quando a escola menciona a correria, é o gancho perfeito pra falar de antecipar o kit — não deixe a semente no chão.'
+          },
+          {
+            text: 'Então já vai comprando os kits logo pra não ficar corrido depois!',
+            level: 'red',
+            reaction: 'Nossa, que pressão… nem começamos e já é pra comprar?',
+            feedback: 'Erro: pulou direto pro "compra logo", o que soa como pressão numa fase de construção. Na semana 4 a gente planta valor e experiência, não empurra compra. Urgência é pra reta final; agora é semente.'
+          }
+        ]
+      },
+      {
+        school: 'Mas será que as famílias vão querer? Ano passado alguns nem compraram o livro.',
+        choices: [
+          {
+            text: 'Se não quiseram o livro, o kit também não vão querer, né…',
+            level: 'red',
+            reaction: 'É, melhor nem investir nisso então.',
+            feedback: 'Erro: você reforçou a crença limitante em vez de reposicionar. Em 2025 as famílias mostraram desejo de memória — o Kit 2026 existe justamente pra dar mais motivos e formas de a família participar. Traga esse dado, não a desistência.'
+          },
+          {
+            text: 'Entendo a dúvida, Prof. Mas veja: em 2025 as famílias mostraram que querem guardar essa memória — muitas escolas parecidas com a de vocês descobriram que, quando a experiência é apresentada com carinho e cedo, o engajamento sobe bastante. O Kit 2026 dá mais formas de a família participar: ler, ouvir a voz da criança, presentear os avós. A gente começa leve, com um depoimento no grupo, e vai medindo juntos. Topa?',
+            level: 'green',
+            reaction: 'Colocando assim dá vontade de tentar diferente esse ano. Topo! 💜',
+            feedback: 'Perfeito! Você usou prova social (2025 + escolas parecidas), reposicionou a experiência do kit, propôs um começo leve e mensurável e pediu o próximo passo. Storytelling com prova social é a técnica certa aqui.'
+          },
+          {
+            text: 'Vão sim, confia em mim, sempre vendem.',
+            level: 'yellow',
+            reaction: 'Tá… mas e se não venderem de novo?',
+            feedback: 'Frágil. "Confia em mim" sem argumento não convence quem já teve uma experiência ruim. Traga prova social concreta (2025, escolas parecidas) e um plano leve de começo — é isso que gera confiança real.'
+          }
+        ]
+      }
+    ]
+  }
+];
+
+/* ============================================================
+   MÓDULOS
+   ============================================================ */
+const modules = [
+{
+  id: 'welcome', section: 'PARTE I — A ESTRATÉGIA', title: 'Abertura', duration: '4 min',
+  html: `
+    <div class="welcome-hero">
+      <h1>🎁 Treinamento de Vendas 2026 · Kits no centro</h1>
+      <p>Este treinamento coloca o <strong>Kit 2026</strong> no coração do nosso discurso com as escolas. Do D-zero à reta final, você vai treinar como apresentar, defender o valor e conduzir a venda dos kits — com confiança e sem improviso.</p>
+    </div>
+
+    <div class="manifesto">
+      <div class="quote">"Vender é uma extensão do cuidado, não uma ruptura dele. Você não está empurrando um produto — está ajudando a escola e as famílias a não perderem a chance de eternizar um momento que só acontece uma vez: a criança virar autora do próprio livro."</div>
+      <div class="signature">— Manual de Engajamento de Vendas · Time CS</div>
+    </div>
+
+    <div class="lead-banner">
+      <span class="ic">📘</span>
+      <div>Este treinamento evolui o guia <strong>"Pílulas de Discurso — Cadência de 20 Contatos"</strong> e o <strong>Manual de Engajamento de Vendas</strong>. A diferença: agora o kit não é coadjuvante. Ele é o centro.</div>
+    </div>
+
+    <div class="goldrule">
+      <div class="rk">A regra de ouro deste ciclo</div>
+      <div class="rt">Até 15 dias antes do Fecha Compras, a gente só fala de KITS com as escolas.</div>
+      <div class="rs">Nada de livro avulso, nada de urgência de exemplar. Os primeiros contatos da cadência são 100% kit. A conversa de exemplar individual só entra na reta final.</div>
+    </div>
+
+    <h3>O que você vai dominar</h3>
+    <div class="objectives">
+      <div class="objective"><div class="objective-num">1</div><strong>A estratégia de kits</strong><p style="margin-top:8px;font-size:14px;color:var(--text-soft)">O porquê, a regra de ouro, a virada de lote e a política de preço — a parte que o líder apresenta.</p></div>
+      <div class="objective"><div class="objective-num">2</div><strong>O discurso na prática</strong><p style="margin-top:8px;font-size:14px;color:var(--text-soft)">A cadência reescrita com o kit no centro e o discurso de kit no D-zero.</p></div>
+      <div class="objective"><div class="objective-num">3</div><strong>Defender o preço</strong><p style="margin-top:8px;font-size:14px;color:var(--text-soft)">Simulador de objeção de preço e a árvore de decisão do AX.</p></div>
+      <div class="objective"><div class="objective-num">4</div><strong>Praticar de verdade</strong><p style="margin-top:8px;font-size:14px;color:var(--text-soft)">Simulador de conversas WhatsApp e avaliação final com registro.</p></div>
+    </div>
+
+    <h3>Como navegar</h3>
+    <ul>
+      <li>Use o menu à esquerda ou os botões "Próximo / Anterior" no rodapé.</li>
+      <li>Os <strong>simuladores</strong> deixam você treinar escolhas reais e recebem feedback 🟢🟡🔴.</li>
+      <li>A <strong>árvore de decisão do AX</strong> te guia sobre quando manter ou ajustar o preço.</li>
+      <li>Ao fim, a <strong>avaliação final</strong> gera seu registro de conclusão por e-mail.</li>
+      <li>O <strong>apêndice</strong> traz uma <strong>cola D-zero imprimível</strong> pra deixar do lado.</li>
+    </ul>
+
+    <div class="didyouknow">
+      <div class="icon">💡</div>
+      <div class="content">
+        <div class="label">Por que kit no centro?</div>
+        <div class="text">Nossas escolas aplicam há anos e sempre anseiam por novidade. O Kit 2026 é a nossa aposta: uma experiência plural e diversa que dá vida ao projeto das crianças. Colocá-lo no centro do discurso é o que diferencia este ciclo.</div>
+      </div>
+    </div>
+
+    <h3>Glossário-relâmpago</h3>
+    <table>
+      <thead><tr><th>Termo</th><th>Significado</th></tr></thead>
+      <tbody>
+        <tr><td><strong>FC</strong></td><td>Fecha Compras — fechamento das vendas do ciclo</td></tr>
+        <tr><td><strong>D-zero</strong></td><td>O ponto de partida da aplicação — a primeira janela pra plantar o kit</td></tr>
+        <tr><td><strong>Virada de lote</strong></td><td>Fim da oferta de lançamento; o kit passa ao preço final da lojinha</td></tr>
+        <tr><td><strong>AX</strong></td><td>Sistema onde o consultor ajusta a tag e a faixa de preço da escola</td></tr>
+        <tr><td><strong>Kit 2026</strong></td><td>A experiência plural do ciclo: ler, ouvir, presentear, brincar, guardar</td></tr>
+      </tbody>
+    </table>
+  `
+},
+{
+  id: 'estrategia', section: 'PARTE I — A ESTRATÉGIA', title: '1 · ⭐ Estratégia Kits 2026', duration: '10 min',
+  html: `
+    <span class="module-tag">Para o líder apresentar ao time</span>
+    <h2>A Estratégia Kits 2026</h2>
+    <p class="lead">Esta é a parte que a liderança usa pra alinhar o time. Aqui estão o porquê, a regra do jogo, a virada de lote e a política de preço — tudo que sustenta o discurso de kit.</p>
+
+    <div class="goldrule">
+      <div class="rk">1 · A regra de ouro</div>
+      <div class="rt">Até 15 dias antes do FC, só falamos de KITS com as escolas.</div>
+      <div class="rs">Os primeiros ~9 contatos da cadência são 100% kit. Livro avulso e urgência de exemplar só entram na reta final (últimos 15 dias). Isso concentra toda a energia da relação em construir o valor do kit antes de qualquer conversa de fechamento.</div>
+    </div>
+
+    <h3>2 · A âncora do porquê</h3>
+    <p>O argumento que abre qualquer conversa de kit tem dois pilares:</p>
+    <div class="persona-grid">
+      <div class="persona-card">
+        <div class="emoji">🌱</div>
+        <div class="role">Novidade que a escola pede</div>
+        <div class="impact">Nossas escolas aplicam há anos e sempre anseiam por novidade. O Kit 2026 é a nossa aposta: uma experiência plural e diversa que dá vida ao projeto das crianças. A "veterania" da escola vira o motivo perfeito pra apresentar algo novo.</div>
+      </div>
+      <div class="persona-card">
+        <div class="emoji">🏆</div>
+        <div class="role">Ancorado no sucesso de 2025</div>
+        <div class="impact">Em 2025, as famílias mostraram que a autoria das crianças gera orgulho, emoção e desejo de guardar memória. Em 2026, a Estante Mágica organiza essa demanda numa experiência mais completa — que ajuda a família a perceber melhor o valor do trabalho da escola.</div>
+      </div>
+    </div>
+
+    <div class="capsule">Frase-âncora pronta: <strong>"Vocês que já aplicam há anos merecem a nossa maior novidade. Em 2025 as famílias mostraram o quanto querem guardar essa memória — então em 2026 criamos o Kit, uma experiência que dá vida à história da criança de um jeito plural e diverso."</strong></div>
+
+    <h3>3 · A experiência do Kit 2026 — o que a gente vende</h3>
+    <p>O kit não é um "combo de produtos". É uma história vivida de seis formas. Este é o vocabulário de valor do time:</p>
+    <div class="pillar-grid">
+      <div class="pillar"><div class="pillar-emoji">📖</div><div class="pillar-name">Ler</div><div class="pillar-pts">O livro físico: a criança vê seu nome como autora</div></div>
+      <div class="pillar"><div class="pillar-emoji">🎧</div><div class="pillar-name">Ouvir</div><div class="pillar-pts">O audiolivro com a voz da própria criança</div></div>
+      <div class="pillar"><div class="pillar-emoji">🎁</div><div class="pillar-name">Presentear</div><div class="pillar-pts">Livro extra, cartão e imãs pra avós, padrinhos, tios</div></div>
+      <div class="pillar"><div class="pillar-emoji">⭐</div><div class="pillar-name">Celebrar</div><div class="pillar-pts">Medalha, pôster e a Foto Mágica da Turma</div></div>
+      <div class="pillar"><div class="pillar-emoji">🎨</div><div class="pillar-name">Brincar</div><div class="pillar-pts">Livro de colorir e jogo da memória</div></div>
+      <div class="pillar"><div class="pillar-emoji">💛</div><div class="pillar-name">Guardar</div><div class="pillar-pts">Lembranças que eternizam a fase da infância</div></div>
+    </div>
+
+    <div class="goldrule">
+      <div class="rk">4 · A virada de lote</div>
+      <div class="rt">Os kits foram lançados com oferta promocional. Agora entram no preço final da lojinha.</div>
+      <div class="rs">Nosso papel não é pedir desculpa pela mudança — é <strong>explicar a oferta de lançamento</strong>. Foi um preço promocional pra quem chegou primeiro; essa fase encerrou e o kit assumiu o preço cheio, exatamente como uma pré-venda que fecha e vira preço final. Não é aumento: é virada de lote.</div>
+    </div>
+
+    <div class="mistake-card">
+      <div class="wrong">✗ Não diga: "O preço subiu, infelizmente."</div>
+      <p style="font-size:14px;margin:6px 0">Isso soa como aumento arbitrário e coloca você na defensiva.</p>
+      <div class="right">✓ Diga: "Aquele valor era a oferta de lançamento. Ela encerrou e o kit entrou no preço final — quem comprou antes aproveitou o benefício de decidir cedo."</div>
+    </div>
+
+    <h3>5 · A política de preço e sua autonomia</h3>
+    <p>Algumas escolas podem perguntar ou reclamar. Primeiro, sempre, você explica a virada de lote. Se ainda houver uma saia justa real, você tem autonomia — dentro de regras claras — pra ajustar o preço pela tag no AX.</p>
+    <div class="tier-grid">
+      <div class="tier default">
+        <div class="tt">kit_2026</div>
+        <div class="tp">R$ 239,90</div>
+        <div class="tu">a partir de · padrão de todas as escolas</div>
+        <div class="tbadge">Padrão</div>
+      </div>
+      <div class="tier">
+        <div class="tt">kit_2026_229</div>
+        <div class="tp">R$ 229,90</div>
+        <div class="tu">a partir de · casos específicos</div>
+        <div class="tbadge exc">Exceção liberada</div>
+      </div>
+      <div class="tier">
+        <div class="tt">kit_2026_189</div>
+        <div class="tp">R$ 189,90</div>
+        <div class="tu">a partir de · casos específicos</div>
+        <div class="tbadge exc">Exceção liberada</div>
+      </div>
+    </div>
+    <div class="callout callout-info">
+      <div class="callout-title">📋 Como a tag "Kit Ofertado" funciona agora</div>
+      <p style="margin:0">Além de identificar se a escola tem Kit 2025 ou Kit 2026, a tag agora indica qual faixa de preço do Kit 2026 está ativa. Regras:</p>
+      <ul style="margin:8px 0 0 22px">
+        <li>Todas as escolas com Kit 2026 permanecem, por padrão, em <strong>R$ 239,90</strong>.</li>
+        <li>As faixas de <strong>229,90</strong> e <strong>189,90</strong> são só pra escolas específicas, quando solicitado e <strong>liberado pelas lideranças</strong>.</li>
+        <li>A alteração da tag é feita <strong>via AX, pelo próprio consultor</strong> da escola.</li>
+        <li>A mudança <strong>não impacta</strong> escolas sem Kit 2026.</li>
+      </ul>
+    </div>
+
+    <div class="accelerator">
+      <div class="abig">3×</div>
+      <div class="atxt">
+        <strong>Acelerador do bônus de vendas de Kits</strong><br>
+        Os consultores que mantiverem a escola no <strong>preço original (R$ 239,90)</strong>, sem acionar as exceções 1 ou 2, garantem um acelerador de <strong>3× mais pontos</strong> na corrida do bônus pelas vendas de Kits. Manter o valor cheio, defendendo bem a virada de lote, vale muito mais.
+      </div>
+    </div>
+
+    <div class="validation-card">
+      <span class="validation-tag">Checkpoint</span>
+      <h3>Fixando a estratégia</h3>
+      <div class="quiz" data-quiz="e1">
+        <div class="quiz-question">Uma escola questiona por que o kit está mais caro que no lançamento. Qual é o primeiro movimento certo?</div>
+        <ul class="quiz-options">
+          <li class="quiz-option" data-correct="false">Já ajustar a tag pra faixa de 189,90 no AX pra evitar problema.</li>
+          <li class="quiz-option" data-correct="true">Explicar a virada de lote: era oferta de lançamento e agora é o preço final da lojinha.</li>
+          <li class="quiz-option" data-correct="false">Dizer que foi um aumento definido pela empresa e não há o que fazer.</li>
+        </ul>
+        <div class="quiz-feedback"></div>
+      </div>
+    </div>
+  `
+},
+{
+  id: 'cadencia', section: 'PARTE II — O DISCURSO', title: '2 · A cadência kit-cêntrica', duration: '12 min',
+  html: `
+    <span class="module-tag">A nova cadência</span>
+    <h2>A cadência de 20 contatos, agora com o kit no centro</h2>
+    <p class="lead">A cadência continua com as 5 fases de intensidade crescente. O que muda: os primeiros ~9 contatos passam a ser 100% kit. A conversa de exemplar avulso e a urgência de prazo só entram nos últimos 15 dias.</p>
+
+    <div class="phaseline">
+      <div class="phase-row">
+        <div class="phase-rail"><div class="phase-dot pf1"></div><div class="phase-line"></div></div>
+        <div class="phase-body"><div class="pf-when">Semanas 1–3 · Contatos 1–3</div><div class="pf-name">Fase 1 · Construção de relação (com semente de kit)</div><div class="pf-desc">Diagnóstico e confiança. Já plantando a novidade do Kit 2026 como o grande destaque do ano.</div></div>
+      </div>
+      <div class="phase-row">
+        <div class="phase-rail"><div class="phase-dot pf2"></div><div class="phase-line"></div></div>
+        <div class="phase-body"><div class="pf-when">Semanas 4–7 · Contatos 4–7</div><div class="pf-name">Fase 2 · Sementes de venda (100% kit)</div><div class="pf-desc">O kit entra ativo na conversa, ancorado nos ganchos reais da escola. Experiência, não preço.</div></div>
+      </div>
+      <div class="phase-row">
+        <div class="phase-rail"><div class="phase-dot pf3"></div><div class="phase-line"></div></div>
+        <div class="phase-body"><div class="pf-when">3 semanas a 15 dias pré-FC · Contatos 8–9</div><div class="pf-name">Fase 3 · Direcionamento com valor (kit)</div><div class="pf-desc">A conversa é claramente sobre o kit, ancorada em valor e parcelamento. Último trecho da regra de ouro.</div></div>
+      </div>
+      <div class="phase-row">
+        <div class="phase-rail"><div class="phase-dot pf4"></div><div class="phase-line"></div></div>
+        <div class="phase-body"><div class="pf-when">~15 a 7 dias pré-FC · Contatos 10–15</div><div class="pf-name">Fase 4 · Reta final — urgência crescente</div><div class="pf-desc">Agora sim entra o exemplar individual e o prazo. Contato passa a diário. O kit segue como argumento de escassez.</div></div>
+      </div>
+      <div class="phase-row">
+        <div class="phase-rail"><div class="phase-dot pf5"></div></div>
+        <div class="phase-body"><div class="pf-when">Últimos dias · Contatos 16–20</div><div class="pf-name">Fase 5 · Urgência máxima</div><div class="pf-desc">O tom mais direto: prazo real é cuidado. Kits personalizados somem após o FC — a janela se fecha.</div></div>
+      </div>
+    </div>
+
+    <div class="callout callout-gold">
+      <div class="callout-title">🎁 O corte da regra de ouro</div>
+      <p style="margin:0">Repare na linha do tempo: <strong>contatos 1 a 9</strong> (até ~15 dias pré-FC) são território do kit. <strong>Contatos 10 a 20</strong> abrem espaço pro exemplar avulso e a urgência de prazo. Antes disso, kit é o assunto.</p>
+    </div>
+
+    <h3>Os contatos 1 a 9, reescritos com o kit no centro</h3>
+
+    <div class="contact-card kitfocus">
+      <div class="cc-head"><span class="cc-num">Contato 1 · Semana 1 · Boas-vindas</span><span class="cc-phase kit">Semente de kit</span></div>
+      <div class="cc-obj"><strong>Objetivo:</strong> Conhecer o perfil da escola e, ao ouvir sobre a experiência de anos anteriores, plantar a novidade do Kit 2026 como o destaque de 2026.</div>
+      <div class="cc-label">Gancho de kit</div>
+      <div class="cc-obj" style="margin-top:2px">Em escolas de renovação, a experiência passada é o gancho perfeito: "vocês que já vivem isso há anos vão amar a novidade deste ano".</div>
+      <div class="cc-label">Discurso</div>
+      <div class="cc-speech kit">"Oi, [Nome]! Que alegria começar mais um ano com vocês. Antes de tudo, quero entender como foi a experiência de vocês nos anos anteriores — o que as famílias mais amaram. Pergunto porque 2026 tem a nossa maior novidade, o Kit, e quero apresentar do jeito certo pra realidade de vocês."</div>
+    </div>
+
+    <div class="contact-card kitfocus">
+      <div class="cc-head"><span class="cc-num">Contato 2 · Semana 2 · Acompanhamento inicial</span><span class="cc-phase kit">Semente de kit</span></div>
+      <div class="cc-obj"><strong>Objetivo:</strong> Confirmar acesso à plataforma e planejar o lançamento da parceria com as famílias — já apresentando o Kit 2026 como o coração desse lançamento.</div>
+      <div class="cc-label">Discurso</div>
+      <div class="cc-speech kit">"Que bom que está tudo caminhando! Já que o pontapé foi dado, é um ótimo momento pra lançar a parceria com as famílias — e o centro desse lançamento é o Kit 2026, a experiência nova que dá vida à história da criança em casa. Que tal apresentarmos essa novidade com um carinho especial pros responsáveis?"</div>
+    </div>
+
+    <div class="contact-card kitfocus">
+      <div class="cc-head"><span class="cc-num">Contato 3 · Semana 3 · Observando o terreno</span><span class="cc-phase kit">Semente de kit</span></div>
+      <div class="cc-obj"><strong>Objetivo:</strong> Iniciar o cronograma de comunicações às famílias, com o Kit 2026 como fio condutor da divulgação.</div>
+      <div class="cc-label">Discurso</div>
+      <div class="cc-speech kit">"Vamos aproveitar que a Estante Mágica está a todo vapor na sala e dar início às comunicações? A ideia é trazer as famílias pra perto da construção do livro e apresentar o Kit 2026 — mostrar como a história vai poder ser lida, ouvida, presenteada e guardada. Isso faz toda a diferença lá na celebração."</div>
+    </div>
+
+    <div class="contact-card kitfocus">
+      <div class="cc-head"><span class="cc-num">Contato 4 · Semana 4 · Primeiro gancho de kit</span><span class="cc-phase kit">100% kit</span></div>
+      <div class="cc-obj"><strong>Objetivo:</strong> Celebrar os primeiros movimentos e vender o valor simbólico do Kit 2026 — usando a correria futura da escola como motivo pra antecipar.</div>
+      <div class="cc-label">Gancho de kit</div>
+      <div class="cc-obj" style="margin-top:2px">A escola menciona a correria do ano passado → antecipar o kit agora deixa tudo mais leve depois.</div>
+      <div class="cc-label">Discurso</div>
+      <div class="cc-speech kit">"Prof, estamos aqui justamente pra ajudar nisso, e temos tempo pra fazer bonito. Você já viu o montão de possibilidades novas do Kit 2026? A história da criança agora pode ser lida, ouvida, presenteada e brincada. Em 2025 as famílias mostraram o quanto querem guardar essa memória — em 2026 organizamos tudo isso numa experiência mais completa. Bora começar a mostrar isso pras famílias desde já?"</div>
+    </div>
+
+    <div class="contact-card kitfocus">
+      <div class="cc-head"><span class="cc-num">Contato 5 · Semana 5 · Rapport de avanço</span><span class="cc-phase kit">100% kit</span></div>
+      <div class="cc-obj"><strong>Objetivo:</strong> Comemorar os primeiros números e conectar o avanço ao Espaço do Autor — porta de entrada pra família conhecer o kit na lojinha.</div>
+      <div class="cc-label">Discurso</div>
+      <div class="cc-speech kit">"[Nome], já temos os primeiros responsáveis cadastrados — ótimo pra essa fase! Que tal incentivar as famílias a deixarem um recadinho no Espaço do Autor? É um jeito leve de aproximar todo mundo da experiência — e, no caminho, elas já conhecem o Kit 2026 e tudo que ele oferece."</div>
+    </div>
+
+    <div class="contact-card kitfocus">
+      <div class="cc-head"><span class="cc-num">Contato 6 · Semana 6 · Kit sem pressão</span><span class="cc-phase kit">100% kit</span></div>
+      <div class="cc-obj"><strong>Objetivo:</strong> Apresentar formas de pagamento e frete grátis como informação útil pro planejamento das famílias — aplicado ao kit, não como resposta a objeção.</div>
+      <div class="cc-label">Discurso</div>
+      <div class="cc-speech kit">"[Nome], deixo uma info útil: quem garantir o Kit 2026 até o Fecha Compras tem frete grátis, e dá pra parcelar em até 6x sem juros, sem valor mínimo. Vale repassar pras famílias com tempo de planejamento — assim elas conferem cada parte do kit com calma. Imagina perder a chance de ter o audiolivro com a voz da criança contando a própria história…"</div>
+    </div>
+
+    <div class="contact-card kitfocus">
+      <div class="cc-head"><span class="cc-num">Contato 7 · Semana 7 · Reunião de Famílias</span><span class="cc-phase kit">100% kit</span></div>
+      <div class="cc-obj"><strong>Objetivo:</strong> Propor a Reunião de Famílias como palco pra apresentar o Kit 2026 e a evolução do livro — usando prova social.</div>
+      <div class="cc-label">Discurso</div>
+      <div class="cc-speech kit">"[Nome], uma escola parecida com a de vocês fez uma Reunião de Famílias e triplicou o engajamento na semana seguinte. Eles usaram esse momento pra aproximar os responsáveis da experiência e apresentar o Kit 2026 — mostrando como cada parte dá vida à história das crianças. Faz sentido pra vocês? Já posso trazer os materiais."</div>
+    </div>
+
+    <div class="contact-card kitfocus">
+      <div class="cc-head"><span class="cc-num">Contato 8 · 3 semanas pré-FC · Direcionamento</span><span class="cc-phase kit">100% kit</span></div>
+      <div class="cc-obj"><strong>Objetivo:</strong> Unir a cobrança de pendências com o direcionamento do kit e sondar o percentual de cadastro — sempre puxando a família pra loja pra ver o Kit 2026.</div>
+      <div class="cc-label">Discurso</div>
+      <div class="cc-speech kit">"[Nome], estamos em 22% de cadastro — bom começo e dá pra potencializar! Que tal os professores pedirem um recadinho no Espaço do Autor essa semana? Traz a família pra plataforma de um jeito leve, e no caminho ela já vê o Kit 2026 aberto na loja, com todas as experiências disponíveis."</div>
+    </div>
+
+    <div class="contact-card kitfocus">
+      <div class="cc-head"><span class="cc-num">Contato 9 · 2 semanas pré-FC · Valor + parcelamento</span><span class="cc-phase kit">100% kit · última semana da regra</span></div>
+      <div class="cc-obj"><strong>Objetivo:</strong> Contornar preventivamente a objeção de custo do kit, reforçando o parcelamento antes que ela vire impeditivo. É o fim da janela "só kit".</div>
+      <div class="cc-label">Discurso</div>
+      <div class="cc-speech kit">"[Nome], é sempre bom lembrar às famílias que o Kit 2026 pode ir em até 6x sem juros, sem valor mínimo — dá pra parcelar até um único item, além dos kits completos pra viver várias experiências em família. Assim ninguém deixa de aproveitar por causa do planejamento."</div>
+    </div>
+
+    <h3>Contatos 10 a 20 — a reta final (resumo)</h3>
+    <p>A partir do <strong>contato 10 (~10 dias pré-FC)</strong>, a estratégia abre espaço pro exemplar individual e pra urgência de prazo. O kit continua presente como argumento de <strong>escassez</strong> (os kits personalizados somem após o FC), mas agora somado à cobrança de quem ainda não comprou e à contagem regressiva. O contato passa a ser diário nos últimos 7 dias.</p>
+    <div class="callout callout-warning">
+      <div class="callout-title">⏱️ A virada de foco</div>
+      <p style="margin:0">Contatos 10–20 mantêm o tom de cuidado, mas somam urgência real: relatório de pendências, plantão de dúvidas, circular da mochila, contagem regressiva. A mensagem final reúne tudo — frete grátis, parcelamento, kits personalizados e a emoção do Evento — porque depois do FC a janela se fecha.</p>
+    </div>
+
+    <div class="validation-card">
+      <span class="validation-tag">Checkpoint</span>
+      <h3>Fixando a cadência</h3>
+      <div class="quiz" data-quiz="c1">
+        <div class="quiz-question">Estamos no Contato 5 (semana 5). A escola comenta que quer engajar mais as famílias. Qual abordagem segue a estratégia?</div>
+        <ul class="quiz-options">
+          <li class="quiz-option" data-correct="false">Mandar o relatório de pendências e cobrar quem ainda não comprou o exemplar.</li>
+          <li class="quiz-option" data-correct="true">Incentivar recadinhos no Espaço do Autor, aproximando a família da experiência e do Kit 2026 na loja.</li>
+          <li class="quiz-option" data-correct="false">Avisar que faltam poucos dias e criar urgência máxima de compra.</li>
+        </ul>
+        <div class="quiz-feedback"></div>
+      </div>
+    </div>
+  `
+},
+{
+  id: 'dzero', section: 'PARTE II — O DISCURSO', title: '3 · O discurso de kit no D-zero', duration: '9 min',
+  html: `
+    <span class="module-tag">Discurso na prática</span>
+    <h2>O discurso de kit no D-zero</h2>
+    <p class="lead">D-zero é o ponto de partida da aplicação — a primeira janela pra plantar o kit. Aqui está o método pra fazer isso com naturalidade e valor.</p>
+
+    <h3>Os 3 movimentos do consultor de valor</h3>
+    <p>Todo discurso de kit no D-zero se apoia em três movimentos — a diferença entre "só relacionamento" e "relacionamento que converte":</p>
+    <div class="objectives">
+      <div class="objective"><div class="objective-num">1</div><strong>Diagnosticar antes de sugerir</strong><p style="margin-top:8px;font-size:14px;color:var(--text-soft)">Perguntar sobre a experiência de anos anteriores e as expectativas — pra apresentar o kit do jeito certo.</p></div>
+      <div class="objective"><div class="objective-num">2</div><strong>Nomear o valor em voz alta</strong><p style="margin-top:8px;font-size:14px;color:var(--text-soft)">Dizer o que o kit entrega: ler, ouvir, presentear, brincar, guardar. Nunca deixar o benefício implícito.</p></div>
+      <div class="objective"><div class="objective-num">3</div><strong>Pedir o próximo passo</strong><p style="margin-top:8px;font-size:14px;color:var(--text-soft)">Terminar com um combinado claro (material, lançamento, próxima ligação) — nunca com "fica à vontade".</p></div>
+    </div>
+
+    <h3>O discurso-modelo de kit no D-zero</h3>
+    <div class="roleplay-card">
+      <span class="role-tag">Consultor(a)</span>
+      <p class="roleplay-line">"Oi, [Nome]! Que alegria começar 2026 com vocês. Antes de qualquer coisa, me conta: o que as famílias mais amaram nos anos anteriores? [ouve] Perfeito — pergunto porque este ano tem a nossa maior novidade, o Kit 2026. É uma experiência que dá vida à história da criança de várias formas: o livro pra ler, o audiolivro com a voz dela, itens pra presentear os avós, jogos pra brincar e lembranças pra guardar essa fase pra sempre. Em 2025 as famílias mostraram que querem guardar essa memória — e o kit organiza tudo isso. Posso te mandar hoje um material pra a gente já ir apresentando pras famílias, e semana que vem eu te ligo pra ver a reação?"</p>
+    </div>
+    <div class="callout callout-success">
+      <div class="callout-title">✓ Por que esse discurso funciona</div>
+      <p style="margin:0">Ele <strong>diagnostica</strong> (pergunta sobre a experiência passada), <strong>nomeia o valor</strong> (as seis formas do kit + âncora de 2025) e <strong>pede o próximo passo</strong> (material hoje + ligação semana que vem). Os três movimentos, numa fala só.</p>
+    </div>
+
+    <h3>Banco de argumentos de valor do kit</h3>
+    <table>
+      <thead><tr><th>Dimensão</th><th>Argumento pra usar</th></tr></thead>
+      <tbody>
+        <tr><td><strong>📖 O livro físico</strong></td><td>Materialização do trabalho da criança — a história dela virou um livro de verdade, com o nome dela como autora.</td></tr>
+        <tr><td><strong>🎧 O audiolivro</strong></td><td>Guarda a voz da criança contando a própria história. A família não ouve um texto — ouve o jeito da criança falar.</td></tr>
+        <tr><td><strong>🎁 Presentear</strong></td><td>Livro extra, cartão e imãs levam o orgulho a avós, padrinhos e quem torce pela criança.</td></tr>
+        <tr><td><strong>⭐ Celebrar</strong></td><td>Medalha, pôster e Foto Mágica da Turma: o orgulho no quarto, na geladeira, no caderno.</td></tr>
+        <tr><td><strong>💳 Pagamento</strong></td><td>Até 6x sem juros, sem valor mínimo, e frete grátis até o FC. Cabe no planejamento de cada família.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Técnicas que sustentam o discurso</h3>
+    <div class="reveal-card">
+      <div class="reveal-prompt">🎯 Escada de pequenos compromissos — clique pra ver</div>
+      <div class="reveal-answer">Quebre o pedido em micro-sins: "Posso te mandar o material do Kit 2026?" → "Olhamos juntos a reação das famílias?" → "Fazemos o lançamento na reunião?". Cada "sim" pequeno cria consistência pro próximo passo.</div>
+    </div>
+    <div class="reveal-card">
+      <div class="reveal-prompt">💬 Sentir – Sentiu – Descobriu (pra objeções) — clique pra ver</div>
+      <div class="reveal-answer">Valide o sentimento antes do argumento: "Entendo sua preocupação (sentir). Outras escolas sentiram o mesmo (sentiu). E descobriram que, quando as famílias entendem que o kit é a história do próprio filho, o valor deixa de ser 'caro' e vira 'vale a pena' (descobriu)."</div>
+    </div>
+    <div class="reveal-card">
+      <div class="reveal-prompt">📣 Storytelling com prova social — clique pra ver</div>
+      <div class="reveal-answer">Amarre a sugestão a um case real (sem citar nomes): desafio → o que foi feito → resultado. Guarde 2–3 cases curtos de kit "na manga" (renovação, escola que engajou tarde, escola pública).</div>
+    </div>
+    <div class="reveal-card">
+      <div class="reveal-prompt">⏳ Urgência genuína, não pressão — clique pra ver</div>
+      <div class="reveal-answer">Ancore a urgência em um limite real: os kits personalizados só existem até o Fecha Compras, o frete grátis tem data, o parcelamento sem juros também. Urgência real é cuidado; pressão vazia é o que a gente evita.</div>
+    </div>
+
+    <div class="mistake-card">
+      <div class="wrong">✗ Erro comum no D-zero: começar pelo preço.</div>
+      <p style="font-size:14px;margin:6px 0">Falar "o kit custa X" antes de construir o valor liga o alerta de custo na escola.</p>
+      <div class="right">✓ Certo: construa a experiência primeiro (as seis formas), e só depois, se necessário, fale de valores — sempre ancorado no que a criança vive.</div>
+    </div>
+
+    <div class="validation-card">
+      <span class="validation-tag">Checkpoint</span>
+      <h3>Fixando o discurso</h3>
+      <div class="quiz" data-quiz="d1">
+        <div class="quiz-question">Qual fala representa melhor "nomear o valor em voz alta" do Kit 2026?</div>
+        <ul class="quiz-options">
+          <li class="quiz-option" data-correct="false">"O kit é um combo com vários produtos por um preço fechado."</li>
+          <li class="quiz-option" data-correct="true">"O kit dá vida à história da criança: o livro pra ler, o audiolivro com a voz dela, itens pra presentear e lembranças pra guardar."</li>
+          <li class="quiz-option" data-correct="false">"O kit tá em promoção, é melhor garantir logo antes que acabe."</li>
+        </ul>
+        <div class="quiz-feedback"></div>
+      </div>
+    </div>
+  `
+},
+{
+  id: 'sim_price', section: 'PARTE III — TREINO', title: '4 · 🎯 Simulador: objeção de preço', duration: '15 min',
+  simKey: 'price',
+  html: `
+    <span class="module-tag simulator">Módulo 4 · Pratique</span>
+    <h2>Simulador de objeção de preço</h2>
+    <p class="lead">Treine a virada de lote e as objeções de preço em conversas reais de WhatsApp. Cada resposta recebe um feedback 🟢🟡🔴. Escolhas inadequadas encerram a conversa — como no mundo real.</p>
+    <div class="simulator-intro" style="background:linear-gradient(135deg,#D97706,#F59E0B);">
+      <h3>💰 Como funciona</h3>
+      <p>Escolha 2 cenários de objeção de preço. A cada mensagem da escola, escolha sua resposta. O objetivo é acumular escolhas 🟢 defendendo o valor do kit e a virada de lote — sem queimar sua autonomia à toa.</p>
+    </div>
+    <div id="priceSelector" class="scenario-selector"></div>
+    <div id="priceActive" style="display:none"></div>
+    <div class="validation-card" id="priceCheckpoint" style="display:none">
+      <span class="validation-tag">Checkpoint concluído</span>
+      <h3>Você treinou a defesa do preço! 💪</h3>
+      <p id="priceFinalScore" style="font-size:18px; font-weight:700; color:var(--primary-dark);"></p>
+      <p style="font-size:14px;color:var(--text-soft)">Lembre: primeiro sempre a virada de lote. A exceção de preço é a última carta — e ainda faz você perder o acelerador 3×.</p>
+    </div>
+  `
+},
+{
+  id: 'ax', section: 'PARTE III — TREINO', title: '5 · Árvore de decisão de preço (AX)', duration: '8 min',
+  axtree: true,
+  html: `
+    <span class="module-tag">Ferramenta de decisão</span>
+    <h2>Árvore de decisão de preço no AX</h2>
+    <p class="lead">Quando manter o preço padrão e quando (e como) acionar uma faixa de exceção. Responda as perguntas e a ferramenta te mostra o caminho certo.</p>
+
+    <div class="accelerator">
+      <div class="abig">3×</div>
+      <div class="atxt">
+        <strong>Antes de começar, lembre do acelerador:</strong><br>
+        Manter a escola no preço original <strong>R$ 239,90</strong> (tag <span class="ax-tag-chip">kit_2026</span>), sem exceção, garante <strong>3× mais pontos</strong> na corrida do bônus de vendas de Kits. Defender o valor cheio compensa muito mais do que dar desconto.
+      </div>
+    </div>
+
+    <div class="axtree" id="axTree"></div>
+
+    <h3>Como alterar a tag no AX (passo a passo)</h3>
+    <ol>
+      <li>Abra a escola no <strong>AX</strong> — a alteração é feita pelo <strong>próprio consultor</strong> da escola.</li>
+      <li>Localize a tag <strong>"Kit Ofertado"</strong>.</li>
+      <li>Selecione a faixa <strong>liberada pela liderança</strong>: <span class="ax-tag-chip">kit_2026</span> (239,90 · padrão), <span class="ax-tag-chip">kit_2026_229</span> (229,90) ou <span class="ax-tag-chip">kit_2026_189</span> (189,90).</li>
+      <li>Salve. A mudança <strong>não impacta</strong> escolas sem Kit 2026.</li>
+    </ol>
+    <div class="callout callout-error">
+      <div class="callout-title">⚠️ Regra inegociável</div>
+      <p style="margin:0">As faixas de 229,90 e 189,90 só podem ser aplicadas em <strong>casos específicos e liberados pela liderança</strong>. Nunca use exceção como primeira resposta a uma reclamação — primeiro explique a virada de lote.</p>
+    </div>
+  `
+},
+{
+  id: 'sim_conv', section: 'PARTE III — TREINO', title: '6 · 🎯 Simulador de conversas', duration: '15 min',
+  simKey: 'conversa',
+  html: `
+    <span class="module-tag simulator">Módulo 6 · Pratique</span>
+    <h2>Simulador de conversas com as escolas</h2>
+    <p class="lead">Agora treine o discurso de kit em conversas completas — do D-zero à semente de venda. Mesmo formato WhatsApp, feedback 🟢🟡🔴 a cada escolha.</p>
+    <div class="simulator-intro">
+      <h3>💬 Como funciona</h3>
+      <p>Escolha um cenário e conduza a conversa com a escola. O objetivo é colocar o Kit 2026 no centro, nomear o valor e pedir o próximo passo — sem cair nos erros clássicos. Faça os 2 cenários pra liberar o checkpoint.</p>
+    </div>
+    <div id="conversaSelector" class="scenario-selector"></div>
+    <div id="conversaActive" style="display:none"></div>
+    <div class="validation-card" id="conversaCheckpoint" style="display:none">
+      <span class="validation-tag">Checkpoint concluído</span>
+      <h3>Você treinou o discurso de kit! 🎉</h3>
+      <p id="conversaFinalScore" style="font-size:18px; font-weight:700; color:var(--primary-dark);"></p>
+      <p style="font-size:14px;color:var(--text-soft)">Diagnostique, nomeie o valor do kit em voz alta e peça sempre o próximo passo.</p>
+    </div>
+  `
+},
+{
+  id: 'final', section: 'AVALIAÇÃO', title: '7 · Avaliação final', duration: '12 min',
+  html: `
+    <span class="module-tag">Avaliação consolidada</span>
+    <h2>Avaliação final</h2>
+    <p class="lead">8 perguntas que consolidam a estratégia de kits, o discurso e a política de preço. Ao final, gere seu registro de conclusão e envie por e-mail.</p>
+
+    <div class="callout callout-info">
+      <div class="callout-title">Como funciona</div>
+      <p style="margin:0">Selecione uma resposta em cada pergunta e clique em <strong>"Calcular meu resultado"</strong>. As respostas certas aparecem em verde e você recebe sua nota e o registro pra enviar.</p>
+    </div>
+
+    <div class="quiz" data-final="true" data-quiz="f1">
+      <div class="quiz-question">1. Até quando a regra de ouro manda falar só de kits com as escolas?</div>
+      <ul class="quiz-options">
+        <li class="quiz-option" data-correct="false">Até o dia do Fecha Compras.</li>
+        <li class="quiz-option" data-correct="true">Até 15 dias antes do Fecha Compras.</li>
+        <li class="quiz-option" data-correct="false">Só na primeira semana de aplicação.</li>
+      </ul>
+    </div>
+    <div class="quiz" data-final="true" data-quiz="f2">
+      <div class="quiz-question">2. Qual é a âncora do porquê do Kit 2026?</div>
+      <ul class="quiz-options">
+        <li class="quiz-option" data-correct="true">A novidade que escolas veteranas anseiam + o sucesso de 2025 (desejo de guardar memória).</li>
+        <li class="quiz-option" data-correct="false">O fato de o kit ser mais barato que no ano anterior.</li>
+        <li class="quiz-option" data-correct="false">A obrigação de bater a meta de vendas do trimestre.</li>
+      </ul>
+    </div>
+    <div class="quiz" data-final="true" data-quiz="f3">
+      <div class="quiz-question">3. Uma escola diz que o kit ficou mais caro que no lançamento. O primeiro movimento é:</div>
+      <ul class="quiz-options">
+        <li class="quiz-option" data-correct="false">Ajustar a tag pra 189,90 no AX imediatamente.</li>
+        <li class="quiz-option" data-correct="true">Explicar a virada de lote: era oferta de lançamento, agora é o preço final da lojinha.</li>
+        <li class="quiz-option" data-correct="false">Dizer que o preço subiu e não há o que fazer.</li>
+      </ul>
+    </div>
+    <div class="quiz" data-final="true" data-quiz="f4">
+      <div class="quiz-question">4. Qual é a tag e o preço padrão de todas as escolas com Kit 2026?</div>
+      <ul class="quiz-options">
+        <li class="quiz-option" data-correct="true">kit_2026 — a partir de R$ 239,90.</li>
+        <li class="quiz-option" data-correct="false">kit_2026_229 — a partir de R$ 229,90.</li>
+        <li class="quiz-option" data-correct="false">kit_2026_189 — a partir de R$ 189,90.</li>
+      </ul>
+    </div>
+    <div class="quiz" data-final="true" data-quiz="f5">
+      <div class="quiz-question">5. As faixas de exceção (229,90 e 189,90) podem ser usadas:</div>
+      <ul class="quiz-options">
+        <li class="quiz-option" data-correct="false">Sempre que a escola reclamar do preço.</li>
+        <li class="quiz-option" data-correct="true">Só em casos específicos, quando solicitado e liberado pela liderança.</li>
+        <li class="quiz-option" data-correct="false">Por qualquer consultor, a qualquer momento, sem alinhamento.</li>
+      </ul>
+    </div>
+    <div class="quiz" data-final="true" data-quiz="f6">
+      <div class="quiz-question">6. Qual o benefício de manter a escola no preço original (239,90)?</div>
+      <ul class="quiz-options">
+        <li class="quiz-option" data-correct="true">Garante um acelerador de 3× mais pontos na corrida do bônus de vendas de Kits.</li>
+        <li class="quiz-option" data-correct="false">Libera automaticamente a próxima faixa de desconto.</li>
+        <li class="quiz-option" data-correct="false">Não tem benefício, é indiferente.</li>
+      </ul>
+    </div>
+    <div class="quiz" data-final="true" data-quiz="f7">
+      <div class="quiz-question">7. No D-zero, o certo é:</div>
+      <ul class="quiz-options">
+        <li class="quiz-option" data-correct="false">Começar pelo preço do kit pra já deixar claro.</li>
+        <li class="quiz-option" data-correct="true">Construir o valor da experiência (ler, ouvir, presentear, brincar, guardar) antes de falar de preço.</li>
+        <li class="quiz-option" data-correct="false">Focar só no exemplar avulso e no prazo do Fecha Compras.</li>
+      </ul>
+    </div>
+    <div class="quiz" data-final="true" data-quiz="f8">
+      <div class="quiz-question">8. Uma escola realmente não consegue o valor para uma família específica. O caminho certo é:</div>
+      <ul class="quiz-options">
+        <li class="quiz-option" data-correct="false">Abaixar o preço de toda a escola na hora.</li>
+        <li class="quiz-option" data-correct="true">Oferecer o parcelamento e levar o caso à liderança pra avaliar a liberação de uma faixa de exceção.</li>
+        <li class="quiz-option" data-correct="false">Dizer que não há alternativa e encerrar.</li>
+      </ul>
+    </div>
+
+    <div style="text-align:center; margin-top:28px;">
+      <button class="btn" id="finishBtn" style="padding:16px 40px; font-size:17px;">Calcular meu resultado ✨</button>
+    </div>
+    <div id="finalScore" style="display:none"></div>
+  `
+},
+{
+  id: 'cola', section: 'APÊNDICE', title: '8 · Cola D-zero (imprimível)', duration: '2 min',
+  html: `
+    <span class="module-tag">Material de apoio</span>
+    <h2>Cola D-zero — deixe do lado</h2>
+    <p class="lead">Um resumo de uma página com o essencial pra ter à mão no D-zero e nas conversas de kit. Clique pra imprimir ou salvar em PDF.</p>
+    <div class="print-btn-area">
+      <button class="btn" id="printColaBtn">🖨️ Imprimir / salvar em PDF</button>
+    </div>
+    <div class="cola-sheet">
+      <h4>🥇 A regra de ouro</h4>
+      <p style="margin:0"><strong>Até 15 dias antes do FC, só falo de KITS.</strong> Livro avulso e urgência de exemplar só na reta final.</p>
+
+      <h4>🌱 A âncora do porquê</h4>
+      <p style="margin:0">"Vocês que já aplicam há anos merecem a nossa maior novidade. Em 2025 as famílias mostraram o quanto querem guardar essa memória — em 2026 criamos o Kit, uma experiência plural que dá vida à história da criança."</p>
+
+      <h4>🎁 As 6 formas de vender o kit</h4>
+      <p style="margin:0">📖 Ler · 🎧 Ouvir (voz da criança) · 🎁 Presentear · ⭐ Celebrar · 🎨 Brincar · 💛 Guardar</p>
+
+      <h4>🔁 A virada de lote (quando perguntarem do preço)</h4>
+      <p style="margin:0">"Aquele valor era a oferta de lançamento. Ela encerrou e o kit entrou no preço final da lojinha. Não foi aumento — quem comprou antes aproveitou o benefício de decidir cedo." <em>Nunca peça desculpa pelo preço; explique a oferta.</em></p>
+
+      <h4>💳 Facilitadores</h4>
+      <p style="margin:0">Até 6x sem juros, sem valor mínimo · Frete grátis até o FC · Kits personalizados só até o FC.</p>
+
+      <h4>🏷️ Política de preço (AX · tag "Kit Ofertado")</h4>
+      <table style="margin-top:6px">
+        <thead><tr><th>Tag</th><th>Preço</th><th>Uso</th></tr></thead>
+        <tbody>
+          <tr><td>kit_2026</td><td><strong>R$ 239,90</strong></td><td>Padrão — todas as escolas · 🏆 acelerador 3×</td></tr>
+          <tr><td>kit_2026_229</td><td>R$ 229,90</td><td>Exceção — só liberada pela liderança</td></tr>
+          <tr><td>kit_2026_189</td><td>R$ 189,90</td><td>Exceção — só liberada pela liderança</td></tr>
+        </tbody>
+      </table>
+
+      <h4>🎯 Os 3 movimentos no D-zero</h4>
+      <p style="margin:0">1) Diagnosticar antes de sugerir · 2) Nomear o valor do kit em voz alta · 3) Pedir o próximo passo (nunca "fica à vontade").</p>
+    </div>
+
+    <div class="score-display" style="margin-top:28px;">
+      <div style="font-size:40px">🎉</div>
+      <div class="score-label" style="font-size:20px;font-weight:700;margin-top:6px">Você chegou ao fim!</div>
+      <p style="margin-top:10px;opacity:0.95">Agora é levar o Kit 2026 pro centro de cada conversa. A magia acontece pelas suas mãos. 💜</p>
+    </div>
+  `
+}
+];
+
+/* ============================================================
+   STATE
+   ============================================================ */
+const state = {
+  current: 0,
+  completed: new Set(),
+  finalAnswers: {},
+  moduleScores: {},
+  startedAt: null,
+  user: { name: '', email: '', team: '', leader: '' },
+  // Simulators
+  sims: {
+    price: { scenarios: window.PRICE_SCENARIOS, results: {} },
+    conversa: { scenarios: window.CONVERSA_SCENARIOS, results: {} }
+  },
+  activeSim: null,
+  activeScenario: null,
+  turnIndex: 0, turnGreens: 0, turnYellows: 0, turnReds: 0
+};
+
+/* ============================================================
+   NAV
+   ============================================================ */
+function renderNav() {
+  const nav = document.getElementById('navList');
+  let html = '';
+  let currentSection = null;
+  modules.forEach((m, i) => {
+    if (m.section && m.section !== currentSection) {
+      currentSection = m.section;
+      html += '<li class="nav-section">' + m.section + '</li>';
+    }
+    html += '<li class="nav-item ' + (i === state.current ? 'active' : '') + ' ' +
+      (state.completed.has(i) ? 'completed' : '') + '" data-idx="' + i + '">' +
+      '<span>' + m.title + '</span></li>';
+  });
+  nav.innerHTML = html;
+  nav.querySelectorAll('.nav-item').forEach(el => {
+    el.addEventListener('click', () => goTo(parseInt(el.dataset.idx)));
+  });
+  const pct = Math.round((state.completed.size / modules.length) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPercent').textContent = pct + '%';
+}
+
+function renderModule() {
+  const m = modules[state.current];
+  const main = document.getElementById('main');
+  const isLast = state.current === modules.length - 1;
+  const isFirst = state.current === 0;
+  main.innerHTML =
+    '<div class="module active" id="module-' + m.id + '">' +
+    m.html +
+    '<div class="nav-buttons">' +
+    '<button class="btn btn-secondary" id="prevBtn" ' + (isFirst ? 'disabled' : '') + '>← Anterior</button>' +
+    (!isLast ? '<button class="btn" id="nextBtn">Próximo →</button>' : '') +
+    '</div></div>';
+  attachInteractions();
+  if (!isFirst) document.getElementById('prevBtn').addEventListener('click', () => goTo(state.current - 1));
+  if (!isLast) document.getElementById('nextBtn').addEventListener('click', () => {
+    state.completed.add(state.current);
+    goTo(state.current + 1);
+  });
+  if (m.simKey) initSimulator(m.simKey);
+  if (m.axtree) initAxTree();
+  const printBtn = document.getElementById('printColaBtn');
+  if (printBtn) printBtn.addEventListener('click', () => window.print());
+  window.scrollTo(0, 0);
+}
+
+function goTo(idx) {
+  if (idx < 0 || idx >= modules.length) return;
+  state.current = idx;
+  renderNav();
+  renderModule();
+}
+
+/* ============================================================
+   INTERACTIONS (quiz + reveals + finishBtn)
+   ============================================================ */
+function attachInteractions() {
+  document.querySelectorAll('.quiz').forEach(quiz => {
+    const options = quiz.querySelectorAll('.quiz-option');
+    const feedback = quiz.querySelector('.quiz-feedback');
+    const isFinal = quiz.dataset.final === 'true';
+    options.forEach(opt => {
+      opt.addEventListener('click', () => {
+        if (quiz.classList.contains('answered') && !isFinal) return;
+        if (isFinal) {
+          options.forEach(o => o.classList.remove('selected', 'correct', 'incorrect'));
+          opt.classList.add('selected');
+          state.finalAnswers[quiz.dataset.quiz] = opt.dataset.correct === 'true';
+        } else {
+          options.forEach(o => o.classList.remove('selected'));
+          opt.classList.add('selected');
+          const correct = opt.dataset.correct === 'true';
+          options.forEach(o => o.classList.add('disabled'));
+          options.forEach(o => { if (o.dataset.correct === 'true') o.classList.add('correct'); });
+          if (!correct) opt.classList.add('incorrect');
+          feedback.classList.add('show');
+          feedback.classList.add(correct ? 'correct' : 'incorrect');
+          feedback.textContent = correct
+            ? '✓ Correto! Você captou o conceito.'
+            : '✗ Não é essa. A resposta correta está em verde — releia o trecho do módulo se quiser fixar.';
+          quiz.classList.add('answered');
+          state.moduleScores[quiz.dataset.quiz] = correct;
+        }
+      });
+    });
+  });
+
+  document.querySelectorAll('.reveal-card').forEach(card => {
+    card.addEventListener('click', () => card.classList.toggle('revealed'));
+  });
+
+  const finishBtn = document.getElementById('finishBtn');
+  if (finishBtn) finishBtn.addEventListener('click', calculateFinalScore);
+}
+
+/* ============================================================
+   AX DECISION TREE
+   ============================================================ */
+const AX_TREE = {
+  start: 'q1',
+  nodes: {
+    q1: {
+      q: 'A escola aceitou o valor padrão de R$ 239,90?',
+      opts: [
+        { t: 'Sim, aceitou tranquilamente', go: 'r_keep' },
+        { t: 'Não, está resistente ao preço', go: 'q2' }
+      ]
+    },
+    q2: {
+      q: 'Você já explicou a virada de lote (oferta de lançamento encerrada, preço final na lojinha) e ancorou no valor do kit?',
+      opts: [
+        { t: 'Ainda não expliquei', go: 'r_back' },
+        { t: 'Já expliquei, e ainda há risco real de saia justa / perda da escola', go: 'q3' }
+      ]
+    },
+    q3: {
+      q: 'A liderança já liberou uma faixa de exceção para esta escola específica?',
+      opts: [
+        { t: 'Não / ainda não alinhei', go: 'r_block' },
+        { t: 'Sim, liberou a faixa de R$ 229,90', go: 'r_229' },
+        { t: 'Sim, liberou a faixa de R$ 189,90', go: 'r_189' }
+      ]
+    },
+    r_keep: {
+      result: 'keep',
+      title: '🏆 Mantenha kit_2026 · R$ 239,90',
+      body: 'Perfeito! Mantenha a tag <span class="ax-tag-chip">kit_2026</span>. Além de preservar o valor do kit, você <strong>garante o acelerador de 3× pontos</strong> na corrida do bônus de vendas de Kits. Este é sempre o melhor cenário.'
+    },
+    r_back: {
+      result: 'back',
+      title: '↩️ Primeiro, explique a virada de lote',
+      body: 'Ainda não é hora de mexer no preço. Volte ao discurso: era <strong>oferta de lançamento</strong>, encerrou, virou <strong>preço final</strong>. Ancore no valor do kit (as 6 formas) e ofereça o parcelamento em 6x sem juros. A exceção é a última carta — não a primeira.'
+    },
+    r_block: {
+      result: 'block',
+      title: '🚫 Você ainda não tem autonomia para esta escola',
+      body: 'As faixas de exceção só podem ser aplicadas quando <strong>liberadas pela liderança</strong> para o caso específico. Leve a situação pra liderança avaliar antes de mexer na tag. Enquanto isso, reforce parcelamento e valor.'
+    },
+    r_229: {
+      result: 'exc',
+      title: '⚙️ Aplique kit_2026_229 · R$ 229,90',
+      body: 'Com a liberação da liderança, ajuste a tag para <span class="ax-tag-chip">kit_2026_229</span> via AX (você mesmo faz, na escola). <strong>Atenção:</strong> ao sair do preço padrão, você perde o acelerador de 3× pontos daquela escola. Use com consciência.'
+    },
+    r_189: {
+      result: 'exc',
+      title: '⚙️ Aplique kit_2026_189 · R$ 189,90',
+      body: 'Com a liberação da liderança, ajuste a tag para <span class="ax-tag-chip">kit_2026_189</span> via AX (você mesmo faz, na escola). <strong>Atenção:</strong> ao sair do preço padrão, você perde o acelerador de 3× pontos daquela escola. É a faixa mais baixa — reserve pra casos realmente específicos.'
+    }
+  }
+};
+
+function initAxTree() {
+  const el = document.getElementById('axTree');
+  if (!el) return;
+  renderAxNode(AX_TREE.start);
+}
+function renderAxNode(nodeId) {
+  const el = document.getElementById('axTree');
+  const node = AX_TREE.nodes[nodeId];
+  if (node.result) {
+    el.innerHTML =
+      '<div class="ax-result ' + node.result + '">' +
+        '<div class="art">' + node.title + '</div>' +
+        '<div>' + node.body + '</div>' +
+      '</div>' +
+      '<div style="text-align:center;margin-top:16px">' +
+        '<button class="btn btn-secondary" id="axRestart">↻ Recomeçar a árvore</button>' +
+      '</div>';
+    document.getElementById('axRestart').addEventListener('click', () => renderAxNode(AX_TREE.start));
+    return;
+  }
+  el.innerHTML =
+    '<span class="ax-step-tag">Decisão</span>' +
+    '<div class="ax-q">' + node.q + '</div>' +
+    node.opts.map((o, i) => '<button class="ax-opt" data-go="' + o.go + '">' + o.t + '</button>').join('');
+  el.querySelectorAll('.ax-opt').forEach(btn => {
+    btn.addEventListener('click', () => renderAxNode(btn.dataset.go));
+  });
+}
+
+/* ============================================================
+   SIMULATOR (generalizado — price + conversa)
+   ============================================================ */
+function simCfg(key) {
+  return {
+    key: key,
+    scenarios: state.sims[key].scenarios,
+    results: state.sims[key].results,
+    selectorId: key + 'Selector',
+    activeId: key + 'Active',
+    checkpointId: key + 'Checkpoint',
+    scoreId: key + 'FinalScore'
+  };
+}
+
+function initSimulator(key) {
+  const cfg = simCfg(key);
+  const selector = document.getElementById(cfg.selectorId);
+  if (!selector) return;
+  renderScenarioSelector(cfg);
+}
+
+function renderScenarioSelector(cfg) {
+  const selector = document.getElementById(cfg.selectorId);
+  const results = cfg.results;
+  const completedOk = Object.values(results).filter(r => !r.interrupted).length;
+  selector.style.display = 'grid';
+  selector.innerHTML = cfg.scenarios.map((sc, idx) => {
+    const result = results[sc.id];
+    let status, cardClass;
+    if (!result) { status = 'Não iniciado'; cardClass = ''; }
+    else if (result.interrupted) { status = '🚫 Interrompido no turno ' + result.interruptedAtTurn + ' — refaça'; cardClass = 'interrupted'; }
+    else { status = '✓ ' + result.greens + '🟢 ' + result.yellows + '🟡 ' + result.reds + '🔴'; cardClass = 'completed'; }
+    return '<div class="scenario-card ' + cardClass + '" data-scenario="' + sc.id + '">' +
+      '<div class="scenario-num">Cenário ' + (idx + 1) + '</div>' +
+      '<div class="scenario-title">' + sc.title + '</div>' +
+      '<div class="scenario-desc">' + sc.description + '</div>' +
+      '<div class="scenario-status">' + status + '</div>' +
+      '</div>';
+  }).join('');
+  selector.querySelectorAll('.scenario-card').forEach(card => {
+    card.addEventListener('click', () => startScenario(cfg.key, card.dataset.scenario));
+  });
+  const cp = document.getElementById(cfg.checkpointId);
+  if (completedOk === cfg.scenarios.length) {
+    cp.style.display = 'block';
+    const totalGreens = Object.values(results).reduce((s, r) => s + r.greens, 0);
+    const totalTurns = Object.values(results).reduce((s, r) => s + r.totalTurns, 0);
+    const pct = totalTurns ? Math.round((totalGreens / totalTurns) * 100) : 0;
+    document.getElementById(cfg.scoreId).innerHTML =
+      'Aproveitamento: <strong>' + totalGreens + '/' + totalTurns + ' (' + pct + '%)</strong> escolhas excelentes.';
+    if (!state.completed.has(state.current)) { state.completed.add(state.current); renderNav(); }
+  } else {
+    cp.style.display = 'none';
+  }
+}
+
+function startScenario(key, scenarioId) {
+  const cfg = simCfg(key);
+  const scenario = cfg.scenarios.find(s => s.id === scenarioId);
+  if (!scenario) return;
+  state.activeSim = key;
+  state.activeScenario = scenario;
+  state.turnIndex = 0; state.turnGreens = 0; state.turnYellows = 0; state.turnReds = 0;
+  document.getElementById(cfg.selectorId).style.display = 'none';
+  document.getElementById(cfg.activeId).style.display = 'block';
+  renderScenarioUI(cfg);
+  loadTurn();
+}
+
+function renderScenarioUI(cfg) {
+  const active = document.getElementById(cfg.activeId);
+  const sc = state.activeScenario;
+  active.innerHTML =
+    '<button class="btn btn-secondary" id="exitScenario" style="margin-bottom:14px;">← Voltar aos cenários</button>' +
+    '<div class="wpp-frame"><div class="wpp-screen">' +
+      '<div class="wpp-header">' +
+        '<div class="wpp-back">‹</div>' +
+        '<div class="wpp-avatar">' + sc.avatar + '</div>' +
+        '<div class="wpp-contact"><div class="wpp-contact-name">' + sc.contactName + '</div><div class="wpp-contact-status">online</div></div>' +
+        '<div class="wpp-actions">📞 ⋮</div>' +
+      '</div>' +
+      '<div class="wpp-messages" id="wppMessages"></div>' +
+      '<div class="wpp-input-area"><div class="wpp-input-fake">Escolha sua resposta abaixo ↓</div><div class="wpp-send">➤</div></div>' +
+    '</div></div>' +
+    '<div id="choicesArea"></div>';
+  document.getElementById('exitScenario').addEventListener('click', () => exitScenario(cfg.key));
+}
+
+function loadTurn() {
+  const sc = state.activeScenario;
+  const turn = sc.turns[state.turnIndex];
+  if (!turn) { finishScenario(); return; }
+  const messages = document.getElementById('wppMessages');
+  const typingEl = document.createElement('div');
+  typingEl.className = 'wpp-typing';
+  typingEl.innerHTML = '<div class="wpp-typing-dots"><span></span><span></span><span></span></div>';
+  messages.appendChild(typingEl);
+  messages.scrollTop = messages.scrollHeight;
+  setTimeout(() => {
+    typingEl.remove();
+    if (!turn.school.startsWith('[')) {
+      const msgEl = document.createElement('div');
+      msgEl.className = 'wpp-msg school';
+      msgEl.innerHTML = escapeHTML(turn.school) + '<div class="wpp-msg-time">' + currentTime() + '</div>';
+      messages.appendChild(msgEl);
+    } else {
+      const noteEl = document.createElement('div');
+      noteEl.style.cssText = 'align-self:center; background:rgba(0,0,0,0.05); color:var(--text-soft); padding:6px 14px; border-radius:14px; font-size:11px; font-style:italic; margin:6px 0;';
+      noteEl.textContent = turn.school.replace(/^\[|\]$/g, '');
+      messages.appendChild(noteEl);
+    }
+    messages.scrollTop = messages.scrollHeight;
+    showChoices(turn);
+  }, 1100);
+}
+
+function showChoices(turn) {
+  const choicesArea = document.getElementById('choicesArea');
+  let html = '<div class="choices-panel"><div class="choices-label">💬 Como você responde?</div>';
+  turn.choices.forEach((choice, idx) => {
+    html += '<button class="choice-btn" data-choice="' + idx + '">' + escapeHTML(choice.text) + '</button>';
+  });
+  html += '</div>';
+  choicesArea.innerHTML = html;
+  choicesArea.querySelectorAll('.choice-btn').forEach(btn => {
+    btn.addEventListener('click', () => handleChoice(parseInt(btn.dataset.choice)));
+  });
+}
+
+function handleChoice(choiceIdx) {
+  const turn = state.activeScenario.turns[state.turnIndex];
+  const choice = turn.choices[choiceIdx];
+  const messages = document.getElementById('wppMessages');
+  const msgEl = document.createElement('div');
+  msgEl.className = 'wpp-msg cs';
+  msgEl.innerHTML = escapeHTML(choice.text) + '<div class="wpp-msg-time">' + currentTime() + '</div>';
+  messages.appendChild(msgEl);
+  messages.scrollTop = messages.scrollHeight;
+  if (choice.level === 'green') state.turnGreens++;
+  else if (choice.level === 'yellow') state.turnYellows++;
+  else state.turnReds++;
+  const choicesArea = document.getElementById('choicesArea');
+  choicesArea.innerHTML = '';
+  if (choice.reaction) {
+    const typingEl = document.createElement('div');
+    typingEl.className = 'wpp-typing';
+    typingEl.innerHTML = '<div class="wpp-typing-dots"><span></span><span></span><span></span></div>';
+    messages.appendChild(typingEl);
+    messages.scrollTop = messages.scrollHeight;
+    setTimeout(() => {
+      typingEl.remove();
+      const reactionEl = document.createElement('div');
+      reactionEl.className = 'wpp-msg school';
+      reactionEl.innerHTML = escapeHTML(choice.reaction) + '<div class="wpp-msg-time">' + currentTime() + '</div>';
+      messages.appendChild(reactionEl);
+      messages.scrollTop = messages.scrollHeight;
+      if (choice.level === 'red') setTimeout(() => showInterruptedPanel(choice, choicesArea), 500);
+      else showFeedbackPanel(choice, choicesArea);
+    }, 900);
+  } else {
+    if (choice.level === 'red') showInterruptedPanel(choice, choicesArea);
+    else showFeedbackPanel(choice, choicesArea);
+  }
+}
+
+function showFeedbackPanel(choice, choicesArea) {
+  const labels = { green: '🟢 Excelente', yellow: '🟡 Aceitável', red: '🔴 Inadequada' };
+  choicesArea.innerHTML =
+    '<div class="turn-feedback ' + choice.level + '">' +
+      '<div class="turn-feedback-label">' + labels[choice.level] + '</div>' +
+      '<div class="turn-feedback-text">' + escapeHTML(choice.feedback) + '</div>' +
+    '</div>' +
+    '<div style="text-align:center; margin-top:14px"><button class="btn" id="nextTurnBtn">Continuar →</button></div>';
+  document.getElementById('nextTurnBtn').addEventListener('click', () => { state.turnIndex++; loadTurn(); });
+}
+
+function showInterruptedPanel(choice, choicesArea) {
+  const messages = document.getElementById('wppMessages');
+  const endNoteEl = document.createElement('div');
+  endNoteEl.style.cssText = 'align-self:center; background:#FEE2E2; color:#991B1B; padding:8px 16px; border-radius:14px; font-size:11px; font-weight:600; margin:8px 0; text-align:center; max-width:90%; border:1px solid #EF4444;';
+  endNoteEl.innerHTML = '🚫 A escola encerrou a conversa';
+  messages.appendChild(endNoteEl);
+  messages.scrollTop = messages.scrollHeight;
+  choicesArea.innerHTML =
+    '<div class="turn-feedback red">' +
+      '<div class="turn-feedback-label">🚫 Conversa interrompida</div>' +
+      '<div class="turn-feedback-text">' + escapeHTML(choice.feedback) + '</div>' +
+    '</div>' +
+    '<div style="text-align:center; margin-top:18px">' +
+      '<p style="font-size:14px; color:var(--text-soft); margin-bottom:14px; font-style:italic;">No mundo real, respostas inadequadas custam o relacionamento. Reflita e refaça pra praticar.</p>' +
+      '<button class="btn" id="retryScenarioBtn" style="margin-right:8px;">🔄 Refazer cenário</button>' +
+      '<button class="btn btn-secondary" id="backToScenariosBtn">← Voltar aos cenários</button>' +
+    '</div>';
+  const sc = state.activeScenario;
+  state.sims[state.activeSim].results[sc.id] = {
+    totalTurns: sc.turns.length, greens: state.turnGreens, yellows: state.turnYellows, reds: state.turnReds,
+    pct: 0, interrupted: true, interruptedAtTurn: state.turnIndex + 1
+  };
+  document.getElementById('retryScenarioBtn').addEventListener('click', () => startScenario(state.activeSim, sc.id));
+  document.getElementById('backToScenariosBtn').addEventListener('click', () => exitScenario(state.activeSim));
+}
+
+function finishScenario() {
+  const sc = state.activeScenario;
+  const total = sc.turns.length;
+  const greens = state.turnGreens;
+  const pct = Math.round((greens / total) * 100);
+  state.sims[state.activeSim].results[sc.id] = {
+    totalTurns: total, greens: greens, yellows: state.turnYellows, reds: state.turnReds, pct: pct
+  };
+  let stars, title;
+  if (pct >= 90) { stars = '🌟🌟🌟'; title = 'Excelente!'; }
+  else if (pct >= 60) { stars = '🌟🌟'; title = 'Bom trabalho!'; }
+  else { stars = '🌟'; title = 'Reveja os módulos'; }
+  const cfg = simCfg(state.activeSim);
+  const active = document.getElementById(cfg.activeId);
+  active.innerHTML =
+    '<button class="btn btn-secondary" id="exitScenario" style="margin-bottom:14px;">← Voltar aos cenários</button>' +
+    '<div class="scenario-result">' +
+      '<div class="result-stars">' + stars + '</div>' +
+      '<div class="result-title">' + title + '</div>' +
+      '<div class="result-pct">' + greens + '/' + total + ' escolhas excelentes (' + pct + '%)</div>' +
+      '<div style="font-size:14px; opacity:0.9; margin-bottom:14px;">🟢 ' + greens + ' · 🟡 ' + state.turnYellows + ' · 🔴 ' + state.turnReds + '</div>' +
+      '<button class="btn" id="backToScenarios">Voltar aos cenários</button>' +
+    '</div>';
+  document.getElementById('exitScenario').addEventListener('click', () => exitScenario(cfg.key));
+  document.getElementById('backToScenarios').addEventListener('click', () => exitScenario(cfg.key));
+}
+
+function exitScenario(key) {
+  const cfg = simCfg(key);
+  state.activeScenario = null;
+  document.getElementById(cfg.activeId).style.display = 'none';
+  renderScenarioSelector(cfg);
+}
+
+function escapeHTML(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+function currentTime() {
+  const d = new Date();
+  return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+}
+
+/* ============================================================
+   FINAL SCORE
+   ============================================================ */
+function calculateFinalScore() {
+  const total = document.querySelectorAll('.quiz[data-final="true"]').length;
+  const correct = Object.values(state.finalAnswers).filter(v => v === true).length;
+  const answered = Object.keys(state.finalAnswers).length;
+  if (answered < total) {
+    alert('Você respondeu ' + answered + ' de ' + total + ' perguntas. Responda todas antes de calcular o resultado.');
+    return;
+  }
+  const pct = Math.round((correct / total) * 100);
+  let msg, cor, status;
+  if (pct >= 90) { msg = 'Excelente! Você está pronto pra colocar o Kit 2026 no centro de cada conversa.'; cor = '#10B981'; status = 'APROVADO COM EXCELÊNCIA'; }
+  else if (pct >= 70) { msg = 'Bom trabalho! Você está aprovado. Reveja os pontos que errou pra chegar lá.'; cor = '#F59E0B'; status = 'APROVADO'; }
+  else { msg = 'Recomendamos revisar os módulos antes de aplicar com as escolas.'; cor = '#EF4444'; status = 'NECESSITA REVISÃO'; }
+
+  document.querySelectorAll('.quiz[data-final="true"]').forEach(q => {
+    q.querySelectorAll('.quiz-option').forEach(o => {
+      o.classList.add('disabled');
+      if (o.dataset.correct === 'true') o.classList.add('correct');
+      else if (o.classList.contains('selected')) o.classList.add('incorrect');
+    });
+  });
+
+  const moduleCorrect = Object.values(state.moduleScores).filter(v => v === true).length;
+  const moduleTotal = Object.keys(state.moduleScores).length;
+  const modulePct = moduleTotal > 0 ? Math.round((moduleCorrect / moduleTotal) * 100) : 0;
+
+  function simStats(key) {
+    const r = state.sims[key].results;
+    const g = Object.values(r).reduce((s, x) => s + x.greens, 0);
+    const t = Object.values(r).reduce((s, x) => s + x.totalTurns, 0);
+    return { count: Object.keys(r).length, greens: g, turns: t, pct: t ? Math.round((g / t) * 100) : 0, results: r };
+  }
+  const priceS = simStats('price');
+  const convS = simStats('conversa');
+
+  const finishedAt = new Date();
+  const durationMin = state.startedAt ? Math.round((finishedAt - state.startedAt) / 60000) : '—';
+
+  const finalDetail = Object.entries(state.finalAnswers)
+    .map(([k, v]) => '  • Pergunta ' + k.replace('f', '') + ': ' + (v ? '✓ correta' : '✗ incorreta')).join('\n');
+
+  function simDetail(key, scenarios) {
+    return scenarios.map(sc => {
+      const r = state.sims[key].results[sc.id];
+      if (!r) return '  • ' + sc.title + ': não realizado';
+      if (r.interrupted) return '  • ' + sc.title + ': 🚫 Interrompido no turno ' + r.interruptedAtTurn;
+      return '  • ' + sc.title + ': 🟢' + r.greens + ' 🟡' + r.yellows + ' 🔴' + r.reds + ' (' + r.pct + '%)';
+    }).join('\n');
+  }
+
+  const nome = (state.user.name || '').trim() || 'Consultor(a)';
+  const subject = 'Conclusão do Treinamento de Vendas de Kits 2026 — ' + nome;
+  const body = 'Olá Amanda,\n\n' +
+    'Concluí o Treinamento de Vendas de Kits 2026. Segue meu aproveitamento:\n\n' +
+    '═══════════════════════════════════════\n' +
+    'AVALIAÇÃO FINAL\n' +
+    '═══════════════════════════════════════\n' +
+    'Nome: ' + nome + '\n' +
+    'Nota: ' + correct + '/' + total + ' (' + pct + '%)\n' +
+    'Status: ' + status + '\n' +
+    'Tempo total: ' + durationMin + ' min\n\n' +
+    '═══════════════════════════════════════\n' +
+    'CHECKPOINTS DOS MÓDULOS\n' +
+    '═══════════════════════════════════════\n' +
+    'Acertos: ' + moduleCorrect + '/' + moduleTotal + ' (' + modulePct + '%)\n\n' +
+    '═══════════════════════════════════════\n' +
+    'SIMULADOR DE OBJEÇÃO DE PREÇO\n' +
+    '═══════════════════════════════════════\n' +
+    'Escolhas excelentes: ' + priceS.greens + '/' + priceS.turns + ' (' + priceS.pct + '%)\n' +
+    simDetail('price', window.PRICE_SCENARIOS) + '\n\n' +
+    '═══════════════════════════════════════\n' +
+    'SIMULADOR DE CONVERSAS\n' +
+    '═══════════════════════════════════════\n' +
+    'Escolhas excelentes: ' + convS.greens + '/' + convS.turns + ' (' + convS.pct + '%)\n' +
+    simDetail('conversa', window.CONVERSA_SCENARIOS) + '\n\n' +
+    '═══════════════════════════════════════\n' +
+    'DETALHE — AVALIAÇÃO FINAL\n' +
+    '═══════════════════════════════════════\n' +
+    finalDetail + '\n\n' +
+    '—\nRegistro automático gerado pelo treinamento interativo.';
+
+  const mailtoUrl = 'mailto:' + ADMIN_EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+
+  const scoreEl = document.getElementById('finalScore');
+  scoreEl.style.display = 'block';
+  scoreEl.innerHTML =
+    '<div class="score-display" style="background:linear-gradient(135deg,' + cor + ',' + cor + 'dd)">' +
+      '<div class="score-number">' + correct + '/' + total + '</div>' +
+      '<div class="score-label">' + pct + '% de acerto · ' + status + '</div>' +
+      '<p style="margin-top:16px;font-size:16px">' + msg + '</p>' +
+      '<p style="margin-top:14px;font-size:13px;opacity:0.85">Checkpoints: ' + moduleCorrect + '/' + moduleTotal +
+        ' · Preço: ' + priceS.greens + '/' + priceS.turns + ' 🟢 · Conversas: ' + convS.greens + '/' + convS.turns + ' 🟢 · Tempo: ' + durationMin + ' min</p>' +
+    '</div>' +
+    '<div class="callout callout-warning">' +
+      '<div class="callout-title">📧 Envie seu aproveitamento</div>' +
+      '<p style="margin-bottom:10px"><strong>Opção 1:</strong> clique no botão abaixo — abre seu cliente de e-mail já preenchido. Você revisa e clica em <em>Enviar</em>.</p>' +
+      '<p style="margin-bottom:10px"><strong>Opção 2:</strong> clique em <em>📋 Copiar registro</em>, abra seu Gmail/Outlook, cole e mande pra <strong>' + ADMIN_EMAIL + '</strong>.</p>' +
+      '<div class="result-actions">' +
+        '<a href="' + mailtoUrl + '" class="btn">📧 Enviar registro de conclusão</a>' +
+        '<button class="btn btn-secondary" id="copyResultBtn">📋 Copiar registro</button>' +
+      '</div>' +
+      '<p style="margin-top:12px;font-size:13px;color:var(--text-soft)">Destinatário: ' + ADMIN_EMAIL + '</p>' +
+    '</div>';
+  const copyBtn = document.getElementById('copyResultBtn');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', () => {
+      const fullText = 'Para: ' + ADMIN_EMAIL + '\nAssunto: ' + subject + '\n\n' + body;
+      navigator.clipboard.writeText(fullText).then(() => {
+        copyBtn.textContent = '✓ Copiado!';
+        setTimeout(() => { copyBtn.textContent = '📋 Copiar registro'; }, 2000);
+      });
+    });
+  }
+  state.completed.add(state.current);
+  renderNav();
+  scoreEl.scrollIntoView({ behavior: 'smooth' });
+}
+
+// Init
+state.startedAt = new Date();
+renderNav();
+renderModule();
+</script>
+</body>
+</html>
