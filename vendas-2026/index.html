@@ -602,6 +602,29 @@
   .tier.default .tbadge { background: var(--gold); color:white; }
   .tier .tbadge.exc { background: var(--accent-light); color:#78350F; }
 
+  /* Alerta de dono */
+  .owner-alert {
+    background: linear-gradient(135deg, #78350F, #B45309);
+    color: #fff; border-radius: 14px; padding: 20px 24px; margin: 18px 0;
+    box-shadow: 0 6px 18px rgba(180,83,9,0.28);
+    display: flex; gap: 16px; align-items: flex-start;
+  }
+  .owner-alert .oa-ic { font-size: 30px; line-height: 1; flex-shrink: 0; }
+  .owner-alert .oa-t { font-size: 17px; font-weight: 800; margin-bottom: 6px; }
+  .owner-alert .oa-b { font-size: 14.5px; opacity: 0.97; line-height: 1.55; }
+  .owner-alert .oa-b strong { color: #FFE8C2; }
+
+  /* Cartão de objeção difícil */
+  .obj-case {
+    background: white; border: 1px solid var(--border); border-top: 5px solid var(--danger);
+    border-radius: 12px; padding: 18px 20px; margin: 14px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+  .obj-case .oc-q { font-size: 16px; font-weight: 700; color: #991B1B; margin-bottom: 6px; }
+  .obj-case .oc-q::before { content: '💬 "'; } .obj-case .oc-q::after { content: '"'; }
+  .obj-case .oc-label { font-size: 11px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-soft); margin-top: 12px; margin-bottom: 3px; }
+  .obj-case .oc-speech { background: var(--primary-light); border-radius: 8px; padding: 12px 14px; font-size: 14px; font-style: italic; color: var(--primary-dark); }
+  .obj-case ul { margin: 4px 0 0 20px; } .obj-case li { font-size: 14px; margin-bottom: 5px; }
+
   /* Print (cola D-zero) */
   .print-btn-area { margin: 16px 0; }
   .cola-sheet {
@@ -912,6 +935,116 @@ window.CONVERSA_SCENARIOS = [
         ]
       }
     ]
+  },
+  {
+    id: 'c3',
+    title: '"Vamos oferecer só os livros"',
+    description: 'Coord. Lúcia decidiu, por conta própria, divulgar só o livro individual e não o kit',
+    avatar: 'L',
+    contactName: 'Lúcia · Coord. Escola Sol Nascente',
+    turns: [
+      {
+        school: 'Oi! Sobre aquele Kit 2026… a gente conversou aqui e decidiu que vamos oferecer só os livros pras famílias mesmo. Acho melhor assim.',
+        choices: [
+          {
+            text: 'Tudo bem, Lúcia, se decidiram assim eu respeito. Mando só o livro então.',
+            level: 'yellow',
+            reaction: 'Ah, que bom. Então tá combinado.',
+            feedback: 'Aceitável, mas cedo demais. Antes de aceitar, vale entender o porquê — a objeção real quase nunca é a primeira frase. Você pode acolher a decisão E fazer uma pergunta que abre espaço pro kit sem pressionar.'
+          },
+          {
+            text: 'Entendo, Lúcia! Posso te perguntar só o que pesou nessa decisão? É a questão do valor, ou uma experiência de antes? Pergunto porque o kit não concorre com o livro — ele amplia a experiência pra quem quiser, e quem decide é cada família, não a escola por ela. Mas quero entender vocês primeiro.',
+            level: 'green',
+            reaction: 'Ah… na verdade é que a gente achou que ia ficar caro e as famílias iam reclamar comigo.',
+            feedback: 'Perfeito! Você acolheu a decisão, perguntou o porquê real (e descobriu que é medo do preço/exposição, não desinteresse) e já reposicionou: o kit amplia, a família decide. Agora a conversa real pode começar.'
+          },
+          {
+            text: 'Lúcia, não recomendo. O kit é onde está o valor, vocês vão deixar dinheiro na mesa se oferecerem só livro.',
+            level: 'red',
+            reaction: 'Olha, eu já decidi. Não gostei de ouvir que é sobre "dinheiro na mesa".',
+            feedback: 'Erro: você contrariou a decisão dela de frente e falou de "dinheiro", o que soa como se o seu interesse viesse antes do dela. Isso fecha a escola. Entenda o porquê antes de qualquer argumento.'
+          }
+        ]
+      },
+      {
+        school: 'É isso mesmo, tenho receio de as famílias acharem caro e sobrar pra mim.',
+        choices: [
+          {
+            text: 'Faz todo sentido, Lúcia — e esse receio eu resolvo com você. A gente apresenta o kit como uma opção, sem obrigar ninguém: tem item pra cada bolso e parcelamento em 6x sem juros. Você não vai estar "vendendo caro", vai estar dando a chance de a família escolher. E eu te dou o roteiro e fico do seu lado se aparecer qualquer dúvida.',
+            level: 'green',
+            reaction: 'Assim eu até topo apresentar. Se for como opção e você me ajudar, muda tudo. 💜',
+            feedback: 'Perfeito! Você validou o sentimento, tirou o peso da exposição (opção, não obrigação; opção pra cada bolso; suporte) e devolveu a decisão à família. Reposicionou "vender caro" como "dar a chance de escolher".'
+          },
+          {
+            text: 'Não precisa ter receio, ninguém nunca reclama do preço.',
+            level: 'yellow',
+            reaction: 'Você não pode garantir isso, né…',
+            feedback: 'Frágil. Prometer que "ninguém reclama" não prepara a Lúcia e soa vazio. Melhor armá-la com o argumento (opção pra cada bolso, parcelamento) e com o seu apoio.'
+          },
+          {
+            text: 'Se reclamarem, é só me avisar que eu abaixo o preço na hora.',
+            level: 'red',
+            reaction: 'Ah, então é só reclamar que abaixa? Vou já falar isso pras famílias.',
+            feedback: 'Erro clássico: você ensinou que reclamar = desconto. Isso destrói o valor do kit e queima sua autonomia. Desconto é exceção liberada pela liderança, nunca a primeira resposta.'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'c4',
+    title: '"Só o link do livro" — a hora de escalar',
+    description: 'Diretor Paulo pede só o link individual, não quer divulgar o kit e demonstra incômodo',
+    avatar: 'P',
+    contactName: 'Paulo · Diretor Escola Horizonte',
+    turns: [
+      {
+        school: 'Boa tarde. Preciso só do link do livro individual pra repassar às famílias. Kit a gente não vai divulgar, pode ir direto ao ponto.',
+        choices: [
+          {
+            text: 'Boa tarde, Paulo! Claro, já te mando o link. Só deixa eu comentar rapidinho por que o kit costuma fazer diferença pras famílias: é ele que dá vida à história da criança em casa — o audiolivro com a voz dela, os itens pra presentear os avós. Se em algum momento fizer sentido, eu preparo tudo do jeito mais leve. Mas mando o link agora mesmo.',
+            level: 'green',
+            reaction: 'Tá certo. Por ora só o link mesmo, mas anotei o que você falou.',
+            feedback: 'Perfeito! Você atendeu o pedido na hora, nomeou o valor do kit UMA vez, com leveza, e deixou a porta aberta sem pressionar. Informar uma vez é legítimo — respeitou o limite dele.'
+          },
+          {
+            text: 'Antes do link, Paulo, deixa eu te explicar direitinho tudo que o kit tem, porque acho importante você reconsiderar…',
+            level: 'red',
+            reaction: 'Eu fui bem claro que não quero falar de kit. Vou pedir o link com outra pessoa.',
+            feedback: 'Erro: ele foi explícito e você ignorou pra empurrar o kit. Condicionar o link ao discurso do kit desrespeita o pedido e quebra a relação. Atenda primeiro; informe no máximo uma vez, com leveza.'
+          },
+          {
+            text: 'Sem problema, segue o link. Qualquer coisa estou à disposição.',
+            level: 'yellow',
+            reaction: 'Obrigado.',
+            feedback: 'Seguro, mas perde a única janela de plantar valor. Você pode mandar o link E nomear o valor do kit uma vez, com leveza, sem pressionar — se ele recusar, aí sim respeita totalmente.'
+          }
+        ]
+      },
+      {
+        school: 'Olha, vou ser direto: já tive experiência de acharem que a escola estava "empurrando venda" e não quero passar por isso de novo. Só o livro.',
+        choices: [
+          {
+            text: 'Que bom que me contou isso, Paulo — agora entendo. Então respeito totalmente: mando só o livro e não insisto no kit. Vou levar seu caso pra minha supervisão, porque a gente consegue avaliar alternativas pra situações assim, inclusive de condição especial. O mais importante é vocês ficarem confortáveis. Combinado?',
+            level: 'green',
+            reaction: 'Isso eu agradeço de verdade. Pode ser assim. 💜',
+            feedback: 'Perfeito! Você entendeu o porquê real (experiência ruim de "empurrar venda"), parou de insistir na hora, preservou a relação e escalou pra supervisão — que pode abrir exceção. É exatamente o "saber até onde ir".'
+          },
+          {
+            text: 'Mas dessa vez seria diferente, Paulo, a gente faz com cuidado. Deixa eu tentar te mostrar…',
+            level: 'red',
+            reaction: 'De novo? Já disse que não. Assim você confirma o que eu temia.',
+            feedback: 'Erro: insistir depois de ele explicar o incômodo é exatamente o que ele temia. Uma vez é informar; duas é pressionar. A partir daqui, o certo é respeitar e escalar — nunca insistir.'
+          },
+          {
+            text: 'Entendo, mas a meta da empresa é divulgar o kit, então preciso que você pelo menos tente.',
+            level: 'red',
+            reaction: 'A meta de vocês não é problema meu. Encerro por aqui.',
+            feedback: 'Erro grave: colocar a "meta da empresa" acima do conforto da escola destrói a relação. Você é a Estante Mágica pra ele — cabeça de dono é preservar o vínculo e escalar, não empurrar a meta.'
+          }
+        ]
+      }
+    ]
   }
 ];
 
@@ -945,7 +1078,7 @@ const modules = [
 
     <h3>O que você vai dominar</h3>
     <div class="objectives">
-      <div class="objective"><div class="objective-num">1</div><strong>A estratégia de kits</strong><p style="margin-top:8px;font-size:14px;color:var(--text-soft)">O porquê, a regra de ouro, a virada de lote e a política de preço — a parte que o líder apresenta.</p></div>
+      <div class="objective"><div class="objective-num">1</div><strong>A estratégia de kits</strong><p style="margin-top:8px;font-size:14px;color:var(--text-soft)">O porquê, a regra de ouro, a virada de lote e a política de preço — a base que todo CS domina.</p></div>
       <div class="objective"><div class="objective-num">2</div><strong>O discurso na prática</strong><p style="margin-top:8px;font-size:14px;color:var(--text-soft)">A cadência reescrita com o kit no centro e o discurso de kit no D-zero.</p></div>
       <div class="objective"><div class="objective-num">3</div><strong>Defender o preço</strong><p style="margin-top:8px;font-size:14px;color:var(--text-soft)">Simulador de objeção de preço e a árvore de decisão do AX.</p></div>
       <div class="objective"><div class="objective-num">4</div><strong>Praticar de verdade</strong><p style="margin-top:8px;font-size:14px;color:var(--text-soft)">Simulador de conversas WhatsApp e avaliação final com registro.</p></div>
@@ -984,9 +1117,17 @@ const modules = [
 {
   id: 'estrategia', section: 'PARTE I — A ESTRATÉGIA', title: '1 · ⭐ Estratégia Kits 2026', duration: '10 min',
   html: `
-    <span class="module-tag">Para o líder apresentar ao time</span>
+    <span class="module-tag">Todo o time precisa dominar</span>
     <h2>A Estratégia Kits 2026</h2>
-    <p class="lead">Esta é a parte que a liderança usa pra alinhar o time. Aqui estão o porquê, a regra do jogo, a virada de lote e a política de preço — tudo que sustenta o discurso de kit.</p>
+    <p class="lead">Aqui estão o porquê, a regra do jogo, a virada de lote e a política de preço — tudo que sustenta o discurso de kit. É a base que todo CS leva pra cada conversa com a escola.</p>
+
+    <div class="owner-alert">
+      <div class="oa-ic">⚠️</div>
+      <div>
+        <div class="oa-t">Antes de tudo: você é a Estante Mágica para a escola</div>
+        <div class="oa-b">Pense com a <strong>cabeça de dono</strong> — e tenha a sensibilidade de saber até onde ir. Se perceber que insistir pode chatear a escola, <strong>pare, entenda o porquê dela e escale</strong>. Podemos abrir exceção. Cuidar da relação vem sempre à frente de fechar um kit no detalhe.</div>
+      </div>
+    </div>
 
     <div class="goldrule">
       <div class="rk">1 · A regra de ouro</div>
@@ -1093,9 +1234,14 @@ const modules = [
 {
   id: 'cadencia', section: 'PARTE II — O DISCURSO', title: '2 · A cadência kit-cêntrica', duration: '12 min',
   html: `
-    <span class="module-tag">A nova cadência</span>
-    <h2>A cadência de 20 contatos, agora com o kit no centro</h2>
-    <p class="lead">A cadência continua com as 5 fases de intensidade crescente. O que muda: os primeiros ~9 contatos passam a ser 100% kit. A conversa de exemplar avulso e a urgência de prazo só entram nos últimos 15 dias.</p>
+    <span class="module-tag">Novidade · sugestão de abordagem</span>
+    <h2>Uma cadência de 20 contatos com o kit no centro</h2>
+    <p class="lead">Esta é uma <strong>novidade pra vocês</strong>: um caminho sugerido, contato a contato, do início da aplicação até o Fecha Compras. Não é uma regra rígida — é uma proposta de abordagem pra você adaptar ao tom e à realidade de cada escola, sempre com o Kit 2026 no centro.</p>
+
+    <div class="callout callout-info">
+      <div class="callout-title">🔁🌱 Duas realidades, uma cadência</div>
+      <p style="margin:0">Sempre que a abordagem mudar conforme o tipo de escola, você verá as duas lentes: <strong>🔁 Renovação</strong> (já aplica há anos) e <strong>🌱 Escola nova</strong> (primeira vez com a gente). Onde não aparecem as duas, o mesmo discurso serve para ambas.</p>
+    </div>
 
     <div class="phaseline">
       <div class="phase-row">
@@ -1129,11 +1275,13 @@ const modules = [
 
     <div class="contact-card kitfocus">
       <div class="cc-head"><span class="cc-num">Contato 1 · Semana 1 · Boas-vindas</span><span class="cc-phase kit">Semente de kit</span></div>
-      <div class="cc-obj"><strong>Objetivo:</strong> Conhecer o perfil da escola e, ao ouvir sobre a experiência de anos anteriores, plantar a novidade do Kit 2026 como o destaque de 2026.</div>
-      <div class="cc-label">Gancho de kit</div>
-      <div class="cc-obj" style="margin-top:2px">Em escolas de renovação, a experiência passada é o gancho perfeito: "vocês que já vivem isso há anos vão amar a novidade deste ano".</div>
-      <div class="cc-label">Discurso</div>
-      <div class="cc-speech kit">"Oi, [Nome]! Que alegria começar mais um ano com vocês. Antes de tudo, quero entender como foi a experiência de vocês nos anos anteriores — o que as famílias mais amaram. Pergunto porque 2026 tem a nossa maior novidade, o Kit, e quero apresentar do jeito certo pra realidade de vocês."</div>
+      <div class="cc-obj"><strong>Objetivo:</strong> Conhecer o perfil da escola, construir a base da relação e plantar a novidade do Kit 2026 como o destaque de 2026.</div>
+      <div class="cc-label">Perguntas-chave</div>
+      <div class="cc-obj" style="margin-top:2px">Quais as expectativas de vocês com a aplicação este ano? · Como é a relação das famílias com a escola? · Como preferem que a gente se comunique (e-mail, WhatsApp)?</div>
+      <div class="cc-label">🔁 Renovação</div>
+      <div class="cc-speech kit">"Oi, [Nome]! Que alegria começar mais um ano com vocês. Me conta: o que as famílias mais amaram nos anos anteriores? Pergunto porque 2026 tem a nossa maior novidade, o Kit — e vocês, que já vivem isso há anos, vão amar. Quero apresentar do jeito certo pra realidade de vocês."</div>
+      <div class="cc-label">🌱 Escola nova</div>
+      <div class="cc-speech kit">"Oi, [Nome]! Que alegria ter vocês estreando com a gente. Antes de tudo, quero entender as expectativas de vocês e como é a rotina com as famílias. E já começo com uma boa notícia: vocês estreiam com a nossa maior novidade, o Kit 2026 — uma experiência que dá vida à história da criança. Deixa eu conhecer vocês pra apresentar do jeito certo."</div>
     </div>
 
     <div class="contact-card kitfocus">
@@ -1154,9 +1302,11 @@ const modules = [
       <div class="cc-head"><span class="cc-num">Contato 4 · Semana 4 · Primeiro gancho de kit</span><span class="cc-phase kit">100% kit</span></div>
       <div class="cc-obj"><strong>Objetivo:</strong> Celebrar os primeiros movimentos e vender o valor simbólico do Kit 2026 — usando a correria futura da escola como motivo pra antecipar.</div>
       <div class="cc-label">Gancho de kit</div>
-      <div class="cc-obj" style="margin-top:2px">A escola menciona a correria do ano passado → antecipar o kit agora deixa tudo mais leve depois.</div>
-      <div class="cc-label">Discurso</div>
-      <div class="cc-speech kit">"Prof, estamos aqui justamente pra ajudar nisso, e temos tempo pra fazer bonito. Você já viu o montão de possibilidades novas do Kit 2026? A história da criança agora pode ser lida, ouvida, presenteada e brincada. Em 2025 as famílias mostraram o quanto querem guardar essa memória — em 2026 organizamos tudo isso numa experiência mais completa. Bora começar a mostrar isso pras famílias desde já?"</div>
+      <div class="cc-obj" style="margin-top:2px">A escola menciona a correria → antecipar o kit agora deixa tudo mais leve depois.</div>
+      <div class="cc-label">🔁 Renovação</div>
+      <div class="cc-speech kit">"Prof, estamos aqui justamente pra ajudar nisso, e temos tempo pra fazer bonito. Você já viu o montão de possibilidades novas do Kit 2026? A história da criança agora pode ser lida, ouvida, presenteada e brincada. No ano passado as famílias de vocês mostraram o quanto isso emociona — em 2026 organizamos tudo numa experiência ainda mais completa. Bora começar a mostrar pras famílias desde já?"</div>
+      <div class="cc-label">🌱 Escola nova</div>
+      <div class="cc-speech kit">"Prof, estamos aqui pra ajudar, e temos tempo pra fazer bonito. Deixa eu te mostrar o montão de possibilidades do Kit 2026: a história da criança pode ser lida, ouvida, presenteada e brincada. Em 2025, milhares de famílias mostraram o quanto querem guardar essa memória — e é isso que vocês vão viver pela primeira vez. Bora começar a apresentar pras famílias desde já?"</div>
     </div>
 
     <div class="contact-card kitfocus">
@@ -1176,8 +1326,10 @@ const modules = [
     <div class="contact-card kitfocus">
       <div class="cc-head"><span class="cc-num">Contato 7 · Semana 7 · Reunião de Famílias</span><span class="cc-phase kit">100% kit</span></div>
       <div class="cc-obj"><strong>Objetivo:</strong> Propor a Reunião de Famílias como palco pra apresentar o Kit 2026 e a evolução do livro — usando prova social.</div>
-      <div class="cc-label">Discurso</div>
-      <div class="cc-speech kit">"[Nome], uma escola parecida com a de vocês fez uma Reunião de Famílias e triplicou o engajamento na semana seguinte. Eles usaram esse momento pra aproximar os responsáveis da experiência e apresentar o Kit 2026 — mostrando como cada parte dá vida à história das crianças. Faz sentido pra vocês? Já posso trazer os materiais."</div>
+      <div class="cc-label">🔁 Renovação</div>
+      <div class="cc-speech kit">"[Nome], lembra como a Reunião de Famílias funcionou bem por aí? Que tal repetir e usar esse momento pra apresentar a novidade, o Kit 2026 — mostrando como cada parte dá vida à história das crianças? Já posso trazer os materiais atualizados."</div>
+      <div class="cc-label">🌱 Escola nova</div>
+      <div class="cc-speech kit">"[Nome], uma escola parecida com a de vocês fez uma Reunião de Famílias e triplicou o engajamento na semana seguinte. É um momento lindo pra apresentar o Kit 2026 aos responsáveis e mostrar como a história de cada criança ganha vida. Como é a primeira vez de vocês, eu preparo tudo e faço junto com você. Topa?"</div>
     </div>
 
     <div class="contact-card kitfocus">
@@ -1194,22 +1346,167 @@ const modules = [
       <div class="cc-speech kit">"[Nome], é sempre bom lembrar às famílias que o Kit 2026 pode ir em até 6x sem juros, sem valor mínimo — dá pra parcelar até um único item, além dos kits completos pra viver várias experiências em família. Assim ninguém deixa de aproveitar por causa do planejamento."</div>
     </div>
 
-    <h3>Contatos 10 a 20 — a reta final (resumo)</h3>
-    <p>A partir do <strong>contato 10 (~10 dias pré-FC)</strong>, a estratégia abre espaço pro exemplar individual e pra urgência de prazo. O kit continua presente como argumento de <strong>escassez</strong> (os kits personalizados somem após o FC), mas agora somado à cobrança de quem ainda não comprou e à contagem regressiva. O contato passa a ser diário nos últimos 7 dias.</p>
+    <h3>A reta final — contatos 10 a 20</h3>
     <div class="callout callout-warning">
-      <div class="callout-title">⏱️ A virada de foco</div>
-      <p style="margin:0">Contatos 10–20 mantêm o tom de cuidado, mas somam urgência real: relatório de pendências, plantão de dúvidas, circular da mochila, contagem regressiva. A mensagem final reúne tudo — frete grátis, parcelamento, kits personalizados e a emoção do Evento — porque depois do FC a janela se fecha.</p>
+      <div class="callout-title">⏱️ A virada de foco (a partir de ~15 dias pré-FC)</div>
+      <p style="margin:0">Aqui a cadência abre espaço pro <strong>exemplar individual</strong> e pra <strong>urgência de prazo</strong>. O kit continua como argumento de <strong>escassez</strong> (os kits personalizados somem após o FC), agora somado à cobrança de quem ainda não comprou. Nos últimos 7 dias, o contato passa a ser diário.</p>
+    </div>
+
+    <div class="contact-card">
+      <div class="cc-head"><span class="cc-num">Contato 10 · 10 dias pré-FC · Relatório + prazo dos kits</span><span class="cc-phase">Direcionamento</span></div>
+      <div class="cc-obj"><strong>Objetivo:</strong> Enviar o relatório de pendências e reforçar o prazo real dos kits personalizados.</div>
+      <div class="cc-label">Gancho</div>
+      <div class="cc-obj" style="margin-top:2px">Os kits personalizados (Autor Mágico, Estrela da Família, Lenda Literária) só existem até o FC — não voltam na reabertura do dia do evento.</div>
+      <div class="cc-label">Discurso</div>
+      <div class="cc-speech">"[Nome], te mandei o relatório atualizado: temos [X] crianças ainda sem compra. Vale reforçar com as famílias que os kits personalizados — com audiolivro, medalha e foto da turma — só ficam disponíveis até o Fecha Compras. Depois disso, não tem mais como pedir."</div>
+    </div>
+
+    <div class="contact-card">
+      <div class="cc-head"><span class="cc-num">Contato 11 · 9 dias pré-FC · Evento de Autógrafos</span><span class="cc-phase">Direcionamento</span></div>
+      <div class="cc-obj"><strong>Objetivo:</strong> Reforçar o Evento de Autógrafos como motivador emocional, tangibilizando a expectativa do grande dia.</div>
+      <div class="cc-label">Perguntas-chave</div>
+      <div class="cc-obj" style="margin-top:2px">Já pensaram em como vai ser a organização do Evento? · Vai ser na escola ou em outro espaço? Já pensaram na decoração?</div>
+      <div class="cc-label">Discurso</div>
+      <div class="cc-speech">"[Nome], estou com muita curiosidade pra saber o que estão pensando pro grande dia! Cada criança com o kit garantido é mais um autor podendo autografar e viver esse momento com a família. Vamos garantir que ninguém perca essa chance?"</div>
+    </div>
+
+    <div class="contact-card">
+      <div class="cc-head"><span class="cc-num">Contato 12 · 8 dias pré-FC · Prova social</span><span class="cc-phase">Direcionamento</span></div>
+      <div class="cc-obj"><strong>Objetivo:</strong> Usar storytelling de prova social pra mostrar que o esforço final compensa — última pílula antes da reta diária.</div>
+      <div class="cc-label">🔁 Renovação</div>
+      <div class="cc-speech">"[Nome], como estão as vendas comparadas ao ano passado? Vocês fecharam com [X]% — bora superar essa marca? A partir de amanhã eu te acompanho todo dia, viu? Estamos quase lá."</div>
+      <div class="cc-label">🌱 Escola nova</div>
+      <div class="cc-speech">"[Nome], uma escola do mesmo porte que a de vocês estava numa situação parecida na semana passada. O que resolveu foi o próprio professor ligar direto pras famílias que faltavam — funcionou muito bem. Como é a primeira reta final de vocês, a partir de amanhã eu te acompanho todo dia. Estamos quase lá!"</div>
+    </div>
+
+    <div class="contact-card">
+      <div class="cc-head"><span class="cc-num">Contato 13 · 7 dias pré-FC · Dia 1 da reta diária</span><span class="cc-phase">Urgência crescente</span></div>
+      <div class="cc-obj"><strong>Objetivo:</strong> Abrir a semana final detalhando números por turma e anunciando que o contato será diário a partir de agora.</div>
+      <div class="cc-label">Gancho</div>
+      <div class="cc-obj" style="margin-top:2px">Anunciar a cadência diária como cuidado, não cobrança: "vou te acompanhar de perto pra garantir que ninguém fique de fora".</div>
+      <div class="cc-label">Discurso</div>
+      <div class="cc-speech">"[Nome], começamos a semana decisiva! A partir de hoje te mando um relatório todo dia, bem detalhado por turma, pra gente não perder nenhuma criança de vista. Hoje estamos assim: [detalhar números]. Bora começar forte?"</div>
+    </div>
+
+    <div class="contact-card">
+      <div class="cc-head"><span class="cc-num">Contato 14 · 6 dias pré-FC · Variar o canal</span><span class="cc-phase">Urgência crescente</span></div>
+      <div class="cc-obj"><strong>Objetivo:</strong> Reforçar estratégias alternativas de engajamento pras famílias que ainda não compraram — variar o canal de contato.</div>
+      <div class="cc-label">Discurso</div>
+      <div class="cc-speech">"[Nome], reparei que ainda temos [x] famílias sem resposta no grupo geral. Que tal pedir pros responsáveis mais engajados comentarem no grupo sobre a compra deles? Isso costuma puxar os outros. E o professor lembrando na saída também ajuda muito nessa reta."</div>
+      <div class="callout callout-info" style="margin-top:12px">
+        <div class="callout-title">🎒 Circular da mochila</div>
+        <p style="margin:0">Temos um modelo de comunicação pra impressão em formato de pulseira, com informações diretas sobre a compra. Fixada na alça da mochila, vira um lembrete visual pros responsáveis.</p>
+      </div>
+    </div>
+
+    <div class="contact-card">
+      <div class="cc-head"><span class="cc-num">Contato 15 · 5 dias pré-FC · Contagem regressiva</span><span class="cc-phase">Urgência crescente</span></div>
+      <div class="cc-obj"><strong>Objetivo:</strong> Enviar material de contagem regressiva e sugerir uma ação de engajamento dos alunos em sala (Momento Mágico).</div>
+      <div class="cc-label">Discurso</div>
+      <div class="cc-speech">"[Nome], te mandei o GIF de contagem regressiva — faltam só 5 dias! Que tal mobilizar um Momento Mágico com os autores em sala, pra eles chegarem em casa animados contando sobre o próprio livro? Une o útil ao agradável."</div>
+      <div class="callout callout-gold" style="margin-top:12px">
+        <div class="callout-title">🎯 Alcance da marca de engajamento</div>
+        <p style="margin:0"><strong>🔁 Renovação:</strong> use o ano anterior como referência a ser superada ("15 alunos a mais que no ano passado"). <strong>🌱 Escola nova:</strong> combine uma marca objetiva e inédita (85% dos alunos com compra, 100% dos responsáveis cadastrados) e recompense turmas que baterem a meta.</p>
+      </div>
+    </div>
+
+    <div class="contact-card">
+      <div class="cc-head"><span class="cc-num">Contato 16 · 4 dias pré-FC · Plantão de dúvidas</span><span class="cc-phase kit">Urgência máxima</span></div>
+      <div class="cc-obj"><strong>Objetivo:</strong> Detalhar o número exato de crianças sem compra e oferecer suporte ativo — plantão de dúvidas ou compras na escola.</div>
+      <div class="cc-label">Discurso</div>
+      <div class="cc-speech">"[Nome], me confirma os nomes de quem ainda falta? Quero muito ajudar a fechar essa lista. Que tal marcarmos um plantão na saída da escola amanhã? Eu preparo um material simples e ajudamos as famílias na hora."</div>
+    </div>
+
+    <div class="contact-card">
+      <div class="cc-head"><span class="cc-num">Contato 17 · 3 dias pré-FC · Feitos à mão</span><span class="cc-phase kit">Urgência máxima</span></div>
+      <div class="cc-obj"><strong>Objetivo:</strong> Máximo senso de urgência e escassez, sem perder o tom de parceria.</div>
+      <div class="cc-label">Gancho</div>
+      <div class="cc-obj" style="margin-top:2px">Os livros são feitos manualmente e o prazo garante a entrega a tempo do Evento — não é pressa, é não colocar em risco quem já comprou.</div>
+      <div class="cc-label">Discurso</div>
+      <div class="cc-speech">"[Nome], estamos a 3 dias do FC. Os livros são feitos à mão, um por um, e o prazo existe pra garantir que todo mundo receba a tempo do Evento. Vamos mandar uma última circular hoje pras famílias que faltam?"</div>
+    </div>
+
+    <div class="contact-card">
+      <div class="cc-head"><span class="cc-num">Contato 18 · 2 dias pré-FC · A carta na manga</span><span class="cc-phase kit">Urgência máxima</span></div>
+      <div class="cc-obj"><strong>Objetivo:</strong> Avaliar adiar o FC para o MC como exceção pontual — comunicando como exceção, nunca como novo prazo padrão.</div>
+      <div class="cc-label">Discurso</div>
+      <div class="cc-speech">"[Nome], vou verificar internamente se conseguimos abrir uma pequena exceção de prazo pros que estão quase lá. Enquanto isso, o que costuma dar muito certo é o próprio professor mandar mensagem direta pra entender o que está travando aquela família. Topa tentarmos hoje?"</div>
+    </div>
+
+    <div class="contact-card">
+      <div class="cc-head"><span class="cc-num">Contato 19 · 1 dia pré-FC · Véspera</span><span class="cc-phase kit">Urgência máxima</span></div>
+      <div class="cc-obj"><strong>Objetivo:</strong> Última ligação antes do fechamento — reunir todos os argumentos numa mensagem final clara.</div>
+      <div class="cc-label">Gancho</div>
+      <div class="cc-obj" style="margin-top:2px">Reunir tudo: amanhã é o último dia com frete grátis, parcelamento sem juros e os kits personalizados — depois disso, a janela se fecha.</div>
+      <div class="cc-label">Discurso</div>
+      <div class="cc-speech">"[Nome], amanhã é o último dia! Depois disso não tem mais frete grátis, nem os kits personalizados, e o parcelamento sem juros também sai do ar. Se tiver qualquer família em cima do muro, esse é o momento do último empurrãozinho — eu topo ligar direto pra elas se ajudar."</div>
+    </div>
+
+    <div class="contact-card">
+      <div class="cc-head"><span class="cc-num">Contato 20 · Dia do Fecha Compras</span><span class="cc-phase kit">Urgência máxima</span></div>
+      <div class="cc-obj"><strong>Objetivo:</strong> Fechar a cadência — celebrar o que foi construído e reforçar o prazo final com firmeza e acolhimento. O fechamento também é rapport.</div>
+      <div class="cc-label">Discurso</div>
+      <div class="cc-speech">"[Nome], chegamos ao grande dia! Independente do resultado final, quero reconhecer o quanto vocês se dedicaram nessas semanas. Vamos ver juntos os últimos casos até o fim do dia — depois disso, seguimos com o que temos e já penso com vocês nos próximos passos até o Evento de Autógrafos."</div>
+    </div>
+
+    <h3 id="objecoes">🛑 Hipóteses e objeções difíceis</h3>
+    <p>Nem toda conversa segue o roteiro. Estes são os casos em que a sua sensibilidade importa mais que o script.</p>
+
+    <div class="owner-alert">
+      <div class="oa-ic">⚠️</div>
+      <div>
+        <div class="oa-t">Você é a Estante Mágica para a escola</div>
+        <div class="oa-b">Pense com a <strong>cabeça de dono</strong> — e tenha a sensibilidade de saber até onde ir. Se perceber que insistir pode chatear a escola, <strong>pare, entenda o porquê dela e escale para a supervisão</strong>. Podemos abrir exceção. Cuidar da relação vem sempre à frente de fechar um kit no detalhe.</div>
+      </div>
+    </div>
+
+    <div class="obj-case">
+      <div class="oc-q">Vamos oferecer só os livros pras famílias.</div>
+      <div class="oc-label">Primeiro: entenda o porquê</div>
+      <p style="margin:0;font-size:14px">É receio do preço? Uma experiência passada? A escola acha que a família não vai querer? Pergunte antes de argumentar — a objeção real quase nunca é a primeira frase.</p>
+      <div class="oc-label">Reposicione (o kit não compete com o livro)</div>
+      <div class="oc-speech">"Entendo, [Nome]. O kit não substitui o livro — ele amplia a experiência pra quem quiser mais. A ideia não é escolher pela família, é dar a ela a chance de escolher. A gente apresenta com carinho, e cada família decide o que faz sentido pro bolso e pro momento dela. Tem opção pra todo mundo e parcelamento em 6x sem juros."</div>
+      <div class="oc-label">Se ainda assim a escola preferir só livros</div>
+      <ul>
+        <li>Respeite. Não transforme em queda de braço.</li>
+        <li>Deixe a porta aberta: ofereça um material leve do kit pra família ver, sem pressão.</li>
+        <li>Siga plantando valor nos próximos contatos — muitas escolas mudam de ideia ao ver o encantamento das famílias.</li>
+      </ul>
+    </div>
+
+    <div class="obj-case">
+      <div class="oc-q">Me manda só o link do livro individual — não quero divulgar os kits pras famílias.</div>
+      <div class="oc-label">Primeiro: entenda a objeção (não empurre)</div>
+      <p style="margin:0;font-size:14px">Algo incomodou. Pode ser experiência anterior, receio de parecer que está "vendendo", ou pressão de tempo. Acolha antes de argumentar.</p>
+      <div class="oc-label">Nomeie o valor do kit — uma vez, com sensibilidade</div>
+      <div class="oc-speech">"Claro, [Nome], já te mando o link. Só deixa eu comentar uma coisa rapidinha, porque faz diferença pras famílias: o kit é o que dá vida à história da criança em casa — o audiolivro com a voz dela, os itens pra presentear os avós. Se em algum momento fizer sentido apresentar, eu preparo tudo pra você, do jeito mais leve possível."</div>
+      <div class="oc-label">Se a escola resistir ou demonstrar incômodo → ESCALE</div>
+      <ul>
+        <li><strong>Não insista.</strong> Uma vez é informar; duas é pressionar.</li>
+        <li>Entenda e registre o motivo real da escola.</li>
+        <li><strong>Leve o caso à supervisão</strong> — podemos abrir exceção (inclusive de preço, se for o caso). É a supervisão que libera.</li>
+        <li>Preserve a relação: uma escola respeitada hoje volta a ouvir sobre o kit amanhã.</li>
+      </ul>
     </div>
 
     <div class="validation-card">
       <span class="validation-tag">Checkpoint</span>
       <h3>Fixando a cadência</h3>
       <div class="quiz" data-quiz="c1">
-        <div class="quiz-question">Estamos no Contato 5 (semana 5). A escola comenta que quer engajar mais as famílias. Qual abordagem segue a estratégia?</div>
+        <div class="quiz-question">Estamos no Contato 5 (semana 5). A escola comenta que quer engajar mais as famílias. Qual abordagem segue a cadência sugerida?</div>
         <ul class="quiz-options">
           <li class="quiz-option" data-correct="false">Mandar o relatório de pendências e cobrar quem ainda não comprou o exemplar.</li>
           <li class="quiz-option" data-correct="true">Incentivar recadinhos no Espaço do Autor, aproximando a família da experiência e do Kit 2026 na loja.</li>
           <li class="quiz-option" data-correct="false">Avisar que faltam poucos dias e criar urgência máxima de compra.</li>
+        </ul>
+        <div class="quiz-feedback"></div>
+      </div>
+      <div class="quiz" data-quiz="c2">
+        <div class="quiz-question">A escola insiste em só divulgar o livro individual e demonstra incômodo quando você fala do kit. O que fazer?</div>
+        <ul class="quiz-options">
+          <li class="quiz-option" data-correct="false">Insistir no discurso do kit até convencer — a meta é vender kit.</li>
+          <li class="quiz-option" data-correct="true">Parar, entender o porquê da escola e escalar para a supervisão — podemos abrir exceção. Preservar a relação vem primeiro.</li>
+          <li class="quiz-option" data-correct="false">Encerrar a conversa e marcar a escola como "não quer kit", sem retorno.</li>
         </ul>
         <div class="quiz-feedback"></div>
       </div>
@@ -1329,6 +1626,37 @@ const modules = [
       </div>
     </div>
 
+    <div class="callout callout-info">
+      <div class="callout-title">📢 Comunicado — Atualização da tag "Kit Ofertado" no CRM/loja</div>
+      <p style="margin:0 0 8px">Além de identificar se a escola possui <strong>Kit 2025</strong> ou <strong>Kit 2026</strong>, a tag agora também indica <strong>qual faixa de preço do Kit 2026 está ativa</strong>. Os labels:</p>
+      <div class="tier-grid" style="margin:8px 0">
+        <div class="tier default">
+          <div class="tt">kit_2026</div>
+          <div class="tp">R$ 239,90</div>
+          <div class="tu">a partir de · padrão de todas as escolas</div>
+          <div class="tbadge">Padrão</div>
+        </div>
+        <div class="tier">
+          <div class="tt">kit_2026_229</div>
+          <div class="tp">R$ 229,90</div>
+          <div class="tu">a partir de · exceção em casos específicos</div>
+          <div class="tbadge exc">Exceção liberada</div>
+        </div>
+        <div class="tier">
+          <div class="tt">kit_2026_189</div>
+          <div class="tp">R$ 189,90</div>
+          <div class="tu">a partir de · exceção em casos específicos</div>
+          <div class="tbadge exc">Exceção liberada</div>
+        </div>
+      </div>
+      <ul style="margin:8px 0 0 22px">
+        <li>Todas as escolas com Kit 2026 permanecem, por padrão, em <strong>R$ 239,90</strong>.</li>
+        <li>As faixas de <strong>229,90</strong> e <strong>189,90</strong> devem ser usadas apenas para escolas específicas, quando solicitado e <strong>liberado pelas lideranças</strong>.</li>
+        <li>A alteração da tag pode ser feita <strong>via AX, pelo próprio consultor</strong> de cada escola.</li>
+        <li>A mudança <strong>não impacta</strong> escolas sem Kit 2026.</li>
+      </ul>
+    </div>
+
     <div class="axtree" id="axTree"></div>
 
     <h3>Como alterar a tag no AX (passo a passo)</h3>
@@ -1353,7 +1681,7 @@ const modules = [
     <p class="lead">Agora treine o discurso de kit em conversas completas — do D-zero à semente de venda. Mesmo formato WhatsApp, feedback 🟢🟡🔴 a cada escolha.</p>
     <div class="simulator-intro">
       <h3>💬 Como funciona</h3>
-      <p>Escolha um cenário e conduza a conversa com a escola. O objetivo é colocar o Kit 2026 no centro, nomear o valor e pedir o próximo passo — sem cair nos erros clássicos. Faça os 2 cenários pra liberar o checkpoint.</p>
+      <p>Escolha um cenário e conduza a conversa com a escola. O objetivo é colocar o Kit 2026 no centro, nomear o valor e pedir o próximo passo — sem cair nos erros clássicos (incluindo os casos difíceis: "só livros" e "só o link individual"). Faça os 4 cenários pra liberar o checkpoint.</p>
     </div>
     <div id="conversaSelector" class="scenario-selector"></div>
     <div id="conversaActive" style="display:none"></div>
