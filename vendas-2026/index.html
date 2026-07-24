@@ -625,6 +625,34 @@
   .obj-case .oc-speech { background: var(--primary-light); border-radius: 8px; padding: 12px 14px; font-size: 14px; font-style: italic; color: var(--primary-dark); }
   .obj-case ul { margin: 4px 0 0 20px; } .obj-case li { font-size: 14px; margin-bottom: 5px; }
 
+  /* Quiz Relâmpago (escopo #qzRoot) */
+  #qzRoot .qz-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.05);}
+  #qzRoot .qz-fld{display:block;font-size:13px;font-weight:600;margin-bottom:6px;}
+  #qzRoot input[type=text]{width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:9px;font-size:15px;font-family:inherit;}
+  #qzRoot input[type=text]:focus{outline:none;border-color:var(--primary);}
+  #qzRoot .qz-err{color:var(--danger);font-size:12.5px;margin-top:6px;display:none;}
+  #qzRoot .qz-q{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.05);}
+  #qzRoot .qz-qtop{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
+  #qzRoot .qz-qnum{font-size:12px;font-weight:800;color:var(--primary-dark);background:var(--primary-light);border-radius:6px;padding:2px 9px;}
+  #qzRoot .qz-badge{font-size:10px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:var(--gold);background:var(--gold-light);border-radius:5px;padding:2px 8px;}
+  #qzRoot .qz-qtext{font-size:16px;font-weight:600;margin:8px 0 12px;}
+  #qzRoot .qz-opt{display:flex;gap:10px;align-items:flex-start;border:2px solid var(--border);border-radius:10px;padding:11px 14px;margin-bottom:9px;cursor:pointer;font-size:14.5px;transition:all .15s;}
+  #qzRoot .qz-opt:hover{border-color:var(--primary);background:var(--primary-light);}
+  #qzRoot .qz-opt.sel{border-color:var(--primary);background:var(--primary-light);}
+  #qzRoot .qz-opt input{margin-top:3px;accent-color:var(--primary);}
+  #qzRoot .qz-bar{text-align:center;padding:8px 0;}
+  #qzRoot .qz-count{font-size:13px;color:var(--text-soft);margin-bottom:8px;}
+  #qzRoot .qz-result{border-radius:16px;padding:30px 26px;text-align:center;color:#fff;}
+  #qzRoot .qz-result.win{background:linear-gradient(135deg,var(--success),#059669);}
+  #qzRoot .qz-result.lose{background:linear-gradient(135deg,var(--accent),var(--gold));}
+  #qzRoot .qz-result .qz-big{font-size:52px;font-weight:800;line-height:1;}
+  #qzRoot .qz-result .qz-lbl{font-size:18px;font-weight:700;margin-top:6px;}
+  #qzRoot .qz-result p{font-size:14.5px;opacity:.96;margin-top:10px;}
+  #qzRoot .qz-stamp{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);border-radius:10px;padding:12px 14px;margin-top:16px;font-size:14px;}
+  #qzRoot .qz-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:18px;}
+  #qzRoot .qz-actions .btn{background:#fff;color:var(--primary-dark);}
+  #qzRoot .qz-actions .btn:hover{background:#f2ecff;}
+
   /* Print (cola D-zero) */
   .print-btn-area { margin: 16px 0; }
   .cola-sheet {
@@ -1821,6 +1849,32 @@ const modules = [
       <p style="margin-top:10px;opacity:0.95">Agora é levar o Kit 2026 pro centro de cada conversa. A magia acontece pelas suas mãos. 💜</p>
     </div>
   `
+},
+{
+  id: 'quiz', section: 'PREMIAÇÃO', title: '9 · 🏆 Quiz Relâmpago', duration: '10 min',
+  quiz: true,
+  html: `
+    <span class="module-tag simulator">Dinâmica de premiação</span>
+    <h2>🏆 Quiz Relâmpago · Kits 2026</h2>
+    <p class="lead">8 perguntas sobre o treinamento (5 conceituais + 3 situações). Acerte <strong>todas as 8</strong> e corra pra registrar — o <strong>primeiro a enviar o resultado completo</strong> leva o prêmio!</p>
+    <div id="qzRoot">
+      <div class="qz-card" id="qzStartScreen">
+        <label class="qz-fld" for="qzNome">Seu nome completo</label>
+        <input type="text" id="qzNome" placeholder="Ex.: Maria Silva" autocomplete="name">
+        <div class="qz-err" id="qzNomeErr">Preencha seu nome completo (nome e sobrenome).</div>
+        <p style="font-size:13px;color:var(--text-soft);margin:12px 0 16px;">O cronômetro começa quando você clicar em iniciar. Boa sorte! 🍀</p>
+        <button class="btn" id="qzStartBtn">Iniciar o quiz →</button>
+      </div>
+      <div id="qzQuizScreen" style="display:none">
+        <div id="qzQuestions"></div>
+        <div class="qz-bar">
+          <div class="qz-count" id="qzCount">0 de 8 respondidas</div>
+          <button class="btn" id="qzSubmit" disabled>Enviar respostas</button>
+        </div>
+      </div>
+      <div id="qzResult" style="display:none"></div>
+    </div>
+  `
 }
 ];
 
@@ -1889,6 +1943,7 @@ function renderModule() {
   });
   if (m.simKey) initSimulator(m.simKey);
   if (m.axtree) initAxTree();
+  if (m.quiz) initQuiz();
   const printBtn = document.getElementById('printColaBtn');
   if (printBtn) printBtn.addEventListener('click', () => window.print());
   window.scrollTo(0, 0);
@@ -2392,6 +2447,120 @@ function calculateFinalScore() {
   state.completed.add(state.current);
   renderNav();
   scoreEl.scrollIntoView({ behavior: 'smooth' });
+}
+
+/* ============================================================
+   QUIZ RELÂMPAGO (módulo de premiação)
+   ============================================================ */
+const QZ_QUESTIONS = [
+  { situ:false, q:'Até quando, pela regra de ouro, o time só fala de kits com as escolas?',
+    opts:[{t:'Até o dia do Fecha Compras',c:false},{t:'Até 15 dias antes do Fecha Compras',c:true},{t:'Só na primeira semana de aplicação',c:false},{t:'Durante o ano todo, sem exceção',c:false}]},
+  { situ:false, q:'Qual é a tag e o preço padrão de todas as escolas com Kit 2026?',
+    opts:[{t:'kit_2026 — a partir de R$ 239,90',c:true},{t:'kit_2026_229 — a partir de R$ 229,90',c:false},{t:'kit_2026_189 — a partir de R$ 189,90',c:false},{t:'kit_2025 — a partir de R$ 199,90',c:false}]},
+  { situ:false, q:'A escola diz que o kit ficou mais caro que no lançamento. Qual é o primeiro movimento certo?',
+    opts:[{t:'Ajustar a tag pra faixa de 189,90 no AX na hora',c:false},{t:'Explicar a virada de lote: era oferta de lançamento e agora é o preço final da lojinha',c:true},{t:'Dizer que foi um aumento da empresa e não há o que fazer',c:false},{t:'Oferecer um brinde pra compensar',c:false}]},
+  { situ:false, q:'Qual o benefício de manter a escola no preço padrão (R$ 239,90)?',
+    opts:[{t:'Garante um acelerador de 3× mais pontos na corrida do bônus de kits',c:true},{t:'Libera automaticamente a faixa de 189,90',c:false},{t:'Nenhum, é indiferente',c:false},{t:'Dá desconto no frete pra escola',c:false}]},
+  { situ:false, q:'O que acontece com os kits personalizados após o Fecha Compras?',
+    opts:[{t:'Somem e não voltam mais à venda',c:false},{t:'Continuam disponíveis, mas o frete grátis vai só até o FC — depois o frete é cobrado',c:true},{t:'Ficam mais baratos na reabertura',c:false},{t:'Só podem ser comprados no dia do evento',c:false}]},
+  { situ:true, q:'A escola diz: "Vamos oferecer só os livros pras famílias." Qual a melhor resposta?',
+    opts:[{t:'Entender o porquê e reposicionar: o kit não concorre com o livro — amplia a experiência, e quem decide é cada família',c:true},{t:'Aceitar na hora e mandar só o livro, sem perguntar nada',c:false},{t:'Insistir que o kit é onde está o valor e que vão "deixar dinheiro na mesa"',c:false},{t:'Abaixar o preço do kit pra convencer a escola',c:false}]},
+  { situ:true, q:'A escola pede só o link do livro individual e demonstra incômodo quando você fala do kit. O certo é:',
+    opts:[{t:'Informar o valor do kit uma vez, com sensibilidade, e — havendo incômodo — parar e escalar à supervisão (podemos abrir exceção)',c:true},{t:'Insistir no discurso do kit até convencer, porque a meta é vender kit',c:false},{t:'Encerrar a conversa e marcar a escola como "não quer kit", sem retorno',c:false},{t:'Condicionar o envio do link a ouvir a apresentação do kit',c:false}]},
+  { situ:true, q:'Escola nova, aplicação começou na semana passada, 0 compras. Melhor abordagem no primeiro contato?',
+    opts:[{t:'Encantar: diagnosticar as expectativas e apresentar o Kit 2026 como a novidade/experiência, sem falar de preço',c:true},{t:'Focar no prazo do Fecha Compras e criar senso de urgência',c:false},{t:'Mandar o link da loja e pedir pra escola se virar com as famílias',c:false},{t:'Comparar com o resultado do ano passado da escola',c:false}]}
+];
+let quizState = { name:'', startedAt:null, order:[], answers:{} };
+function qzShuffle(a){ const x=a.slice(); for(let i=x.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [x[i],x[j]]=[x[j],x[i]]; } return x; }
+function qzTwo(n){ return String(n).padStart(2,'0'); }
+function qzFmt(d){ return qzTwo(d.getDate())+'/'+qzTwo(d.getMonth()+1)+'/'+d.getFullYear()+' '+qzTwo(d.getHours())+':'+qzTwo(d.getMinutes())+':'+qzTwo(d.getSeconds()); }
+
+function initQuiz(){
+  const sb = document.getElementById('qzStartBtn');
+  if(!sb) return;
+  quizState = { name:'', startedAt:null, order:[], answers:{} };
+  sb.addEventListener('click', qzStart);
+  document.getElementById('qzNome').addEventListener('keypress', e=>{ if(e.key==='Enter') qzStart(); });
+}
+function qzStart(){
+  const nome = document.getElementById('qzNome').value.trim();
+  if(nome.split(' ').filter(Boolean).length < 2){ document.getElementById('qzNomeErr').style.display='block'; return; }
+  quizState.name = nome;
+  quizState.startedAt = new Date();
+  document.getElementById('qzStartScreen').style.display='none';
+  document.getElementById('qzQuizScreen').style.display='block';
+  renderQuizQuestions();
+}
+function renderQuizQuestions(){
+  const box = document.getElementById('qzQuestions');
+  quizState.answers = {};
+  quizState.order = QZ_QUESTIONS.map(q => qzShuffle(q.opts.map((o,i)=>i)));
+  box.innerHTML = QZ_QUESTIONS.map((q, qi)=>{
+    const opts = quizState.order[qi].map(optIdx =>
+      '<label class="qz-opt" data-q="'+qi+'" data-opt="'+optIdx+'"><input type="radio" name="qzq'+qi+'" value="'+optIdx+'"><span>'+escapeHTML(q.opts[optIdx].t)+'</span></label>'
+    ).join('');
+    return '<div class="qz-q"><div class="qz-qtop"><span class="qz-qnum">Pergunta '+(qi+1)+'</span>'+(q.situ?'<span class="qz-badge">Situação</span>':'')+'</div><div class="qz-qtext">'+escapeHTML(q.q)+'</div>'+opts+'</div>';
+  }).join('');
+  box.querySelectorAll('.qz-opt').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      const qi = el.dataset.q;
+      box.querySelectorAll('.qz-opt[data-q="'+qi+'"]').forEach(o=>o.classList.remove('sel'));
+      el.classList.add('sel');
+      el.querySelector('input').checked = true;
+      quizState.answers[qi] = parseInt(el.dataset.opt);
+      qzUpdateCount();
+    });
+  });
+  qzUpdateCount();
+  const sub = document.getElementById('qzSubmit');
+  sub.onclick = qzSubmit;
+}
+function qzUpdateCount(){
+  const n = Object.keys(quizState.answers).length;
+  document.getElementById('qzCount').textContent = n + ' de ' + QZ_QUESTIONS.length + ' respondidas';
+  document.getElementById('qzSubmit').disabled = n < QZ_QUESTIONS.length;
+}
+function qzSubmit(){
+  let correct = 0;
+  QZ_QUESTIONS.forEach((q, qi)=>{ if(q.opts[quizState.answers[qi]] && q.opts[quizState.answers[qi]].c) correct++; });
+  qzShowResult(correct);
+}
+function qzShowResult(correct){
+  const total = QZ_QUESTIONS.length;
+  const done = new Date();
+  const secs = quizState.startedAt ? Math.round((done - quizState.startedAt)/1000) : 0;
+  const dur = Math.floor(secs/60)+'m '+qzTwo(secs%60)+'s';
+  const screen = document.getElementById('qzResult');
+  document.getElementById('qzQuizScreen').style.display='none';
+  screen.style.display='block';
+  if(correct === total){
+    const code = 'K26-' + qzFmt(done).replace(/[^0-9]/g,'').slice(4);
+    const subject = 'Quiz Kits 2026 — 8/8 acertos — ' + quizState.name;
+    const body = 'Concluí o Quiz Relâmpago Kits 2026 com 8/8 acertos!\n\nNome: ' + quizState.name + '\nAcertos: 8/8\nConcluído em: ' + qzFmt(done) + '\nTempo total: ' + dur + '\nCódigo: ' + code + '\n\n(Este e-mail comprova a conclusão — vence quem chegar primeiro.)';
+    const mailto = 'mailto:'+ADMIN_EMAIL+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+    screen.innerHTML =
+      '<div class="qz-result win"><div class="qz-big">8/8</div><div class="qz-lbl">🏆 Gabaritou!</div>'+
+      '<p>Agora é uma corrida contra o relógio: <b>envie o seu resultado o mais rápido possível</b>. Vence quem chegar primeiro!</p>'+
+      '<div class="qz-stamp">Nome: <b>'+escapeHTML(quizState.name)+'</b><br>Concluído em: <b>'+qzFmt(done)+'</b> · Tempo: '+dur+'<br>Código: '+code+'</div>'+
+      '<div class="qz-actions"><a class="btn" href="'+mailto+'">📧 Enviar meu resultado agora</a><button class="btn" id="qzCopy">📋 Copiar comprovante</button></div>'+
+      '<p style="font-size:12.5px;margin-top:14px;opacity:.9">Se o e-mail não abrir sozinho, use "Copiar comprovante" e cole num e-mail para <b>'+ADMIN_EMAIL+'</b>.</p></div>';
+    const cp = document.getElementById('qzCopy');
+    if(cp) cp.addEventListener('click', ()=>{ navigator.clipboard.writeText('Para: '+ADMIN_EMAIL+'\nAssunto: '+subject+'\n\n'+body).then(()=>{ cp.textContent='✓ Copiado!'; setTimeout(()=>cp.textContent='📋 Copiar comprovante',2000); }); });
+    if(!state.completed.has(state.current)){ state.completed.add(state.current); renderNav(); }
+  } else {
+    screen.innerHTML =
+      '<div class="qz-result lose"><div class="qz-big">'+correct+'/'+total+'</div><div class="qz-lbl">Quase lá!</div>'+
+      '<p>Você ainda não gabaritou. Revise o conteúdo do treinamento e tente de novo — só quem acerta as 8 pode registrar. 💪</p>'+
+      '<div class="qz-actions"><button class="btn" id="qzRetry">🔄 Tentar de novo</button></div></div>';
+    document.getElementById('qzRetry').addEventListener('click', ()=>{
+      quizState.startedAt = new Date();
+      screen.style.display='none';
+      document.getElementById('qzQuizScreen').style.display='block';
+      renderQuizQuestions();
+      window.scrollTo(0,0);
+    });
+  }
+  window.scrollTo(0,0);
 }
 
 // Init

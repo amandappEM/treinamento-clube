@@ -122,9 +122,7 @@ Para publicar junto: o GitHub Pages já serve subpastas automaticamente — depo
 
 ## 🏆 Quiz Relâmpago · Kits 2026 (dinâmica de premiação)
 
-Pasta **`quiz-2026/`** — um quiz de **8 perguntas** (5 conceituais + 3 situacionais) sobre o treinamento, para uma dinâmica de prêmio ao **primeiro que gabaritar**.
-
-**URL (depois de publicado):** `https://[seu-usuario].github.io/treinamento-clube/quiz-2026/`
+É o **último módulo do treinamento** (`vendas-2026/`), na seção **PREMIAÇÃO**, logo após o apêndice. Um quiz de **8 perguntas** (5 conceituais + 3 situacionais) para premiar o **primeiro que gabaritar**.
 
 Como funciona:
 - O participante digita o nome (inicia o cronômetro), responde as 8 e envia.
