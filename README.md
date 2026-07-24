@@ -120,6 +120,19 @@ Para publicar junto: o GitHub Pages já serve subpastas automaticamente — depo
 
 ---
 
+## 🏆 Quiz Relâmpago · Kits 2026 (dinâmica de premiação)
+
+Pasta **`quiz-2026/`** — um quiz de **8 perguntas** (5 conceituais + 3 situacionais) sobre o treinamento, para uma dinâmica de prêmio ao **primeiro que gabaritar**.
+
+**URL (depois de publicado):** `https://[seu-usuario].github.io/treinamento-clube/quiz-2026/`
+
+Como funciona:
+- O participante digita o nome (inicia o cronômetro), responde as 8 e envia.
+- As alternativas embaralham a cada tentativa; só quem acerta **todas as 8** desbloqueia a tela de conclusão, com **data/hora/segundos** e um botão que abre um e-mail pré-preenchido para `amanda.pimentel@estantemagica.com.br`.
+- **Vence quem enviar o comprovante primeiro** (o horário do e-mail é a prova). Quem erra vê só a nota e pode tentar de novo.
+
+---
+
 ## 💜 Créditos
 
 Treinamento criado pelo time de Habilitação · Estante Mágica · Ciclo 2026
